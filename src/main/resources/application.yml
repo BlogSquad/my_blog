@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/velogDb
+    # 처음 DB 파일 생성하기 위해 h2 콘솔에서 연결해주면 파일 생성됨
+    #    url: jdbc:h2:~/velogDb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #        show_sql: true # System.out을 사용하고, 포맷팅도 되지 않기 때문에 사용하지 않는다. 단, 추가 설정없이 사용 가능
+        format_sql: true # sql 로깅, org.hibernate.SQL 설정 필요
+
+logging:
+  level:
+    org.hibernate.SQL: debug # 로거로 찍기 때문에 사용하자.
+    org.hibernate.type: trace # query parameter 보여줌.
