@@ -1,7 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.6.5'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'org.asciidoctor.convert' version '1.5.8'
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
 	id 'java'
 }
 
@@ -17,10 +17,6 @@ repositories {
 	mavenCentral()
 }
 
-ext {
-	set('snippetsDir', file("build/generated-snippets"))
-}
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -28,7 +24,7 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	// handlebars guava
+	// handlebars
 	implementation 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0'
 
 	// rest docs
@@ -37,12 +33,38 @@ dependencies {
 	testImplementation 'io.rest-assured:rest-assured:3.3.0'
 }
 
-tasks.named('test') {
-	outputs.dir snippetsDir
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+test {
 	useJUnitPlatform()
 }
 
-tasks.named('asciidoctor') {
+task testDocument(type: Test) {
+	useJUnitPlatform()
+	filter {
+		includeTestsMatching "*.documentation.*"
+	}
+}
+
+// API 문서 생성
+asciidoctor {
 	inputs.dir snippetsDir
-	dependsOn test
+	configurations 'asciidoctorExt'
+	dependsOn testDocument
+}
+
+bootJar {
+	dependsOn asciidoctor
+	from ("${asciidoctor.outputDir}/html5") {
+		into 'static/docs'
+	}
+}
+
+task copyDocument(type: Copy) {
+	dependsOn asciidoctor
+
+	from file("build/docs/asciidoc")
+	into file("src/main/resources/static/docs")
 }
