@@ -37,8 +37,6 @@ public class Documentation {
     protected RequestSpecification givenRestDocs(String identifier) {
         return RestAssured.given(this.spec)
                 .filter(document(
-                        identifier, preprocessRequest(prettyPrint())
-                        )
-                );
+                        identifier, preprocessRequest(prettyPrint())));
     }
 }
