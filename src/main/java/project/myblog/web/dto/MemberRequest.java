@@ -1,12 +1,12 @@
-package project.myblog.web.controller.dto;
+package project.myblog.web.dto;
 
-public class RequestMember {
+public class MemberRequest {
     private String id;
     private String name;
     private final String email;
     private String introduction;
 
-    public RequestMember(String id, String name, String email, String introduction) {
+    public MemberRequest(String id, String name, String email, String introduction) {
         this.id = id;
         this.name = name;
         this.email = email;
