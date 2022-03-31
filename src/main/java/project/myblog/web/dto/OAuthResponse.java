@@ -10,20 +10,11 @@ public class OAuthResponse {
         return response.getEmail();
     }
 
-    public String getName() {
-        return response.getName();
-    }
-
     private static class Response {
         private String email;
-        private String name;
 
         public String getEmail() {
             return email;
-        }
-
-        public String getName() {
-            return name;
         }
     }
 }

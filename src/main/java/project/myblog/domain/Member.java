@@ -12,15 +12,13 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
-    private String name;
 
     protected Member() {
 
     }
 
-    public Member(String email, String name) {
+    public Member(String email) {
         this.email = email;
-        this.name = name;
     }
 
     public Long getId() {
@@ -29,9 +27,5 @@ public class Member {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getName() {
-        return name;
     }
 }
