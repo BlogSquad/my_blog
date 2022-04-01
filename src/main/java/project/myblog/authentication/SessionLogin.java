@@ -4,7 +4,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import project.myblog.oauth.AuthProperties;
 import project.myblog.service.AuthService;
-import project.myblog.web.dto.OAuthResponse;
+import project.myblog.web.dto.OAuthApiResponse;
 import project.myblog.web.dto.SessionMember;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,14 +29,11 @@ public abstract class SessionLogin implements HandlerInterceptor {
 
         // 새로 로그인
         if (session.getAttribute("member") == null) {
-//            String authorizationCode = request.getParameter("code");
-//            String accessToken = requestAccessToken(authorizationCode);
-//            OAuthResponse oAuthResponse = requestApiMeUri(accessToken);
             String authorizationCode = requestAuthorizationCode(request);
             String accessToken = requestAccessToken(authorizationCode);
-            OAuthResponse oAuthResponse = requestApiMeUri(accessToken);
+            OAuthApiResponse oAuthApiResponse = requestApiMeUri(accessToken);
 
-            SessionMember sessionMember = authService.login(oAuthResponse);
+            SessionMember sessionMember = authService.login(oAuthApiResponse);
             afterAuthentication(request, response, sessionMember);
             System.out.println("새로 로그인");
             return false;
@@ -51,7 +48,7 @@ public abstract class SessionLogin implements HandlerInterceptor {
 
     public abstract String requestAccessToken(String authorizationCode);
 
-    public abstract OAuthResponse requestApiMeUri(String accessToken);
+    public abstract OAuthApiResponse requestApiMeUri(String accessToken);
 
     public void afterAuthentication(HttpServletRequest request, HttpServletResponse response, SessionMember sessionMember) throws IOException {
         HttpSession session = request.getSession();
@@ -60,29 +57,4 @@ public abstract class SessionLogin implements HandlerInterceptor {
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect("/");
     }
-
-//    private String requestAccessToken(String code) {
-//        URI uri = UriComponentsBuilder.fromHttpUrl(authProperties.getAccessTokenUri())
-//                .queryParam("grant_type", authProperties.getGrantType())
-//                .queryParam("client_id", authProperties.getClientId())
-//                .queryParam("client_secret", authProperties.getClientSecret())
-//                .queryParam("code", code)
-//                .build()
-//                .toUri();
-//
-//        String accessToken = restTemplate.getForObject(uri, NaverAccessToken.class)
-//                .getAccessToken();
-//
-//        if (accessToken == null) {
-//            throw new IllegalArgumentException("accessToken을 발급받지 못했습니다.");
-//        }
-//        return accessToken;
-//    }
-//
-//    private OAuthResponse requestApiMeUri(String accessToken) {
-//        HttpHeaders header = new HttpHeaders();
-//        header.add("Authorization", "Bearer " + accessToken);
-//
-//        return restTemplate.postForObject(authProperties.getApiMeUri(), new HttpEntity<>(header), OAuthResponse.class);
-//    }
 }

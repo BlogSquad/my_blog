@@ -1,9 +1,17 @@
 package project.myblog.acceptance.auth;
 
+import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import project.myblog.AcceptanceTest;
 import project.myblog.config.TestWebConfig;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Feat 회원 정보를 관리
@@ -47,9 +55,12 @@ class AuthAcceptanceTest extends AcceptanceTest {
      * <p>
      * <p>
      * Then 회원 생성된다
+     *
+     * Scenario 회원가입
+     * When 회원 생성을 요청한다
+     * Then 회원 생성된다
      */
     @Test
-    void 회원_가입() {
-
+    void 회원_가입_세션() {
     }
 }

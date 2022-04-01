@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
-import project.myblog.web.dto.OAuthResponse;
+import project.myblog.web.dto.OAuthApiResponse;
 import project.myblog.web.dto.SessionMember;
 
 @Service
@@ -16,10 +16,10 @@ public class AuthService {
     }
 
     @Transactional
-    public SessionMember login(OAuthResponse oAuthResponse) {
-        Member member = memberRepository.findByEmail(oAuthResponse.getEmail());
+    public SessionMember login(OAuthApiResponse oAuthApiResponse) {
+        Member member = memberRepository.findByEmail(oAuthApiResponse.getEmail());
         if (member == null) {
-            Member saveMember = memberRepository.save(new Member(oAuthResponse.getEmail()));
+            Member saveMember = memberRepository.save(new Member(oAuthApiResponse.getEmail()));
             return new SessionMember(saveMember);
         }
 

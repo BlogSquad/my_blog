@@ -2,13 +2,12 @@ package project.myblog.authentication;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import project.myblog.oauth.AuthProperties;
 import project.myblog.oauth.NaverAccessToken;
 import project.myblog.service.AuthService;
-import project.myblog.web.dto.OAuthResponse;
+import project.myblog.web.dto.OAuthApiResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
@@ -44,10 +43,10 @@ public class SessionLoginInterceptor extends SessionLogin {
     }
 
     @Override
-    public OAuthResponse requestApiMeUri(String accessToken) {
+    public OAuthApiResponse requestApiMeUri(String accessToken) {
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + accessToken);
 
-        return restTemplate.postForObject(authProperties.getApiMeUri(), new HttpEntity<>(header), OAuthResponse.class);
+        return restTemplate.postForObject(authProperties.getApiMeUri(), new HttpEntity<>(header), OAuthApiResponse.class);
     }
 }
