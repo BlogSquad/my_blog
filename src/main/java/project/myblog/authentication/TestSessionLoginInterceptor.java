@@ -2,7 +2,6 @@ package project.myblog.authentication;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import project.myblog.oauth.AuthProperties;
@@ -13,9 +12,9 @@ import project.myblog.web.dto.OAuthResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 
-public class SessionLoginInterceptor extends SessionLogin {
+public class TestSessionLoginInterceptor extends SessionLogin {
 
-    public SessionLoginInterceptor(RestTemplate restTemplate, AuthService authService, AuthProperties authProperties) {
+    public TestSessionLoginInterceptor(RestTemplate restTemplate, AuthService authService, AuthProperties authProperties) {
         super(restTemplate, authService, authProperties);
     }
 
