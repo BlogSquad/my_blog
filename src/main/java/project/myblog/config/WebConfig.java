@@ -28,7 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new SessionLoginInterceptor(restTemplate(), authService, authProperties))
                 .addPathPatterns("/**")
-                .excludePathPatterns("/", "/css", "/logout/**");
+                .excludePathPatterns("/", "/css", "/logout/**", "/docs/**", "/favicon.ico");
     }
 
     @Override

@@ -1,9 +1,16 @@
-= 블로그 API
 :doctype: book
-:icons: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :sectlinks:
 
-operation::member[snippets='http-request,request-body,http-response']
+[[resources]]
+= Resources
+
+[[resources-auth]]
+= Auth
+
+[[resources-auth-login]]
+=== 로그인
+
+operation::auth[snippets='http-request,request-parameters,http-response']

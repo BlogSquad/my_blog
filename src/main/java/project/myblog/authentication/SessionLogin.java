@@ -26,7 +26,7 @@ public abstract class SessionLogin implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
-
+        System.out.println("dugi = " + request.getRequestURI());
         if (session.getAttribute("loginMember") == null) {
             String authorizationCode = getAuthorizationCode(request);
             String accessToken = requestAccessToken(authorizationCode);

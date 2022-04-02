@@ -7,18 +7,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
+import project.myblog.config.TestWebConfig;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.documentationConfiguration;
 
-@ActiveProfiles("test")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(TestWebConfig.class)
 @ExtendWith(RestDocumentationExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class Documentation {
     @LocalServerPort
     private int port;
@@ -34,9 +38,12 @@ public class Documentation {
                 .build();
     }
 
-    protected RequestSpecification givenRestDocs(String identifier) {
+    public RequestSpecification givenRestDocs(String identifier) {
         return RestAssured.given(this.spec)
                 .filter(document(
-                        identifier, preprocessRequest(prettyPrint())));
+                        identifier, preprocessRequest(prettyPrint()),
+                        requestParameters(parameterWithName("code").description("소셜 로그인 승인 코드(Authorization Code"))
+                        )
+                );
     }
 }

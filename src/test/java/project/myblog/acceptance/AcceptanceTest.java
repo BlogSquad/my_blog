@@ -1,4 +1,4 @@
-package project.myblog;
+package project.myblog.acceptance;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Import;
 import project.myblog.config.TestWebConfig;
 import project.myblog.utils.DatabaseCleanup;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(TestWebConfig.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AcceptanceTest {
     @LocalServerPort
     int port;
