@@ -3,15 +3,8 @@ package project.myblog.acceptance.auth;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
 import project.myblog.AcceptanceTest;
-import project.myblog.config.TestWebConfig;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Feat 회원 정보를 관리
@@ -30,8 +23,6 @@ import java.util.Map;
  * When 회원 정보 수정 요청
  * Then 회원 정보 수정됨
  */
-
-@Import(TestWebConfig.class)
 class AuthAcceptanceTest extends AcceptanceTest {
     /**
      * Scenario 회원가입
@@ -62,5 +53,13 @@ class AuthAcceptanceTest extends AcceptanceTest {
      */
     @Test
     void 회원_가입_세션() {
+        회원_생성_요청();
+    }
+
+    public static ExtractableResponse<Response> 회원_생성_요청() {
+        return RestAssured
+                .given().log().all()
+                .when().get("/login/oauth2/code/naver")
+                .then().log().all().extract();
     }
 }

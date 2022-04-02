@@ -13,4 +13,9 @@ public class AuthController {
         HttpSession session = request.getSession(false);
         session.invalidate();
     }
+
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
 }

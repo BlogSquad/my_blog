@@ -13,7 +13,7 @@ import project.myblog.service.AuthService;
 
 import java.util.List;
 
-@Configuration
+@Configuration(value = "webConfig")
 public class WebConfig implements WebMvcConfigurer {
 
     private final AuthService authService;
