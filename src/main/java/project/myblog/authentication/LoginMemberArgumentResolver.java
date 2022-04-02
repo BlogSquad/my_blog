@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        System.out.println("LoginMemberArgumentResolver.supportsParameter");
         boolean hasLoginAnnotation = parameter.hasParameterAnnotation(Login.class);
         boolean hasMemberType = SessionMember.class.isAssignableFrom(parameter.getParameterType());
 
@@ -22,14 +21,12 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        System.out.println("LoginMemberArgumentResolver.resolveArgument");
-
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         HttpSession session = request.getSession(false);
         if (session == null) {
             return null;
         }
 
-        return session.getAttribute("member");
+        return session.getAttribute("loginMember");
     }
 }

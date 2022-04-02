@@ -19,7 +19,7 @@ public class SessionLoginInterceptor extends SessionLogin {
     }
 
     @Override
-    public String requestAuthorizationCode(HttpServletRequest request) {
+    public String getAuthorizationCode(HttpServletRequest request) {
         return request.getParameter("code");
     }
 

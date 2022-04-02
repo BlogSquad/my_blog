@@ -13,12 +13,15 @@ public class TestSessionLoginInterceptor extends SessionLogin {
     }
 
     @Override
-    public String requestAuthorizationCode(HttpServletRequest request) {
-        return "TestAuthorizationCode";
+    public String getAuthorizationCode(HttpServletRequest request) {
+        return request.getParameter("code");
     }
 
     @Override
     public String requestAccessToken(String authorizationCode) {
+        if (authorizationCode == null) {
+            throw new IllegalArgumentException("accessToken을 발급받지 못했습니다.");
+        }
         return "testAccessToken";
     }
 

@@ -1,12 +1,10 @@
 package project.myblog.web.dto;
 
-import project.myblog.domain.Member;
-
-public class SessionMember {
+public class MemberResponse {
     private String email;
 
-    public SessionMember(Member member) {
-        this.email = member.getEmail();
+    public MemberResponse(String email) {
+        this.email = email;
     }
 
     public String getEmail() {
@@ -15,7 +13,7 @@ public class SessionMember {
 
     @Override
     public String toString() {
-        return "SessionMember{" +
+        return "MemberResponse{" +
                 "email='" + email + '\'' +
                 '}';
     }

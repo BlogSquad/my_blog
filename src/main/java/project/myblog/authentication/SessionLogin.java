@@ -27,9 +27,8 @@ public abstract class SessionLogin implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
 
-        // 새로 로그인
-        if (session.getAttribute("member") == null) {
-            String authorizationCode = requestAuthorizationCode(request);
+        if (session.getAttribute("loginMember") == null) {
+            String authorizationCode = getAuthorizationCode(request);
             String accessToken = requestAccessToken(authorizationCode);
             OAuthApiResponse oAuthApiResponse = requestApiMeUri(accessToken);
 
@@ -39,12 +38,11 @@ public abstract class SessionLogin implements HandlerInterceptor {
             return false;
         }
 
-        // 기존 세션으로 로그인 유지
         System.out.println("세션 로그인");
         return true;
     }
 
-    public abstract String requestAuthorizationCode(HttpServletRequest request);
+    public abstract String getAuthorizationCode(HttpServletRequest request);
 
     public abstract String requestAccessToken(String authorizationCode);
 
@@ -52,9 +50,8 @@ public abstract class SessionLogin implements HandlerInterceptor {
 
     public void afterAuthentication(HttpServletRequest request, HttpServletResponse response, SessionMember sessionMember) throws IOException {
         HttpSession session = request.getSession();
-        session.setAttribute("member", sessionMember);
+        session.setAttribute("loginMember", sessionMember);
 
         response.setStatus(HttpServletResponse.SC_OK);
-        response.sendRedirect("/");
     }
 }
