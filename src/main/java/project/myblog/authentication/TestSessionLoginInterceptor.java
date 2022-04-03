@@ -6,6 +6,7 @@ import project.myblog.service.AuthService;
 import project.myblog.web.dto.OAuthApiResponse;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class TestSessionLoginInterceptor extends SessionLogin {
     public TestSessionLoginInterceptor(RestTemplate restTemplate, AuthService authService, AuthProperties authProperties) {
@@ -18,7 +19,7 @@ public class TestSessionLoginInterceptor extends SessionLogin {
     }
 
     @Override
-    public String requestAccessToken(String authorizationCode) {
+    public String requestAccessToken(String authorizationCode, HttpServletRequest request, HttpServletResponse response) {
         if (authorizationCode == null) {
             throw new IllegalArgumentException("accessToken을 발급받지 못했습니다.");
         }
