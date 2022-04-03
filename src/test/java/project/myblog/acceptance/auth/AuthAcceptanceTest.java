@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import project.myblog.acceptance.AcceptanceTest;
 
+import static project.myblog.acceptance.auth.AuthSteps.내_회원_정보_조회_안됨;
 import static project.myblog.acceptance.auth.AuthSteps.내_회원_정보_조회_요청;
 import static project.myblog.acceptance.auth.AuthSteps.내_회원_정보_조회됨;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_요청;
@@ -43,12 +44,10 @@ class AuthAcceptanceTest extends AcceptanceTest {
      * When 로그인 없이 내 회원 정보 요청
      * Then 회원 정보 조회 안됨
      */
-//    @Test
-//    void 로그인_없이_회원_정보_요청() {
-//        // when
-//        ExtractableResponse<Response> response = 내_회원_정보_조회_요청(null);
-//
-//        // then
-//        내_회원_정보_조회_안됨(response);
-//    }
+    @Test
+    void 로그인_없이_회원_정보_요청_네이버() {
+        ExtractableResponse<Response> response = 내_회원_정보_조회_요청(null);
+
+        내_회원_정보_조회_안됨(response);
+    }
 }

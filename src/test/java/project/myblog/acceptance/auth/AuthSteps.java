@@ -34,4 +34,8 @@ public class AuthSteps {
     public static void 내_회원_정보_조회됨(ExtractableResponse<Response> response) {
         assertThat(response.jsonPath().getString("email")).isEqualTo("monkeyDugi@gmail.com");
     }
+
+    public static void 내_회원_정보_조회_안됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
 }

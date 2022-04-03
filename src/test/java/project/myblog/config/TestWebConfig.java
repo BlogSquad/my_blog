@@ -27,7 +27,7 @@ public class TestWebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TestSessionLoginInterceptor(restTemplate(), authService, authProperties))
                 .addPathPatterns("/**", "/login/oauth2/code/naver")
-                .excludePathPatterns("/", "/css", "/logout/**", "/docs/**", "/favicon.ico");
+                .excludePathPatterns("/", "/css", "/logout/**", "/docs/**", "/favicon.ico", "/api/error", "/error");
     }
 
     @Override
