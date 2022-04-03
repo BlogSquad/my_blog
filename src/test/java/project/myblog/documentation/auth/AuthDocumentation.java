@@ -13,7 +13,7 @@ class AuthDocumentation extends Documentation {
 
     public ExtractableResponse<Response> 로그인_요청() {
         return givenRestDocs("auth")
-                .queryParam("code", "testAuthorizationCode")
+                .queryParam("code", "authorizationCode")
                 .when().get("/login/oauth2/code/naver")
                 .then().log().all().extract();
     }

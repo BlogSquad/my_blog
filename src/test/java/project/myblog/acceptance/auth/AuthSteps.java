@@ -12,14 +12,27 @@ public class AuthSteps {
     public static ExtractableResponse<Response> 로그인_요청() {
         return RestAssured
                 .given().log().all()
-                .queryParam("code", "testAuthorizationCode")
+                .queryParam("code", "authorizationCode")
                 .when().get("/login/oauth2/code/naver")
                 .then().log().all().extract();
     }
 
-    public static void 로그인됨(ExtractableResponse<Response> response) {
+    public static ExtractableResponse<Response> 로그아웃_요청(String sessionId) {
+        return RestAssured
+                .given().log().all()
+                .cookie("JSESSIONID", sessionId)
+                .when().get("/logout/oauth2/code/naver")
+                .then().log().all().extract();
+    }
+
+    public static void 로그인_됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.sessionId()).isNotEmpty();
+    }
+
+    public static void 로그아웃_됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.sessionId()).isNullOrEmpty();
     }
 
     public static ExtractableResponse<Response> 내_회원_정보_조회_요청(String sessionId) {
