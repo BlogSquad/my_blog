@@ -30,14 +30,13 @@ public abstract class SessionLogin implements HandlerInterceptor {
 
         if (session.getAttribute("loginMember") == null) {
             String accessToken = requestAccessToken(request, response);
-            if (validateAccessToken(request, response, accessToken)) {
+            if (isAccessToken(request, response, accessToken)) {
+                OAuthApiResponse oAuthApiResponse = requestApiMeUri(accessToken);
+                SessionMember sessionMember = authService.login(oAuthApiResponse);
+
+                afterAuthentication(request, response, sessionMember);
                 return false;
             }
-
-            OAuthApiResponse oAuthApiResponse = requestApiMeUri(accessToken);
-            SessionMember sessionMember = authService.login(oAuthApiResponse);
-
-            afterAuthentication(request, response, sessionMember);
 
             return false;
         }
@@ -56,13 +55,15 @@ public abstract class SessionLogin implements HandlerInterceptor {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    private boolean validateAccessToken(HttpServletRequest request, HttpServletResponse response, String accessToken) throws ServletException, IOException {
-        if (accessToken == null) {
-            request.setAttribute("message", "로그인이 필요합니다.");
-            request.setAttribute("exception", "AuthenticationException");
-            request.getRequestDispatcher("/api/error").forward(request, response);
+    private boolean isAccessToken(HttpServletRequest request, HttpServletResponse response, String accessToken) throws ServletException, IOException {
+        if (accessToken != null) {
             return true;
         }
+
+        request.setAttribute("message", "로그인이 필요합니다.");
+        request.setAttribute("exception", "AuthenticationException");
+        request.getRequestDispatcher("/api/error").forward(request, response);
+        System.out.println("request = " + request);
         return false;
     }
 }
