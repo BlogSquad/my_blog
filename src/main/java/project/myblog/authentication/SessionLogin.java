@@ -1,6 +1,5 @@
 package project.myblog.authentication;
 
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import project.myblog.oauth.AuthProperties;
@@ -8,6 +7,7 @@ import project.myblog.service.AuthService;
 import project.myblog.web.dto.OAuthApiResponse;
 import project.myblog.web.dto.SessionMember;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -29,34 +29,40 @@ public abstract class SessionLogin implements HandlerInterceptor {
         HttpSession session = request.getSession();
 
         if (session.getAttribute("loginMember") == null) {
-            String authorizationCode = getAuthorizationCode(request);
-            String accessToken = requestAccessToken(authorizationCode, request, response);
-            if (accessToken == null) {
-                request.setAttribute("message", "로그인이 필요한 서비스");
-                request.setAttribute("exception", "AuthenticationException");
-                request.getRequestDispatcher("/api/error").forward(request, response);
+            String accessToken = requestAccessToken(request, response);
+            if (validateAccessToken(request, response, accessToken)) {
                 return false;
             }
-            OAuthApiResponse oAuthApiResponse = requestApiMeUri(accessToken);
 
+            OAuthApiResponse oAuthApiResponse = requestApiMeUri(accessToken);
             SessionMember sessionMember = authService.login(oAuthApiResponse);
+
             afterAuthentication(request, response, sessionMember);
+
             return false;
         }
 
         return true;
     }
 
-    public abstract String getAuthorizationCode(HttpServletRequest request);
+    protected abstract String requestAccessToken(HttpServletRequest request, HttpServletResponse response);
 
-    public abstract String requestAccessToken(String authorizationCode, HttpServletRequest request, HttpServletResponse response);
+    protected abstract OAuthApiResponse requestApiMeUri(String accessToken);
 
-    public abstract OAuthApiResponse requestApiMeUri(String accessToken);
-
-    public void afterAuthentication(HttpServletRequest request, HttpServletResponse response, SessionMember sessionMember) throws IOException {
+    protected void afterAuthentication(HttpServletRequest request, HttpServletResponse response, SessionMember sessionMember) throws IOException {
         HttpSession session = request.getSession();
         session.setAttribute("loginMember", sessionMember);
 
         response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    private boolean validateAccessToken(HttpServletRequest request, HttpServletResponse response, String accessToken) throws ServletException, IOException {
+        if (accessToken == null) {
+            request.setAttribute("message", "로그인이 필요합니다.");
+            request.setAttribute("exception", "AuthenticationException");
+            request.getRequestDispatcher("/api/error").forward(request, response);
+            return true;
+        }
+        return false;
     }
 }
