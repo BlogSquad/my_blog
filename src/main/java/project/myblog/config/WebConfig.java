@@ -7,7 +7,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import project.myblog.authentication.LoginMemberArgumentResolver;
-import project.myblog.authentication.SessionLoginInterceptor;
+import project.myblog.authentication.session.NaverSessionOAuthLoginInterceptor;
 import project.myblog.oauth.AuthProperties;
 import project.myblog.service.AuthService;
 
