@@ -7,6 +7,8 @@ import project.myblog.repository.MemberRepository;
 import project.myblog.web.dto.OAuthApiResponse;
 import project.myblog.web.dto.SessionMember;
 
+import java.util.Optional;
+
 @Service
 public class AuthService {
     private final MemberRepository memberRepository;
@@ -16,13 +18,11 @@ public class AuthService {
     }
 
     @Transactional
-    public SessionMember login(OAuthApiResponse oAuthApiResponse) {
-        Member member = memberRepository.findByEmail(oAuthApiResponse.getEmail());
-        if (member == null) {
-            Member saveMember = memberRepository.save(new Member(oAuthApiResponse.getEmail()));
-            return new SessionMember(saveMember);
-        }
-
-        return new SessionMember(member);
+    public SessionMember login(OAuthApiResponse response) {
+        Optional<Member> member = memberRepository.findByEmail(response.getEmail());
+        return new SessionMember(
+                member.orElse(
+                        memberRepository.save(new Member(response.getEmail())))
+        );
     }
 }
