@@ -24,7 +24,7 @@ public class TestSessionLoginInterceptor extends SessionLogin {
     }
 
     @Override
-    public OAuthApiResponse requestApiMeUri(String accessToken) {
+    public OAuthApiResponse requestUserEmail(String accessToken) {
         return new OAuthApiResponse(new OAuthApiResponse.Response("monkeyDugi@gmail.com"));
     }
 }

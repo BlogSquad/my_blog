@@ -35,7 +35,7 @@ public class SessionLoginInterceptor extends SessionLogin {
     }
 
     @Override
-    public OAuthApiResponse requestApiMeUri(String accessToken) {
+    public OAuthApiResponse requestUserEmail(String accessToken) {
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + accessToken);
 

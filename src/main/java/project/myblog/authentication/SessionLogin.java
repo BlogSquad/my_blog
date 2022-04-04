@@ -31,7 +31,7 @@ public abstract class SessionLogin implements HandlerInterceptor {
         if (session.getAttribute("loginMember") == null) {
             String accessToken = requestAccessToken(request, response);
             if (isAccessToken(request, response, accessToken)) {
-                OAuthApiResponse oAuthApiResponse = requestApiMeUri(accessToken);
+                OAuthApiResponse oAuthApiResponse = requestUserEmail(accessToken);
                 SessionMember sessionMember = authService.login(oAuthApiResponse);
 
                 afterAuthentication(request, response, sessionMember);
@@ -46,7 +46,7 @@ public abstract class SessionLogin implements HandlerInterceptor {
 
     protected abstract String requestAccessToken(HttpServletRequest request, HttpServletResponse response);
 
-    protected abstract OAuthApiResponse requestApiMeUri(String accessToken);
+    protected abstract OAuthApiResponse requestUserEmail(String accessToken);
 
     protected void afterAuthentication(HttpServletRequest request, HttpServletResponse response, SessionMember sessionMember) throws IOException {
         HttpSession session = request.getSession();
