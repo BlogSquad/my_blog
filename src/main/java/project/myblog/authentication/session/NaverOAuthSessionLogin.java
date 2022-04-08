@@ -1,4 +1,4 @@
-package project.myblog.authentication;
+package project.myblog.authentication.session;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,17 +10,23 @@ import project.myblog.service.AuthService;
 import project.myblog.web.dto.OAuthApiResponse;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 
-public class SessionLoginInterceptor extends SessionLogin {
+public class NaverOAuthSessionLogin extends OAuthSessionLogin {
+    private final AuthProperties authProperties;
 
-    public SessionLoginInterceptor(RestTemplate restTemplate, AuthService authService, AuthProperties authProperties) {
-        super(restTemplate, authService, authProperties);
+    public NaverOAuthSessionLogin(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
+        super(authService, restTemplate);
+        this.authProperties = authProperties;
+    }
+
+    public boolean isSupported(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        return uri.contains("naver");
     }
 
     @Override
-    public String requestAccessToken(HttpServletRequest request, HttpServletResponse response) {
+    protected String requestAccessToken(HttpServletRequest request) {
         String authorizationCode = request.getParameter("code");
         URI uri = UriComponentsBuilder.fromHttpUrl(authProperties.getAccessTokenUri())
                 .queryParam("grant_type", authProperties.getGrantType())
@@ -35,7 +41,7 @@ public class SessionLoginInterceptor extends SessionLogin {
     }
 
     @Override
-    public OAuthApiResponse requestUserEmail(String accessToken) {
+    protected OAuthApiResponse requestUserInfo(String accessToken) {
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + accessToken);
 

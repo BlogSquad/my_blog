@@ -3,7 +3,6 @@ package project.myblog.exception;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -15,6 +14,9 @@ public class ErrorController {
 
         if ("AuthenticationException".equals(exception)) {
             throw new AuthenticationException(message);
+        }
+        if ("AuthorizationException".equals(exception)) {
+            throw new AuthorizationException(message);
         }
     }
 }

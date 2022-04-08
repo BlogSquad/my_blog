@@ -9,10 +9,10 @@ import org.springframework.http.MediaType;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class AuthSteps {
-    public static ExtractableResponse<Response> 로그인_요청() {
+    public static ExtractableResponse<Response> 로그인_요청(String authorizationCode) {
         return RestAssured
                 .given().log().all()
-                .queryParam("code", "authorizationCode")
+                .queryParam("code", authorizationCode)
                 .when().get("/login/oauth2/code/naver")
                 .then().log().all().extract();
     }
@@ -28,6 +28,11 @@ public class AuthSteps {
     public static void 로그인_됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.sessionId()).isNotEmpty();
+    }
+
+    public static void 로그인_안됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        assertThat(response.sessionId()).isNullOrEmpty();
     }
 
     public static void 로그아웃_됨(ExtractableResponse<Response> response) {
@@ -49,6 +54,7 @@ public class AuthSteps {
     }
 
     public static void 내_회원_정보_조회_안됨(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
+        assertThat(response.sessionId()).isNullOrEmpty();
     }
 }
