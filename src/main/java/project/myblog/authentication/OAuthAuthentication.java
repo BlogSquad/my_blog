@@ -1,6 +1,7 @@
 package project.myblog.authentication;
 
 import org.springframework.web.client.RestTemplate;
+import project.myblog.exception.AuthenticationException;
 import project.myblog.service.AuthService;
 import project.myblog.web.dto.OAuthApiResponse;
 import project.myblog.web.dto.SessionMember;
@@ -11,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public abstract class OAuthLogin {
+public abstract class OAuthAuthentication {
 
     private final AuthService authService;
     protected final RestTemplate restTemplate;
 
-    protected OAuthLogin(AuthService authService, RestTemplate restTemplate) {
+    protected OAuthAuthentication(AuthService authService, RestTemplate restTemplate) {
         this.authService = authService;
         this.restTemplate = restTemplate;
     }
@@ -39,7 +40,7 @@ public abstract class OAuthLogin {
         }
 
         request.setAttribute("message", "인증되지 않는 사용자입니다.");
-        request.setAttribute("exception", "AuthenticationException");
+        request.setAttribute("exception", AuthenticationException.class);
         try {
             request.getRequestDispatcher("/api/error").forward(request, response);
         } catch (ServletException e) {

@@ -12,17 +12,18 @@ import project.myblog.web.dto.OAuthApiResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 
-public class NaverOAuthSessionLogin extends OAuthSessionLogin {
+public class NaverOAuthSessionAuthentication extends OAuthSessionAuthentication {
+    private static final String NAVER_OAUTH_URI = "naver";
     private final AuthProperties authProperties;
 
-    public NaverOAuthSessionLogin(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
+    public NaverOAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
         super(authService, restTemplate);
         this.authProperties = authProperties;
     }
 
     public boolean isSupported(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        return uri.contains("naver");
+        return uri.contains(NAVER_OAUTH_URI);
     }
 
     @Override

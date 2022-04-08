@@ -7,10 +7,10 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import project.myblog.authentication.LoginMemberArgumentResolver;
-import project.myblog.authentication.OAuthLogin;
-import project.myblog.authentication.OAuthLoginInterceptor;
-import project.myblog.authentication.session.OAuthSessionLogin;
-import project.myblog.authorization.AuthorizationLoginInterceptor;
+import project.myblog.authentication.OAuthAuthentication;
+import project.myblog.authentication.OAuthAuthenticationInterceptor;
+import project.myblog.authentication.session.OAuthSessionAuthentication;
+import project.myblog.authorization.AuthorizationInterceptor;
 import project.myblog.oauth.AuthProperties;
 import project.myblog.service.AuthService;
 import project.myblog.web.dto.OAuthApiResponse;
@@ -31,14 +31,14 @@ public class TestWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        List<OAuthLogin> oAuthLogins = new ArrayList<>();
-        oAuthLogins.add(new TestNaverOAuthSessionLogin(authService, restTemplate(), authProperties));
+        List<OAuthAuthentication> oAuthAuthentications = new ArrayList<>();
+        oAuthAuthentications.add(new TestNaverOAuthSessionAuthentication(authService, restTemplate(), authProperties));
 
-        OAuthLoginInterceptor oAuthLoginInterceptor = new OAuthLoginInterceptor(oAuthLogins);
+        OAuthAuthenticationInterceptor oAuthAuthenticationInterceptor = new OAuthAuthenticationInterceptor(oAuthAuthentications);
 
-        registry.addInterceptor(oAuthLoginInterceptor)
+        registry.addInterceptor(oAuthAuthenticationInterceptor)
                 .addPathPatterns("/login/**");
-        registry.addInterceptor(new AuthorizationLoginInterceptor())
+        registry.addInterceptor(new AuthorizationInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/", "/css", "/logout/**", "/login/**",
                         "/docs/**", "/favicon.ico", "/api/error", "/error");
@@ -54,11 +54,11 @@ public class TestWebConfig implements WebMvcConfigurer {
         return new RestTemplate();
     }
 
-    public static class TestNaverOAuthSessionLogin extends OAuthSessionLogin {
+    public static class TestNaverOAuthSessionAuthentication extends OAuthSessionAuthentication {
         public static final String AUTHORIZATION_CODE = "authorizationCode";
         private final AuthProperties authProperties;
 
-        public TestNaverOAuthSessionLogin(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
+        public TestNaverOAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
             super(authService, restTemplate);
             this.authProperties = authProperties;
         }

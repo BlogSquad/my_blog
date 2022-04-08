@@ -10,12 +10,13 @@ public class ErrorController {
     @GetMapping("/api/error")
     public void error(HttpServletRequest request) throws AuthenticationException {
         String message = (String) request.getAttribute("message");
-        String exception = (String) request.getAttribute("exception");
+        Class exception = (Class) request.getAttribute("exception");
 
-        if ("AuthenticationException".equals(exception)) {
+        if (AuthenticationException.class.isAssignableFrom(exception)) {
             throw new AuthenticationException(message);
         }
-        if ("AuthorizationException".equals(exception)) {
+
+        if (AuthorizationException.class.isAssignableFrom(exception)) {
             throw new AuthorizationException(message);
         }
     }

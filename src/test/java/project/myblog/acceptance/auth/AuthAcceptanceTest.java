@@ -14,7 +14,7 @@ import static project.myblog.acceptance.auth.AuthSteps.로그아웃_요청;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_됨;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_안됨;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_요청;
-import static project.myblog.config.TestWebConfig.TestNaverOAuthSessionLogin.AUTHORIZATION_CODE;
+import static project.myblog.config.TestWebConfig.TestNaverOAuthSessionAuthentication.AUTHORIZATION_CODE;
 
 @DisplayName("로그인 인증, 인가 관리")
 class AuthAcceptanceTest extends AcceptanceTest {

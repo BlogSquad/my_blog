@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ControllerExceptionController {
+public class ExceptionController {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<String> handlerAuthenticationException(AuthenticationException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
