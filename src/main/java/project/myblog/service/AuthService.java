@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
 import project.myblog.web.dto.OAuthApiResponse;
-import project.myblog.web.dto.SessionMember;
+import project.myblog.web.dto.LoginMember;
 
 import java.util.Optional;
 
@@ -18,9 +18,9 @@ public class AuthService {
     }
 
     @Transactional
-    public SessionMember login(OAuthApiResponse response) {
+    public LoginMember login(OAuthApiResponse response) {
         Optional<Member> member = memberRepository.findByEmail(response.getEmail());
-        return new SessionMember(
+        return new LoginMember(
                 member.orElse(
                         memberRepository.save(new Member(response.getEmail())))
         );

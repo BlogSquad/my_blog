@@ -3,7 +3,7 @@ package project.myblog.authentication.session;
 import org.springframework.web.client.RestTemplate;
 import project.myblog.authentication.OAuthAuthentication;
 import project.myblog.service.AuthService;
-import project.myblog.web.dto.SessionMember;
+import project.myblog.web.dto.LoginMember;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ public abstract class OAuthSessionAuthentication extends OAuthAuthentication {
         super(authService, restTemplate);
     }
 
-    protected void afterAuthenticate(HttpServletRequest request, HttpServletResponse response, SessionMember sessionMember) {
+    protected void afterAuthenticate(HttpServletRequest request, HttpServletResponse response, LoginMember sessionMember) {
         HttpSession session = request.getSession();
         session.setAttribute("loginMember", sessionMember);
 

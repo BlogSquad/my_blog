@@ -5,7 +5,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import project.myblog.web.dto.SessionMember;
+import project.myblog.web.dto.LoginMember;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,7 +14,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasLoginAnnotation = parameter.hasParameterAnnotation(Login.class);
-        boolean hasMemberType = SessionMember.class.isAssignableFrom(parameter.getParameterType());
+        boolean hasMemberType = LoginMember.class.isAssignableFrom(parameter.getParameterType());
 
         return hasLoginAnnotation && hasMemberType;
     }

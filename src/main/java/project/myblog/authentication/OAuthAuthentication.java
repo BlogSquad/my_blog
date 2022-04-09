@@ -4,7 +4,7 @@ import org.springframework.web.client.RestTemplate;
 import project.myblog.exception.AuthenticationException;
 import project.myblog.service.AuthService;
 import project.myblog.web.dto.OAuthApiResponse;
-import project.myblog.web.dto.SessionMember;
+import project.myblog.web.dto.LoginMember;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +53,7 @@ public abstract class OAuthAuthentication {
 
     private void authenticate(HttpServletRequest request, HttpServletResponse response, String accessToken) {
         OAuthApiResponse oAuthApiResponse = requestUserInfo(accessToken);
-        SessionMember sessionMember = authService.login(oAuthApiResponse);
+        LoginMember sessionMember = authService.login(oAuthApiResponse);
         afterAuthenticate(request, response, sessionMember);
     }
 
@@ -61,5 +61,5 @@ public abstract class OAuthAuthentication {
 
     protected abstract OAuthApiResponse requestUserInfo(String accessToken);
 
-    protected abstract void afterAuthenticate(HttpServletRequest request, HttpServletResponse response, SessionMember sessionMember);
+    protected abstract void afterAuthenticate(HttpServletRequest request, HttpServletResponse response, LoginMember sessionMember);
 }
