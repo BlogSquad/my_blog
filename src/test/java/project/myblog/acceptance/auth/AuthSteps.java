@@ -35,11 +35,6 @@ public class AuthSteps {
         assertThat(response.sessionId()).isNullOrEmpty();
     }
 
-    public static void 로그아웃_됨(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.sessionId()).isNullOrEmpty();
-    }
-
     public static ExtractableResponse<Response> 내_회원_정보_조회_요청(String sessionId) {
         return RestAssured
                 .given().log().all()

@@ -7,6 +7,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import project.myblog.authentication.LoginMemberArgumentResolver;
+import project.myblog.authentication.LogoutInterceptor;
 import project.myblog.authentication.OAuthAuthentication;
 import project.myblog.authentication.OAuthAuthenticationInterceptor;
 import project.myblog.authentication.session.OAuthSessionAuthentication;
@@ -42,6 +43,8 @@ public class TestWebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/", "/css", "/logout/**", "/login/**",
                         "/docs/**", "/favicon.ico", "/api/error", "/error");
+        registry.addInterceptor(new LogoutInterceptor())
+                .addPathPatterns("/logout/**");
     }
 
     @Override
