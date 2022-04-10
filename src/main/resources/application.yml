@@ -20,7 +20,7 @@ spring:
         # sql 로깅, org.hibernate.SQL 설정 필요
         format_sql: true
   profiles:
-    include: oauth
+    include: auth
     active: local
 
 logging:

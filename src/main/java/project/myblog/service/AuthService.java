@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
-import project.myblog.web.dto.LoginMember;
-import project.myblog.web.dto.OAuthApiResponse;
+import project.myblog.auth.dto.LoginMember;
+import project.myblog.auth.dto.OAuthApiResponse;
 
 import java.util.Optional;
 

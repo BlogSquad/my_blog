@@ -1,4 +1,4 @@
-package project.myblog.authentication.intercpetor;
+package project.myblog.auth.authentication.intercpetor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 

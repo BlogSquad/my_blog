@@ -1,21 +1,21 @@
-package project.myblog.authentication.session.naver;
+package project.myblog.auth.authentication.session.naver;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import project.myblog.authentication.session.OAuthSessionAuthentication;
-import project.myblog.oauth.AuthProperties;
-import project.myblog.oauth.naver.NaverAccessToken;
+import project.myblog.auth.authentication.session.OAuthSessionAuthentication;
+import project.myblog.auth.dto.AuthProperties;
+import project.myblog.auth.dto.naver.NaverAccessToken;
 import project.myblog.service.AuthService;
-import project.myblog.web.dto.NaverOAuthApiResponse;
-import project.myblog.web.dto.OAuthApiResponse;
+import project.myblog.auth.dto.naver.NaverOAuthApiResponse;
+import project.myblog.auth.dto.OAuthApiResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 
-import static project.myblog.web.dto.SocialType.NAVER;
+import static project.myblog.auth.dto.SocialType.NAVER;
 
 public class NaverOAuthSessionAuthentication extends OAuthSessionAuthentication {
     private final AuthProperties authProperties;

@@ -1,4 +1,4 @@
-package project.myblog.oauth.github;
+package project.myblog.auth.dto.github;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

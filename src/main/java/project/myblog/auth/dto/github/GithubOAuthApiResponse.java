@@ -1,6 +1,7 @@
-package project.myblog.web.dto;
+package project.myblog.auth.dto.github;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import project.myblog.auth.dto.OAuthApiResponse;
 
 public class GithubOAuthApiResponse implements OAuthApiResponse {
     @JsonProperty("email")

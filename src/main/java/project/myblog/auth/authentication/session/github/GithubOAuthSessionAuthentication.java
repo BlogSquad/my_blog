@@ -1,22 +1,22 @@
-package project.myblog.authentication.session.github;
+package project.myblog.auth.authentication.session.github;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import project.myblog.authentication.session.OAuthSessionAuthentication;
-import project.myblog.oauth.AuthProperties;
-import project.myblog.oauth.github.GithubAccessToken;
+import project.myblog.auth.dto.AuthProperties;
+import project.myblog.auth.authentication.session.OAuthSessionAuthentication;
+import project.myblog.auth.dto.github.GithubAccessToken;
 import project.myblog.service.AuthService;
-import project.myblog.web.dto.GithubOAuthApiResponse;
-import project.myblog.web.dto.OAuthApiResponse;
+import project.myblog.auth.dto.github.GithubOAuthApiResponse;
+import project.myblog.auth.dto.OAuthApiResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.Arrays;
 
-import static project.myblog.web.dto.SocialType.GITHUB;
+import static project.myblog.auth.dto.SocialType.GITHUB;
 
 public class GithubOAuthSessionAuthentication extends OAuthSessionAuthentication {
     private final AuthProperties authProperties;

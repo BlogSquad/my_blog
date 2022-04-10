@@ -1,4 +1,4 @@
-package project.myblog.web.dto;
+package project.myblog.auth.dto;
 
 public interface OAuthApiResponse {
     String getEmail();

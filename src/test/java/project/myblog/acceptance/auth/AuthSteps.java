@@ -5,7 +5,6 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import project.myblog.web.dto.SocialType;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

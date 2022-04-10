@@ -1,4 +1,4 @@
-package project.myblog.authentication;
+package project.myblog.auth.dto;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package project.myblog.oauth.naver;
+package project.myblog.auth.dto.naver;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

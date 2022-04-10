@@ -1,4 +1,4 @@
-package project.myblog.authorization.interceptor;
+package project.myblog.auth.authorization.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import project.myblog.exception.AuthorizationException;

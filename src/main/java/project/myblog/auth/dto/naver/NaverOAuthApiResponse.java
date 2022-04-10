@@ -1,8 +1,9 @@
-package project.myblog.web.dto;
+package project.myblog.auth.dto.naver;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import project.myblog.auth.dto.OAuthApiResponse;
 
-public class NaverOAuthApiResponse implements OAuthApiResponse  {
+public class NaverOAuthApiResponse implements OAuthApiResponse {
     @JsonProperty("response")
     private Response response;
 
