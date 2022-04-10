@@ -1,15 +1,14 @@
 package project.myblog.auth.authentication;
 
 import org.springframework.web.client.RestTemplate;
-import project.myblog.exception.AuthenticationException;
-import project.myblog.service.AuthService;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.auth.dto.OAuthApiResponse;
+import project.myblog.exception.AuthenticationException;
+import project.myblog.service.AuthService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public abstract class OAuthAuthentication {
@@ -25,8 +24,7 @@ public abstract class OAuthAuthentication {
     public abstract boolean isSupported(HttpServletRequest request);
 
     public void login(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
+        if (isNewLogin(request)) {
             String accessToken = requestAccessToken(request);
             if (isAccessToken(request, response, accessToken)) {
                 authenticate(request, response, accessToken);
@@ -56,6 +54,8 @@ public abstract class OAuthAuthentication {
         LoginMember sessionMember = authService.login(oAuthApiResponse);
         afterAuthenticate(request, response, sessionMember);
     }
+
+    protected abstract boolean isNewLogin(HttpServletRequest request);
 
     protected abstract String requestAccessToken(HttpServletRequest request);
 

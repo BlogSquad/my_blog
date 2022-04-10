@@ -6,6 +6,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import project.myblog.auth.authentication.intercpetor.LogoutInterceptor;
 import project.myblog.auth.dto.LoginMemberArgumentResolver;
 import project.myblog.auth.authentication.OAuthAuthentication;
 import project.myblog.auth.authentication.intercpetor.OAuthAuthenticationInterceptor;
@@ -20,6 +21,8 @@ import java.util.List;
 
 @Configuration(value = "webConfig")
 public class WebConfig implements WebMvcConfigurer {
+    public static String SESSION_LOGIN_URI = "/login/session";
+
     private final AuthService authService;
     private final AuthProperties authProperties;
 
@@ -37,11 +40,13 @@ public class WebConfig implements WebMvcConfigurer {
         OAuthAuthenticationInterceptor oAuthAuthenticationInterceptor = new OAuthAuthenticationInterceptor(oAuthAuthentications);
 
         registry.addInterceptor(oAuthAuthenticationInterceptor)
-                .addPathPatterns("/login/**");
+                .addPathPatterns(SESSION_LOGIN_URI + "/**");
         registry.addInterceptor(new AuthorizationInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/", "/css", "/logout/**", "/login/**",
                                     "/docs/**", "/favicon.ico", "/api/error", "/error");
+        registry.addInterceptor(new LogoutInterceptor())
+                .addPathPatterns("/logout");
     }
 
     @Override

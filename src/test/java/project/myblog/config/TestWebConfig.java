@@ -13,6 +13,7 @@ import project.myblog.auth.authentication.intercpetor.OAuthAuthenticationInterce
 import project.myblog.auth.authentication.session.OAuthSessionAuthentication;
 import project.myblog.auth.authorization.interceptor.AuthorizationInterceptor;
 import project.myblog.auth.dto.AuthProperties;
+import project.myblog.auth.dto.SocialType;
 import project.myblog.service.AuthService;
 import project.myblog.auth.dto.github.GithubOAuthApiResponse;
 import project.myblog.auth.dto.naver.NaverOAuthApiResponse;
@@ -21,6 +22,8 @@ import project.myblog.auth.dto.OAuthApiResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+
+import static project.myblog.config.WebConfig.SESSION_LOGIN_URI;
 
 @TestConfiguration(value = "webConfig")
 public class TestWebConfig implements WebMvcConfigurer {
@@ -41,13 +44,13 @@ public class TestWebConfig implements WebMvcConfigurer {
         OAuthAuthenticationInterceptor oAuthAuthenticationInterceptor = new OAuthAuthenticationInterceptor(oAuthAuthentications);
 
         registry.addInterceptor(oAuthAuthenticationInterceptor)
-                .addPathPatterns("/login/**");
+                .addPathPatterns(SESSION_LOGIN_URI + "/**");
         registry.addInterceptor(new AuthorizationInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/", "/css", "/logout/**", "/login/**",
                         "/docs/**", "/favicon.ico", "/api/error", "/error");
         registry.addInterceptor(new LogoutInterceptor())
-                .addPathPatterns("/logout/**");
+                .addPathPatterns("/logout");
     }
 
     @Override
@@ -85,8 +88,8 @@ public class TestWebConfig implements WebMvcConfigurer {
         }
 
         public boolean isSupported(HttpServletRequest request) {
-            String uri = request.getRequestURI();
-            return uri.contains("naver");
+            String loginUri = SESSION_LOGIN_URI + "/" + SocialType.NAVER.getServiceName();
+            return loginUri.equals(request.getRequestURI());
         }
 
         @Override
@@ -101,8 +104,8 @@ public class TestWebConfig implements WebMvcConfigurer {
         }
 
         public boolean isSupported(HttpServletRequest request) {
-            String uri = request.getRequestURI();
-            return uri.contains("github");
+            String loginUri = SESSION_LOGIN_URI + "/" + SocialType.GITHUB.getServiceName();
+            return loginUri.equals(request.getRequestURI());
         }
 
         @Override
