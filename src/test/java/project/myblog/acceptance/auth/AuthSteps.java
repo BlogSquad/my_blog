@@ -5,15 +5,16 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import project.myblog.web.dto.SocialType;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class AuthSteps {
-    public static ExtractableResponse<Response> 로그인_요청(String authorizationCode) {
+    public static ExtractableResponse<Response> 로그인_요청(String authorizationCode, String serviceName) {
         return RestAssured
                 .given().log().all()
                 .queryParam("code", authorizationCode)
-                .when().get("/login/oauth2/code/naver")
+                .when().get("/login/oauth2/code/" + serviceName)
                 .then().log().all().extract();
     }
 
@@ -21,7 +22,7 @@ public class AuthSteps {
         return RestAssured
                 .given().log().all()
                 .cookie("JSESSIONID", sessionId)
-                .when().get("/logout/oauth2/code/naver")
+                .when().get("/logout/oauth2")
                 .then().log().all().extract();
     }
 

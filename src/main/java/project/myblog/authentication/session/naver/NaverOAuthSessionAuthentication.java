@@ -1,19 +1,23 @@
-package project.myblog.authentication.session;
+package project.myblog.authentication.session.naver;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import project.myblog.authentication.session.OAuthSessionAuthentication;
 import project.myblog.oauth.AuthProperties;
-import project.myblog.oauth.NaverAccessToken;
+import project.myblog.oauth.naver.NaverAccessToken;
 import project.myblog.service.AuthService;
+import project.myblog.web.dto.NaverOAuthApiResponse;
 import project.myblog.web.dto.OAuthApiResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 
+import static project.myblog.web.dto.SocialType.NAVER;
+
 public class NaverOAuthSessionAuthentication extends OAuthSessionAuthentication {
-    private static final String NAVER_OAUTH_URI = "naver";
     private final AuthProperties authProperties;
 
     public NaverOAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
@@ -23,14 +27,14 @@ public class NaverOAuthSessionAuthentication extends OAuthSessionAuthentication 
 
     public boolean isSupported(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        return uri.contains(NAVER_OAUTH_URI);
+        return uri.contains(NAVER.getServiceName());
     }
 
     @Override
     protected String requestAccessToken(HttpServletRequest request) {
         String authorizationCode = request.getParameter("code");
-        URI uri = UriComponentsBuilder.fromHttpUrl(authProperties.getAccessTokenUri())
-                .queryParam("grant_type", authProperties.getGrantType())
+        URI uri = UriComponentsBuilder.fromHttpUrl(NAVER.getAccessTokenUri())
+                .queryParam("grant_type", NAVER.getGrantType())
                 .queryParam("client_id", authProperties.getClientId())
                 .queryParam("client_secret", authProperties.getClientSecret())
                 .queryParam("code", authorizationCode)
@@ -46,6 +50,7 @@ public class NaverOAuthSessionAuthentication extends OAuthSessionAuthentication 
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + accessToken);
 
-        return restTemplate.postForObject(authProperties.getApiMeUri(), new HttpEntity<>(header), OAuthApiResponse.class);
+        return restTemplate.exchange(NAVER.getApiMeUri(), HttpMethod.GET, new HttpEntity<>(header), NaverOAuthApiResponse.class)
+                .getBody();
     }
 }

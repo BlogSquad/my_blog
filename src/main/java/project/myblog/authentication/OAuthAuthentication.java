@@ -3,8 +3,10 @@ package project.myblog.authentication;
 import org.springframework.web.client.RestTemplate;
 import project.myblog.exception.AuthenticationException;
 import project.myblog.service.AuthService;
-import project.myblog.web.dto.OAuthApiResponse;
+import project.myblog.web.dto.GithubOAuthApiResponse;
+import project.myblog.web.dto.NaverOAuthApiResponse;
 import project.myblog.web.dto.LoginMember;
+import project.myblog.web.dto.OAuthApiResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -63,3 +65,4 @@ public abstract class OAuthAuthentication {
 
     protected abstract void afterAuthenticate(HttpServletRequest request, HttpServletResponse response, LoginMember sessionMember);
 }
+

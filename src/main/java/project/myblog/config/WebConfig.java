@@ -9,7 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import project.myblog.authentication.LoginMemberArgumentResolver;
 import project.myblog.authentication.OAuthAuthentication;
 import project.myblog.authentication.OAuthAuthenticationInterceptor;
-import project.myblog.authentication.session.NaverOAuthSessionAuthentication;
+import project.myblog.authentication.session.github.GithubOAuthSessionAuthentication;
+import project.myblog.authentication.session.naver.NaverOAuthSessionAuthentication;
 import project.myblog.authorization.AuthorizationInterceptor;
 import project.myblog.oauth.AuthProperties;
 import project.myblog.service.AuthService;
@@ -19,7 +20,6 @@ import java.util.List;
 
 @Configuration(value = "webConfig")
 public class WebConfig implements WebMvcConfigurer {
-
     private final AuthService authService;
     private final AuthProperties authProperties;
 
@@ -32,6 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         List<OAuthAuthentication> oAuthAuthentications = new ArrayList<>();
         oAuthAuthentications.add(new NaverOAuthSessionAuthentication(authService, restTemplate(), authProperties));
+        oAuthAuthentications.add(new GithubOAuthSessionAuthentication(authService, restTemplate(), authProperties));
 
         OAuthAuthenticationInterceptor oAuthAuthenticationInterceptor = new OAuthAuthenticationInterceptor(oAuthAuthentications);
 

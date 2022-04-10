@@ -1,19 +1,16 @@
-package project.myblog.oauth;
+package project.myblog.oauth.github;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class NaverAccessToken {
+public class GithubAccessToken {
     @JsonProperty("access_token")
     private String accessToken;
-
-    @JsonProperty("refresh_token")
-    private String refresh_token;
 
     @JsonProperty("token_type")
     private String tokenType;
 
-    @JsonProperty("expires_in")
-    private String expires_in;
+    @JsonProperty("scope")
+    private String scope;
 
     public String getAccessToken() {
         return accessToken;
@@ -21,11 +18,10 @@ public class NaverAccessToken {
 
     @Override
     public String toString() {
-        return "TokenDto{" +
+        return "GithubAccessToken{" +
                 "accessToken='" + accessToken + '\'' +
-                ", refresh_token='" + refresh_token + '\'' +
                 ", tokenType='" + tokenType + '\'' +
-                ", expires_in='" + expires_in + '\'' +
+                ", scope='" + scope + '\'' +
                 '}';
     }
 }
