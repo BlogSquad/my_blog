@@ -35,8 +35,8 @@ public class NaverOAuthSessionAuthentication extends OAuthSessionAuthentication 
         String authorizationCode = request.getParameter("code");
         URI uri = UriComponentsBuilder.fromHttpUrl(NAVER.getAccessTokenUri())
                 .queryParam("grant_type", NAVER.getGrantType())
-                .queryParam("client_id", authProperties.getClientId())
-                .queryParam("client_secret", authProperties.getClientSecret())
+                .queryParam("client_id", authProperties.getNaverClientId())
+                .queryParam("client_secret", authProperties.getNaverClientSecret())
                 .queryParam("code", authorizationCode)
                 .build()
                 .toUri();

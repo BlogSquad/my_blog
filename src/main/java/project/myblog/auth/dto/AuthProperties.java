@@ -1,20 +1,33 @@
 package project.myblog.auth.dto;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 public class AuthProperties {
-    @Value("${auth.naver.client_id}")
-    private String clientId;
-    @Value("${auth.naver.client_secret_id}")
-    private String clientSecret;
+    @Value("${oauth.naver.client_id}")
+    private String naverClientId;
+    @Value("${oauth.naver.client_secret_id}")
+    private String naverClientSecret;
 
-    public String getClientId() {
-        return clientId;
+    @Value("${oauth.github.client_id}")
+    private String githubClientId;
+    @Value("${oauth.github.client_secret_id}")
+    private String githubClientSecret;
+
+    public String getNaverClientId() {
+        return naverClientId;
     }
 
-    public String getClientSecret() {
-        return clientSecret;
+    public String getNaverClientSecret() {
+        return naverClientSecret;
+    }
+
+    public String getGithubClientId() {
+        return githubClientId;
+    }
+
+    public String getGithubClientSecret() {
+        return githubClientSecret;
     }
 }
