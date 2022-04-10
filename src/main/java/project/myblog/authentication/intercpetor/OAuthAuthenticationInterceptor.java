@@ -1,6 +1,7 @@
-package project.myblog.authentication;
+package project.myblog.authentication.intercpetor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
+import project.myblog.authentication.OAuthAuthentication;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

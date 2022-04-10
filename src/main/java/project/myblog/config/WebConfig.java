@@ -8,10 +8,10 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import project.myblog.authentication.LoginMemberArgumentResolver;
 import project.myblog.authentication.OAuthAuthentication;
-import project.myblog.authentication.OAuthAuthenticationInterceptor;
+import project.myblog.authentication.intercpetor.OAuthAuthenticationInterceptor;
 import project.myblog.authentication.session.github.GithubOAuthSessionAuthentication;
 import project.myblog.authentication.session.naver.NaverOAuthSessionAuthentication;
-import project.myblog.authorization.AuthorizationInterceptor;
+import project.myblog.authorization.interceptor.AuthorizationInterceptor;
 import project.myblog.oauth.AuthProperties;
 import project.myblog.service.AuthService;
 
