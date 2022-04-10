@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static project.myblog.config.WebConfig.SESSION_LOGIN_URI;
+import static project.myblog.config.WebConfig.SESSION_LOGOUT_URI;
 
 public class AuthSteps {
     public static ExtractableResponse<Response> 로그인_요청(String authorizationCode, String serviceName) {
@@ -22,7 +23,7 @@ public class AuthSteps {
         return RestAssured
                 .given().log().all()
                 .cookie("JSESSIONID", sessionId)
-                .when().get("/logout")
+                .when().get(SESSION_LOGOUT_URI)
                 .then().log().all().extract();
     }
 

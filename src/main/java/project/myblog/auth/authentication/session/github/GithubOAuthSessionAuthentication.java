@@ -8,7 +8,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import project.myblog.auth.authentication.session.OAuthSessionAuthentication;
 import project.myblog.auth.dto.AuthProperties;
 import project.myblog.auth.dto.OAuthApiResponse;
-import project.myblog.auth.dto.SocialType;
 import project.myblog.auth.dto.github.GithubAccessToken;
 import project.myblog.auth.dto.github.GithubOAuthApiResponse;
 import project.myblog.service.AuthService;
