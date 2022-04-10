@@ -20,9 +20,9 @@ public abstract class OAuthSessionAuthentication extends OAuthAuthentication {
         return session == null;
     }
 
-    protected void afterAuthenticate(HttpServletRequest request, HttpServletResponse response, LoginMember sessionMember) {
+    protected void afterAuthenticate(HttpServletRequest request, HttpServletResponse response, LoginMember loginMember) {
         HttpSession session = request.getSession();
-        session.setAttribute("loginMember", sessionMember);
+        session.setAttribute("loginMember", loginMember);
 
         response.setStatus(HttpServletResponse.SC_OK);
     }
