@@ -1,4 +1,7 @@
 spring:
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
   h2:
     console:
       enabled: true
@@ -16,8 +19,12 @@ spring:
         # show_sql: true
         # sql 로깅, org.hibernate.SQL 설정 필요
         format_sql: true
+  profiles:
+    include: oauth
+    active: local
 
 logging:
   level:
     org.hibernate.SQL: debug # 로거로 찍기 때문에 사용하자.
     org.hibernate.type: trace # query parameter 보여줌.
+

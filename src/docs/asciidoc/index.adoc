@@ -1,0 +1,16 @@
+:doctype: book
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+:sectlinks:
+
+[[resources]]
+= Resources
+
+[[resources-auth]]
+= Auth
+
+[[resources-auth-login]]
+=== 로그인
+
+operation::auth[snippets='http-request,request-parameters,http-response']
