@@ -2,6 +2,7 @@ oauth:
   naver:
     client_id: wxo1BZFKWHDc37EpRJa6
     client_secret_id: m8d1wUiuyD
-    acces_token_uri: https://nid.naver.com/oauth2.0/token
-    grant_type: authorization_code
-    api_me_uri: https://openapi.naver.com/v1/nid/me
+  github:
+    client_id: 94d63390d69132f6c778
+    client_secret_id: ad5e3e4fd86a294fe595c9e79d444abb04bd4420
+

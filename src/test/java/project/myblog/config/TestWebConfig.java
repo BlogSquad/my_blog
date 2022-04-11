@@ -6,19 +6,28 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import project.myblog.authentication.LoginMemberArgumentResolver;
-import project.myblog.authentication.LogoutInterceptor;
-import project.myblog.authentication.OAuthAuthentication;
-import project.myblog.authentication.OAuthAuthenticationInterceptor;
-import project.myblog.authentication.session.OAuthSessionAuthentication;
-import project.myblog.authorization.AuthorizationInterceptor;
-import project.myblog.oauth.AuthProperties;
+import project.myblog.auth.authentication.Logout;
+import project.myblog.auth.authentication.session.SessionLogout;
+import project.myblog.auth.dto.LoginMemberArgumentResolver;
+import project.myblog.auth.authentication.intercpetor.LogoutInterceptor;
+import project.myblog.auth.authentication.OAuthAuthentication;
+import project.myblog.auth.authentication.intercpetor.OAuthAuthenticationInterceptor;
+import project.myblog.auth.authentication.session.OAuthSessionAuthentication;
+import project.myblog.auth.authorization.interceptor.AuthorizationInterceptor;
+import project.myblog.auth.dto.AuthProperties;
+import project.myblog.auth.dto.SocialType;
 import project.myblog.service.AuthService;
-import project.myblog.web.dto.OAuthApiResponse;
+import project.myblog.auth.dto.github.GithubOAuthApiResponse;
+import project.myblog.auth.dto.naver.NaverOAuthApiResponse;
+import project.myblog.auth.dto.OAuthApiResponse;
+
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+
+import static project.myblog.config.WebConfig.SESSION_LOGIN_URI;
+import static project.myblog.config.WebConfig.SESSION_LOGOUT_URI;
 
 @TestConfiguration(value = "webConfig")
 public class TestWebConfig implements WebMvcConfigurer {
@@ -34,17 +43,25 @@ public class TestWebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         List<OAuthAuthentication> oAuthAuthentications = new ArrayList<>();
         oAuthAuthentications.add(new TestNaverOAuthSessionAuthentication(authService, restTemplate(), authProperties));
+        oAuthAuthentications.add(new TestGithubOAuthSessionAuthentication(authService, restTemplate(), authProperties));
 
         OAuthAuthenticationInterceptor oAuthAuthenticationInterceptor = new OAuthAuthenticationInterceptor(oAuthAuthentications);
 
         registry.addInterceptor(oAuthAuthenticationInterceptor)
-                .addPathPatterns("/login/**");
+                .addPathPatterns(SESSION_LOGIN_URI + "/**");
+
         registry.addInterceptor(new AuthorizationInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/", "/css", "/logout/**", "/login/**",
                         "/docs/**", "/favicon.ico", "/api/error", "/error");
-        registry.addInterceptor(new LogoutInterceptor())
-                .addPathPatterns("/logout/**");
+
+        List<Logout> logouts = new ArrayList<>();
+        logouts.add(new SessionLogout());
+
+        LogoutInterceptor logoutInterceptor = new LogoutInterceptor(logouts);
+        registry.addInterceptor(logoutInterceptor)
+                .addPathPatterns(SESSION_LOGOUT_URI + "/**");
+
     }
 
     @Override
@@ -57,18 +74,13 @@ public class TestWebConfig implements WebMvcConfigurer {
         return new RestTemplate();
     }
 
-    public static class TestNaverOAuthSessionAuthentication extends OAuthSessionAuthentication {
+    public abstract static class TestAbstractOAuthSessionAuthentication extends OAuthSessionAuthentication {
         public static final String AUTHORIZATION_CODE = "authorizationCode";
         private final AuthProperties authProperties;
 
-        public TestNaverOAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
+        public TestAbstractOAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
             super(authService, restTemplate);
             this.authProperties = authProperties;
-        }
-
-        public boolean isSupported(HttpServletRequest request) {
-            String uri = request.getRequestURI();
-            return uri.contains("naver");
         }
 
         @Override
@@ -79,10 +91,37 @@ public class TestWebConfig implements WebMvcConfigurer {
             }
             return null;
         }
+    }
+
+    static class TestNaverOAuthSessionAuthentication extends TestAbstractOAuthSessionAuthentication {
+        public TestNaverOAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
+            super(authService, restTemplate, authProperties);
+        }
+
+        public boolean isSupported(HttpServletRequest request) {
+            String loginUri = SESSION_LOGIN_URI + "/" + SocialType.NAVER.getServiceName();
+            return loginUri.equals(request.getRequestURI());
+        }
 
         @Override
         protected OAuthApiResponse requestUserInfo(String accessToken) {
-            return new OAuthApiResponse(new OAuthApiResponse.Response("monkeyDugi@gmail.com"));
+            return new NaverOAuthApiResponse(new NaverOAuthApiResponse.Response("monkeyDugi@gmail.com"));
+        }
+    }
+
+    static class TestGithubOAuthSessionAuthentication extends TestAbstractOAuthSessionAuthentication {
+        public TestGithubOAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
+            super(authService, restTemplate, authProperties);
+        }
+
+        public boolean isSupported(HttpServletRequest request) {
+            String loginUri = SESSION_LOGIN_URI + "/" + SocialType.GITHUB.getServiceName();
+            return loginUri.equals(request.getRequestURI());
+        }
+
+        @Override
+        protected OAuthApiResponse requestUserInfo(String accessToken) {
+            return new GithubOAuthApiResponse("monkeyDugi@gmail.com");
         }
     }
 }
