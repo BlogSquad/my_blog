@@ -77,6 +77,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void 깃허브_세션_내_정보_조회_관리() {
         ExtractableResponse<Response> loginResponse = 로그인_요청(AUTHORIZATION_CODE, GITHUB.getServiceName());
+
         String sessionId = loginResponse.sessionId();
         로그인_됨(loginResponse);
 

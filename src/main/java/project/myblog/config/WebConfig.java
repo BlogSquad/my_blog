@@ -16,6 +16,7 @@ import project.myblog.auth.authentication.session.github.GithubOAuthSessionAuthe
 import project.myblog.auth.authentication.session.naver.NaverOAuthSessionAuthentication;
 import project.myblog.auth.authorization.interceptor.AuthorizationInterceptor;
 import project.myblog.auth.dto.AuthProperties;
+
 import project.myblog.service.AuthService;
 
 import java.util.ArrayList;
@@ -40,10 +41,12 @@ public class WebConfig implements WebMvcConfigurer {
         oAuthAuthentications.add(new NaverOAuthSessionAuthentication(authService, restTemplate(), authProperties));
         oAuthAuthentications.add(new GithubOAuthSessionAuthentication(authService, restTemplate(), authProperties));
 
+
         OAuthAuthenticationInterceptor oAuthAuthenticationInterceptor = new OAuthAuthenticationInterceptor(oAuthAuthentications);
 
         registry.addInterceptor(oAuthAuthenticationInterceptor)
                 .addPathPatterns(SESSION_LOGIN_URI + "/**");
+
         registry.addInterceptor(new AuthorizationInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/", "/css", "/logout/**", "/login/**",
@@ -55,6 +58,7 @@ public class WebConfig implements WebMvcConfigurer {
         LogoutInterceptor logoutInterceptor = new LogoutInterceptor(logouts);
         registry.addInterceptor(logoutInterceptor)
                 .addPathPatterns(SESSION_LOGOUT_URI + "/**");
+
     }
 
     @Override

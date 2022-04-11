@@ -21,6 +21,7 @@ import project.myblog.auth.dto.github.GithubOAuthApiResponse;
 import project.myblog.auth.dto.naver.NaverOAuthApiResponse;
 import project.myblog.auth.dto.OAuthApiResponse;
 
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class TestWebConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(oAuthAuthenticationInterceptor)
                 .addPathPatterns(SESSION_LOGIN_URI + "/**");
+
         registry.addInterceptor(new AuthorizationInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/", "/css", "/logout/**", "/login/**",
@@ -59,6 +61,7 @@ public class TestWebConfig implements WebMvcConfigurer {
         LogoutInterceptor logoutInterceptor = new LogoutInterceptor(logouts);
         registry.addInterceptor(logoutInterceptor)
                 .addPathPatterns(SESSION_LOGOUT_URI + "/**");
+
     }
 
     @Override
