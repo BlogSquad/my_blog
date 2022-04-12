@@ -31,7 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
     protected final MemberService memberService;
     protected final AuthProperties authProperties;
 
-    public WebConfig(MemberService memberService, AuthProperties authProperties) {
+    protected WebConfig(MemberService memberService, AuthProperties authProperties) {
         this.memberService = memberService;
         this.authProperties = authProperties;
     }
