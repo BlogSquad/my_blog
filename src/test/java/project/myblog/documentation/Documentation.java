@@ -42,7 +42,7 @@ public class Documentation {
         return RestAssured.given(this.spec)
                 .filter(document(
                         identifier, preprocessRequest(prettyPrint()),
-                        requestParameters(parameterWithName("code").description("소셜 로그인 승인 코드(Authorization Code"))
+                        requestParameters(parameterWithName("code").description("소셜 로그인 승인 코드(Authorization Code)"))
                         )
                 );
     }
