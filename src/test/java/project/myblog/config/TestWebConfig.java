@@ -8,6 +8,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import project.myblog.auth.authentication.Logout;
 import project.myblog.auth.authentication.session.SessionLogout;
+import project.myblog.auth.authorization.Authorization;
+import project.myblog.auth.authorization.session.SessionAuthorization;
 import project.myblog.auth.dto.LoginMemberArgumentResolver;
 import project.myblog.auth.authentication.intercpetor.LogoutInterceptor;
 import project.myblog.auth.authentication.OAuthAuthentication;
@@ -50,7 +52,11 @@ public class TestWebConfig implements WebMvcConfigurer {
         registry.addInterceptor(oAuthAuthenticationInterceptor)
                 .addPathPatterns(SESSION_LOGIN_URI + "/**");
 
-        registry.addInterceptor(new AuthorizationInterceptor())
+        List<Authorization> authorizations = new ArrayList<>();
+        authorizations.add(new SessionAuthorization());
+
+        AuthorizationInterceptor authorizationInterceptor = new AuthorizationInterceptor(authorizations);
+        registry.addInterceptor(authorizationInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/", "/css", "/logout/**", "/login/**",
                         "/docs/**", "/favicon.ico", "/api/error", "/error");
