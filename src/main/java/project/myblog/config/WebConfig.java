@@ -7,16 +7,17 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import project.myblog.auth.authentication.Logout;
-import project.myblog.auth.authentication.intercpetor.LogoutInterceptor;
-import project.myblog.auth.authentication.session.SessionLogout;
-import project.myblog.auth.dto.LoginMemberArgumentResolver;
 import project.myblog.auth.authentication.OAuthAuthentication;
+import project.myblog.auth.authentication.intercpetor.LogoutInterceptor;
 import project.myblog.auth.authentication.intercpetor.OAuthAuthenticationInterceptor;
+import project.myblog.auth.authentication.session.SessionLogout;
 import project.myblog.auth.authentication.session.github.GithubOAuthSessionAuthentication;
 import project.myblog.auth.authentication.session.naver.NaverOAuthSessionAuthentication;
+import project.myblog.auth.authorization.Authorization;
 import project.myblog.auth.authorization.interceptor.AuthorizationInterceptor;
+import project.myblog.auth.authorization.session.SessionAuthorization;
 import project.myblog.auth.dto.AuthProperties;
-
+import project.myblog.auth.dto.LoginMemberArgumentResolver;
 import project.myblog.service.AuthService;
 
 import java.util.ArrayList;
@@ -41,13 +42,16 @@ public class WebConfig implements WebMvcConfigurer {
         oAuthAuthentications.add(new NaverOAuthSessionAuthentication(authService, restTemplate(), authProperties));
         oAuthAuthentications.add(new GithubOAuthSessionAuthentication(authService, restTemplate(), authProperties));
 
-
         OAuthAuthenticationInterceptor oAuthAuthenticationInterceptor = new OAuthAuthenticationInterceptor(oAuthAuthentications);
 
         registry.addInterceptor(oAuthAuthenticationInterceptor)
                 .addPathPatterns(SESSION_LOGIN_URI + "/**");
 
-        registry.addInterceptor(new AuthorizationInterceptor())
+        List<Authorization> authorizations = new ArrayList<>();
+        authorizations.add(new SessionAuthorization());
+
+        AuthorizationInterceptor authorizationInterceptor = new AuthorizationInterceptor(authorizations);
+        registry.addInterceptor(authorizationInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/", "/css", "/logout/**", "/login/**",
                                     "/docs/**", "/favicon.ico", "/api/error", "/error");
