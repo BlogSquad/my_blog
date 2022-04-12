@@ -9,8 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SessionAuthorization implements Authorization {
     @Override
     public boolean isSupported(HttpServletRequest request, HttpServletResponse response) {
-        // TODO: 2022/04/12 session, jwt 구분 필요
-        return true;
+        return request.getSession(false) != null;
     }
 
     @Override
