@@ -18,7 +18,7 @@ import project.myblog.auth.authentication.session.OAuthSessionAuthentication;
 import project.myblog.auth.authorization.interceptor.AuthorizationInterceptor;
 import project.myblog.auth.dto.AuthProperties;
 import project.myblog.auth.dto.SocialType;
-import project.myblog.service.AuthService;
+import project.myblog.service.member.MemberService;
 import project.myblog.auth.dto.github.GithubOAuthApiResponse;
 import project.myblog.auth.dto.naver.NaverOAuthApiResponse;
 import project.myblog.auth.dto.OAuthApiResponse;
@@ -33,19 +33,19 @@ import static project.myblog.config.WebConfig.SESSION_LOGOUT_URI;
 
 @TestConfiguration(value = "webConfig")
 public class TestWebConfig implements WebMvcConfigurer {
-    private final AuthService authService;
+    private final MemberService memberService;
     private final AuthProperties authProperties;
 
-    public TestWebConfig(AuthService authService, AuthProperties authProperties) {
-        this.authService = authService;
+    public TestWebConfig(MemberService memberService, AuthProperties authProperties) {
+        this.memberService = memberService;
         this.authProperties = authProperties;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         List<OAuthAuthentication> oAuthAuthentications = new ArrayList<>();
-        oAuthAuthentications.add(new TestNaverOAuthSessionAuthentication(authService, restTemplate(), authProperties));
-        oAuthAuthentications.add(new TestGithubOAuthSessionAuthentication(authService, restTemplate(), authProperties));
+        oAuthAuthentications.add(new TestNaverOAuthSessionAuthentication(memberService, restTemplate(), authProperties));
+        oAuthAuthentications.add(new TestGithubOAuthSessionAuthentication(memberService, restTemplate(), authProperties));
 
         OAuthAuthenticationInterceptor oAuthAuthenticationInterceptor = new OAuthAuthenticationInterceptor(oAuthAuthentications);
 
@@ -84,8 +84,8 @@ public class TestWebConfig implements WebMvcConfigurer {
         public static final String AUTHORIZATION_CODE = "authorizationCode";
         private final AuthProperties authProperties;
 
-        public TestAbstractOAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
-            super(authService, restTemplate);
+        public TestAbstractOAuthSessionAuthentication(MemberService memberService, RestTemplate restTemplate, AuthProperties authProperties) {
+            super(memberService, restTemplate);
             this.authProperties = authProperties;
         }
 
@@ -100,8 +100,8 @@ public class TestWebConfig implements WebMvcConfigurer {
     }
 
     static class TestNaverOAuthSessionAuthentication extends TestAbstractOAuthSessionAuthentication {
-        public TestNaverOAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
-            super(authService, restTemplate, authProperties);
+        public TestNaverOAuthSessionAuthentication(MemberService memberService, RestTemplate restTemplate, AuthProperties authProperties) {
+            super(memberService, restTemplate, authProperties);
         }
 
         public boolean isSupported(HttpServletRequest request) {
@@ -116,8 +116,8 @@ public class TestWebConfig implements WebMvcConfigurer {
     }
 
     static class TestGithubOAuthSessionAuthentication extends TestAbstractOAuthSessionAuthentication {
-        public TestGithubOAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
-            super(authService, restTemplate, authProperties);
+        public TestGithubOAuthSessionAuthentication(MemberService memberService, RestTemplate restTemplate, AuthProperties authProperties) {
+            super(memberService, restTemplate, authProperties);
         }
 
         public boolean isSupported(HttpServletRequest request) {

@@ -9,8 +9,15 @@
 
 [[resources-auth]]
 == Auth
+[[resources-auth-login-naver]]
+=== 네이버 로그인
+operation::auth-naver[snippets='http-request,request-parameters,http-response']
+[[resources-auth-login-github]]
+=== 깃허브 로그인
+operation::auth-github[snippets='http-request,request-parameters,http-response']
 
-[[resources-auth-login]]
-=== 로그인
-
-operation::auth[snippets='http-request,request-parameters,http-response']
+[[resources-member]]
+== Member
+[[resources-member-findMemberOfMine]]
+=== 내 회원 정보 조회
+operation::member[snippets='http-request,http-response,response-fields']

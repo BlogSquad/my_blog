@@ -11,7 +11,7 @@ import project.myblog.auth.dto.OAuthApiResponse;
 import project.myblog.auth.dto.SocialType;
 import project.myblog.auth.dto.naver.NaverAccessToken;
 import project.myblog.auth.dto.naver.NaverOAuthApiResponse;
-import project.myblog.service.AuthService;
+import project.myblog.service.member.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
@@ -22,8 +22,8 @@ import static project.myblog.config.WebConfig.SESSION_LOGIN_URI;
 public class NaverOAuthSessionAuthentication extends OAuthSessionAuthentication {
     private final AuthProperties authProperties;
 
-    public NaverOAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate, AuthProperties authProperties) {
-        super(authService, restTemplate);
+    public NaverOAuthSessionAuthentication(MemberService memberService, RestTemplate restTemplate, AuthProperties authProperties) {
+        super(memberService, restTemplate);
         this.authProperties = authProperties;
     }
 

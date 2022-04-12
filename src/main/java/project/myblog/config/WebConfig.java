@@ -18,7 +18,7 @@ import project.myblog.auth.authorization.interceptor.AuthorizationInterceptor;
 import project.myblog.auth.authorization.session.SessionAuthorization;
 import project.myblog.auth.dto.AuthProperties;
 import project.myblog.auth.dto.LoginMemberArgumentResolver;
-import project.myblog.service.AuthService;
+import project.myblog.service.member.MemberService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,19 +28,19 @@ public class WebConfig implements WebMvcConfigurer {
     public static String SESSION_LOGIN_URI = "/login/session";
     public static String SESSION_LOGOUT_URI = "/logout/session";
 
-    private final AuthService authService;
+    private final MemberService memberService;
     private final AuthProperties authProperties;
 
-    public WebConfig(AuthService authService, AuthProperties authProperties) {
-        this.authService = authService;
+    public WebConfig(MemberService memberService, AuthProperties authProperties) {
+        this.memberService = memberService;
         this.authProperties = authProperties;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         List<OAuthAuthentication> oAuthAuthentications = new ArrayList<>();
-        oAuthAuthentications.add(new NaverOAuthSessionAuthentication(authService, restTemplate(), authProperties));
-        oAuthAuthentications.add(new GithubOAuthSessionAuthentication(authService, restTemplate(), authProperties));
+        oAuthAuthentications.add(new NaverOAuthSessionAuthentication(memberService, restTemplate(), authProperties));
+        oAuthAuthentications.add(new GithubOAuthSessionAuthentication(memberService, restTemplate(), authProperties));
 
         OAuthAuthenticationInterceptor oAuthAuthenticationInterceptor = new OAuthAuthenticationInterceptor(oAuthAuthentications);
 

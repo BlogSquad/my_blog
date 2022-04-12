@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SessionAuthorization implements Authorization {
     @Override
     public boolean isSupported(HttpServletRequest request, HttpServletResponse response) {
-        return request.getSession(false) != null;
+        return true;
     }
 
     @Override
