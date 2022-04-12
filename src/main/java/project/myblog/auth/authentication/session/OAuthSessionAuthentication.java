@@ -3,15 +3,15 @@ package project.myblog.auth.authentication.session;
 import org.springframework.web.client.RestTemplate;
 import project.myblog.auth.authentication.OAuthAuthentication;
 import project.myblog.auth.dto.LoginMember;
-import project.myblog.service.AuthService;
+import project.myblog.service.member.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public abstract class OAuthSessionAuthentication extends OAuthAuthentication {
-    protected OAuthSessionAuthentication(AuthService authService, RestTemplate restTemplate) {
-        super(authService, restTemplate);
+    protected OAuthSessionAuthentication(MemberService memberService, RestTemplate restTemplate) {
+        super(memberService, restTemplate);
     }
 
     @Override

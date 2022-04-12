@@ -10,12 +10,14 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.request.ParameterDescriptor;
 import project.myblog.config.TestWebConfig;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.documentationConfiguration;
@@ -38,11 +40,27 @@ public class Documentation {
                 .build();
     }
 
-    public RequestSpecification givenRestDocs(String identifier) {
-        return RestAssured.given(this.spec)
-                .filter(document(
-                        identifier, preprocessRequest(prettyPrint()),
-                        requestParameters(parameterWithName("code").description("소셜 로그인 승인 코드(Authorization Code"))
+    protected RequestSpecification givenRestDocs(String identifier, ParameterDescriptor[] parameterDescriptors) {
+        return RestAssured.given(this.spec).log().all()
+                .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+                        requestParameters(parameterDescriptors)
+                        )
+                );
+    }
+
+    protected RequestSpecification givenRestDocs(String identifier, FieldDescriptor[] fieldDescriptors) {
+        return RestAssured.given(this.spec).log().all()
+                .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+                        relaxedResponseFields(fieldDescriptors)
+                        )
+                );
+    }
+
+    protected RequestSpecification givenRestDocs(String identifier, ParameterDescriptor[] parameterDescriptors, FieldDescriptor[] fieldDescriptors) {
+        return RestAssured.given(this.spec).log().all()
+                .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+                        requestParameters(parameterDescriptors),
+                        relaxedResponseFields(fieldDescriptors)
                         )
                 );
     }
