@@ -12,12 +12,14 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.request.ParameterDescriptor;
+import org.springframework.restdocs.request.RequestParametersSnippet;
 import project.myblog.config.TestWebConfig;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.documentationConfiguration;
@@ -40,7 +42,7 @@ public class Documentation {
                 .build();
     }
 
-    protected RequestSpecification givenRestDocs(String identifier, ParameterDescriptor[] parameterDescriptors) {
+    protected RequestSpecification givenRestDocsRequestParameters(String identifier, ParameterDescriptor[] parameterDescriptors) {
         return RestAssured.given(this.spec).log().all()
                 .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
                         requestParameters(parameterDescriptors)
@@ -48,18 +50,17 @@ public class Documentation {
                 );
     }
 
-    protected RequestSpecification givenRestDocs(String identifier, FieldDescriptor[] fieldDescriptors) {
-        return RestAssured.given(this.spec).log().all()
+    protected RequestSpecification givenRestDocsFieldDescriptorRequestFields(String identifier, FieldDescriptor[] fieldDescriptors) {
+        return RestAssured.given(this.spec)
                 .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
-                        relaxedResponseFields(fieldDescriptors)
+                        requestFields(fieldDescriptors)
                         )
                 );
     }
 
-    protected RequestSpecification givenRestDocs(String identifier, ParameterDescriptor[] parameterDescriptors, FieldDescriptor[] fieldDescriptors) {
+    protected RequestSpecification givenRestDocsFieldDescriptorRelaxedResponseFields(String identifier, FieldDescriptor[] fieldDescriptors) {
         return RestAssured.given(this.spec).log().all()
                 .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
-                        requestParameters(parameterDescriptors),
                         relaxedResponseFields(fieldDescriptors)
                         )
                 );

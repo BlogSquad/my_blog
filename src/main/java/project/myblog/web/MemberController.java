@@ -1,7 +1,10 @@
 package project.myblog.web;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import project.myblog.auth.dto.Login;
 import project.myblog.auth.dto.LoginMember;
@@ -21,5 +24,11 @@ public class MemberController {
     public MemberResponse findMemberOfMine(@Login LoginMember loginMember) {
         Member member = memberService.findMemberOfMine(loginMember);
         return new MemberResponse(member);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping(value = "/members/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void memberUpdate(@Login LoginMember loginMember) {
+
     }
 }

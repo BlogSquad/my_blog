@@ -1,26 +1,24 @@
 package project.myblog.acceptance.member;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static project.myblog.acceptance.auth.AuthSteps.로그인_됨;
+import static project.myblog.acceptance.auth.AuthSteps.로그인_요청;
+import static project.myblog.config.TestWebConfig.TestAbstractOAuthSessionAuthentication.AUTHORIZATION_CODE;
 
-public class MemberSteps {
-    public static ExtractableResponse<Response> 내_회원_정보_조회_요청(String sessionId) {
-        return RestAssured
-                .given().log().all()
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .cookie("JSESSIONID", sessionId)
-                .when().get("members/me")
-                .then().log().all().extract();
+public class MemberStepsAssert {
+    public static String 로그인_요청_로그인_됨(String serviceName) {
+        ExtractableResponse<Response> loginResponse = 로그인_요청(AUTHORIZATION_CODE, serviceName);
+        로그인_됨(loginResponse);
+        return loginResponse.sessionId();
     }
 
     public static void 내_회원_정보_조회됨(ExtractableResponse<Response> response) {
         assertThat(response.jsonPath().getString("email")).isEqualTo("monkeyDugi@gmail.com");
-        assertThat(response.jsonPath().getString("introduction")).isEqualTo("한줄 소개");
+        assertThat(response.jsonPath().getString("introduction")).isEqualTo("한줄 소개가 작성되지 않았습니다.");
         assertThat(response.jsonPath().getString("subject")).isEqualTo("monkeyDugi");
     }
 

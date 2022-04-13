@@ -74,7 +74,7 @@ class MemberServiceTest {
         // then
         assertThat(findMemberOfMine).isEqualTo(new Member(
                 oAuthApiResponse.getEmail(),
-                "한줄 소개",
+                "한줄 소개가 작성되지 않았습니다.",
                 "monkeyDugi"
         ));
     }

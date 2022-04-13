@@ -6,13 +6,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import project.myblog.acceptance.AcceptanceTest;
 
+import static io.restassured.RestAssured.given;
 import static project.myblog.acceptance.auth.AuthSteps.로그아웃_요청;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_됨;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_안됨;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_요청;
-import static project.myblog.acceptance.member.MemberSteps.내_회원_정보_조회_안됨;
-import static project.myblog.acceptance.member.MemberSteps.내_회원_정보_조회_요청;
-import static project.myblog.acceptance.member.MemberSteps.내_회원_정보_조회됨;
+import static project.myblog.acceptance.member.MemberStepsAssert.내_회원_정보_조회_안됨;
+import static project.myblog.acceptance.member.MemberStepsAssert.내_회원_정보_조회됨;
+import static project.myblog.acceptance.member.MemberStepsRequest.내_회원_정보_조회_요청;
 import static project.myblog.auth.dto.SocialType.GITHUB;
 import static project.myblog.auth.dto.SocialType.NAVER;
 import static project.myblog.config.TestWebConfig.TestAbstractOAuthSessionAuthentication.AUTHORIZATION_CODE;
@@ -25,7 +26,8 @@ class AuthAcceptanceTest extends AcceptanceTest {
      */
     @Test
     void 네이버_세션_로그인_존재하지_않는_인증_코드() {
-        ExtractableResponse<Response> response = 로그인_요청("notExistsAuthorizationCode", NAVER.getServiceName());
+        ExtractableResponse<Response> response = 로그인_요청("notExistsAuthorizationCode",
+                                                          NAVER.getServiceName());
 
         로그인_안됨(response);
     }
@@ -36,7 +38,8 @@ class AuthAcceptanceTest extends AcceptanceTest {
      */
     @Test
     void 깃허브_세션_로그인_존재하지_않는_인증_코드() {
-        ExtractableResponse<Response> response = 로그인_요청("notExistsAuthorizationCode", GITHUB.getServiceName());
+        ExtractableResponse<Response> response = 로그인_요청("notExistsAuthorizationCode",
+                                                          GITHUB.getServiceName());
 
         로그인_안됨(response);
     }
@@ -57,12 +60,12 @@ class AuthAcceptanceTest extends AcceptanceTest {
         String sessionId = loginResponse.sessionId();
         로그인_됨(loginResponse);
 
-        ExtractableResponse<Response> membersMeResponse = 내_회원_정보_조회_요청(sessionId);
+        ExtractableResponse<Response> membersMeResponse = 내_회원_정보_조회_요청(given(), sessionId);
         내_회원_정보_조회됨(membersMeResponse);
 
         로그아웃_요청(sessionId);
 
-        ExtractableResponse<Response> response = 내_회원_정보_조회_요청(sessionId);
+        ExtractableResponse<Response> response = 내_회원_정보_조회_요청(given(), sessionId);
         내_회원_정보_조회_안됨(response);
     }
 
@@ -83,12 +86,12 @@ class AuthAcceptanceTest extends AcceptanceTest {
         String sessionId = loginResponse.sessionId();
         로그인_됨(loginResponse);
 
-        ExtractableResponse<Response> membersMeResponse = 내_회원_정보_조회_요청(sessionId);
+        ExtractableResponse<Response> membersMeResponse = 내_회원_정보_조회_요청(given(), sessionId);
         내_회원_정보_조회됨(membersMeResponse);
 
         로그아웃_요청(sessionId);
 
-        ExtractableResponse<Response> response = 내_회원_정보_조회_요청(sessionId);
+        ExtractableResponse<Response> response = 내_회원_정보_조회_요청(given(), sessionId);
         내_회원_정보_조회_안됨(response);
     }
 }

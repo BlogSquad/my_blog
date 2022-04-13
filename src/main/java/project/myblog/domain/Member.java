@@ -29,7 +29,7 @@ public class Member {
 
     public Member(String email) {
         this.email = email;
-        this.introduction = "한줄 소개";
+        this.introduction = "한줄 소개가 작성되지 않았습니다.";
         this.subject = extractEmailId(email);
     }
 
@@ -70,5 +70,15 @@ public class Member {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getEmail(), getIntroduction(), getSubject());
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", subject='" + subject + '\'' +
+                '}';
     }
 }

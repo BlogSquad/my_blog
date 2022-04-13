@@ -24,7 +24,7 @@ class AuthDocumentation extends Documentation {
     }
 
     private ExtractableResponse<Response> 로그인_요청(String identifier, String authorizationCode, String serviceName) {
-        return givenRestDocs(identifier, getParameterDescriptors())
+        return givenRestDocsRequestParameters(identifier, getParameterDescriptors())
                 .queryParam("code", authorizationCode)
                 .when().get(SESSION_LOGIN_URI + "/" + serviceName)
                 .then().log().all().extract();
