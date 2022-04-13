@@ -42,8 +42,9 @@ public class Documentation {
                 .build();
     }
 
-    protected RequestSpecification givenRestDocsRequestParameters(String identifier, ParameterDescriptor[] parameterDescriptors) {
-        return RestAssured.given(this.spec).log().all()
+    protected RequestSpecification givenRestDocsRequestParameters(String identifier,
+                                                                  ParameterDescriptor[] parameterDescriptors) {
+        return RestAssured.given(this.spec)
                 .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
                         requestParameters(parameterDescriptors)
                         )

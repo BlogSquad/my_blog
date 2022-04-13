@@ -26,8 +26,8 @@ class AuthAcceptanceTest extends AcceptanceTest {
      */
     @Test
     void 네이버_세션_로그인_존재하지_않는_인증_코드() {
-        ExtractableResponse<Response> response = 로그인_요청("notExistsAuthorizationCode",
-                                                          NAVER.getServiceName());
+        ExtractableResponse<Response> response =
+                로그인_요청(given(), "notExistsAuthorizationCode", NAVER.getServiceName());
 
         로그인_안됨(response);
     }
@@ -38,8 +38,8 @@ class AuthAcceptanceTest extends AcceptanceTest {
      */
     @Test
     void 깃허브_세션_로그인_존재하지_않는_인증_코드() {
-        ExtractableResponse<Response> response = 로그인_요청("notExistsAuthorizationCode",
-                                                          GITHUB.getServiceName());
+        ExtractableResponse<Response> response =
+                로그인_요청(given(), "notExistsAuthorizationCode", GITHUB.getServiceName());
 
         로그인_안됨(response);
     }
@@ -56,7 +56,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @DisplayName("권한이 필요한 API 테스트")
     @Test
     void 네이버_세션_내_정보_조회_관리() {
-        ExtractableResponse<Response> loginResponse = 로그인_요청(AUTHORIZATION_CODE, NAVER.getServiceName());
+        ExtractableResponse<Response> loginResponse = 로그인_요청(given(), AUTHORIZATION_CODE, NAVER.getServiceName());
         String sessionId = loginResponse.sessionId();
         로그인_됨(loginResponse);
 
@@ -81,7 +81,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @DisplayName("권한이 필요한 API 테스트")
     @Test
     void 깃허브_세션_내_정보_조회_관리() {
-        ExtractableResponse<Response> loginResponse = 로그인_요청(AUTHORIZATION_CODE, GITHUB.getServiceName());
+        ExtractableResponse<Response> loginResponse = 로그인_요청(given(), AUTHORIZATION_CODE, GITHUB.getServiceName());
 
         String sessionId = loginResponse.sessionId();
         로그인_됨(loginResponse);

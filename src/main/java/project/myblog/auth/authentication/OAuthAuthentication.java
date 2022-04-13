@@ -61,6 +61,7 @@ public abstract class OAuthAuthentication {
 
     protected abstract OAuthApiResponse requestUserInfo(String accessToken);
 
-    protected abstract void afterAuthenticate(HttpServletRequest request, HttpServletResponse response, LoginMember sessionMember);
+    protected abstract void afterAuthenticate(HttpServletRequest request, HttpServletResponse response,
+                                              LoginMember sessionMember);
 }
 

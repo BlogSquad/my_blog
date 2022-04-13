@@ -23,4 +23,4 @@ operation::auth-github[snippets='http-request,request-parameters,http-response']
 operation::member-findMemberOfMine[snippets='http-request,http-response,response-fields']
 [[resources-member-update]]
 === 내 회원 정보 수정
-operation::member-update[snippets='http-request,request-body,request-fields,http-response']
+operation::member-updateMemberOfMine[snippets='http-request,request-body,request-fields,http-response']

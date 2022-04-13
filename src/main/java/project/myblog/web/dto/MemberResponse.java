@@ -2,6 +2,8 @@ package project.myblog.web.dto;
 
 import project.myblog.domain.Member;
 
+import java.util.Objects;
+
 public class MemberResponse {
     private String email;
     private String introduction;
@@ -23,6 +25,21 @@ public class MemberResponse {
 
     public String getSubject() {
         return subject;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MemberResponse that = (MemberResponse) o;
+        return Objects.equals(getEmail(), that.getEmail()) &&
+                Objects.equals(getIntroduction(), that.getIntroduction()) &&
+                Objects.equals(getSubject(), that.getSubject());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEmail(), getIntroduction(), getSubject());
     }
 
     @Override

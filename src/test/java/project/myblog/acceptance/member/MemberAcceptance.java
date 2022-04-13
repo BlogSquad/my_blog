@@ -4,12 +4,11 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
 import project.myblog.acceptance.AcceptanceTest;
 import project.myblog.web.dto.MemberRequest;
 
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static project.myblog.acceptance.member.MemberStepsAssert.내_회원_정보_수정_됨;
 import static project.myblog.acceptance.member.MemberStepsAssert.내_회원_정보_조회됨;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
 import static project.myblog.acceptance.member.MemberStepsRequest.내_회원_정보_수정_요청;
@@ -67,9 +66,5 @@ class MemberAcceptance extends AcceptanceTest {
 
         // then
         내_회원_정보_수정_됨(response);
-    }
-
-    public static void 내_회원_정보_수정_됨(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 }

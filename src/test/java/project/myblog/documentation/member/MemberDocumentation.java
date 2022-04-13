@@ -7,6 +7,7 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 import project.myblog.documentation.Documentation;
 import project.myblog.web.dto.MemberRequest;
 
+import static io.restassured.RestAssured.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_됨;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_요청;
@@ -20,13 +21,13 @@ class MemberDocumentation extends Documentation {
     @Test
     void 내_회원_정보_조회() {
         // given
-        ExtractableResponse<Response> loginResponse = 로그인_요청(AUTHORIZATION_CODE, NAVER.getServiceName());
+        ExtractableResponse<Response> loginResponse = 로그인_요청(given(), AUTHORIZATION_CODE, NAVER.getServiceName());
         String sessionId = loginResponse.sessionId();
         로그인_됨(loginResponse);
 
         // when
         내_회원_정보_조회_요청(
-                givenRestDocsFieldDescriptorRelaxedResponseFields("member-findOfMine", getFieldDescriptors()),
+                givenRestDocsFieldDescriptorRelaxedResponseFields("member-findMemberOfMine", getFieldDescriptors()),
                 sessionId);
     }
 
@@ -37,7 +38,7 @@ class MemberDocumentation extends Documentation {
 
         // when
         내_회원_정보_수정_요청(
-                givenRestDocsFieldDescriptorRequestFields("member-update", getFieldDescriptorsRequest())
+                givenRestDocsFieldDescriptorRequestFields("member-updateMemberOfMine", getFieldDescriptorsRequest())
                 , sessionId, memberRequest
         );
     }

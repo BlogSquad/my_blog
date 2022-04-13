@@ -22,7 +22,8 @@ import static project.myblog.config.WebConfig.SESSION_LOGIN_URI;
 public class GithubOAuthSessionAuthentication extends OAuthSessionAuthentication {
     private final AuthProperties authProperties;
 
-    public GithubOAuthSessionAuthentication(MemberService memberService, RestTemplate restTemplate, AuthProperties authProperties) {
+    public GithubOAuthSessionAuthentication(MemberService memberService, RestTemplate restTemplate,
+                                            AuthProperties authProperties) {
         super(memberService, restTemplate);
         this.authProperties = authProperties;
     }

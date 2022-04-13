@@ -7,11 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
-/**
- * 이메일 : 필수
- * 한줄 소개 :
- * 블로그 제목 :
- */
 @Entity
 public class Member {
     @Id
@@ -64,7 +59,10 @@ public class Member {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Member member = (Member) o;
-        return Objects.equals(getId(), member.getId()) && Objects.equals(getEmail(), member.getEmail()) && Objects.equals(getIntroduction(), member.getIntroduction()) && Objects.equals(getSubject(), member.getSubject());
+        return Objects.equals(getId(), member.getId()) &&
+                Objects.equals(getEmail(), member.getEmail()) &&
+                Objects.equals(getIntroduction(), member.getIntroduction()) &&
+                Objects.equals(getSubject(), member.getSubject());
     }
 
     @Override
