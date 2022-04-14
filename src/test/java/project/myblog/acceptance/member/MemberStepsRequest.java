@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MemberStepsRequest {
+    public static final String EMAIL ="monkeyDugi@gmail.com";
+
     public static ExtractableResponse<Response> 내_회원_정보_조회_요청(RequestSpecification given, String sessionId) {
         return given.log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)

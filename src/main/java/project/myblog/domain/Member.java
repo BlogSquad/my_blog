@@ -19,7 +19,6 @@ public class Member {
     private String subject;
 
     protected Member() {
-
     }
 
     public Member(String email) {
@@ -31,6 +30,14 @@ public class Member {
     public Member(String email, String introduction, String subject) {
         this.email = email;
         this.introduction = introduction;
+        this.subject = subject;
+    }
+
+    public void updateIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public void updateSubject(String subject) {
         this.subject = subject;
     }
 
