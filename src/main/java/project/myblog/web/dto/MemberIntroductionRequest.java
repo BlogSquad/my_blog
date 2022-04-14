@@ -2,42 +2,34 @@ package project.myblog.web.dto;
 
 import java.util.Objects;
 
-public class MemberRequest {
+public class MemberIntroductionRequest {
     private String introduction;
-    private String subject;
 
-    public MemberRequest(String introduction, String subject) {
+    public MemberIntroductionRequest(String introduction) {
         this.introduction = introduction;
-        this.subject = subject;
     }
 
     public String getIntroduction() {
         return introduction;
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MemberRequest that = (MemberRequest) o;
-        return Objects.equals(getIntroduction(), that.getIntroduction()) &&
-                Objects.equals(getSubject(), that.getSubject());
+        MemberIntroductionRequest that = (MemberIntroductionRequest) o;
+        return Objects.equals(getIntroduction(), that.getIntroduction());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getIntroduction(), getSubject());
+        return Objects.hash(getIntroduction());
     }
 
     @Override
     public String toString() {
-        return "MemberRequest{" +
+        return "MemberIntroductionRequest{" +
                 "introduction='" + introduction + '\'' +
-                ", subject='" + subject + '\'' +
                 '}';
     }
 }

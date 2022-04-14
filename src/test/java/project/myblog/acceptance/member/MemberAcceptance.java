@@ -5,13 +5,15 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import project.myblog.acceptance.AcceptanceTest;
-import project.myblog.web.dto.MemberRequest;
+import project.myblog.web.dto.MemberIntroductionRequest;
+import project.myblog.web.dto.MemberSubjectRequest;
 
 import static io.restassured.RestAssured.given;
 import static project.myblog.acceptance.member.MemberStepsAssert.내_회원_정보_수정_됨;
 import static project.myblog.acceptance.member.MemberStepsAssert.내_회원_정보_조회됨;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
-import static project.myblog.acceptance.member.MemberStepsRequest.내_회원_정보_수정_요청;
+import static project.myblog.acceptance.member.MemberStepsRequest.내_회원_정보_수정_요청_제목;
+import static project.myblog.acceptance.member.MemberStepsRequest.내_회원_정보_수정_요청_한줄_소개;
 import static project.myblog.acceptance.member.MemberStepsRequest.내_회원_정보_조회_요청;
 import static project.myblog.auth.dto.SocialType.GITHUB;
 import static project.myblog.auth.dto.SocialType.NAVER;
@@ -48,21 +50,35 @@ class MemberAcceptance extends AcceptanceTest {
 
     /**
      * Given 네이버 로그인 됨
-     * When 내 회원 수정 요청
+     * When 내 회원 한줄 소개 수정 요청
      * Then 회원 정보 수정됨
-     *
-     *         * 생성 post, 201, Location
-     *         * 수정 patch, 204
-     *         * 삭제(탈퇴) patch, 204 활성 -> 비활성
      */
     @Test
-    void 네이버_세션_내_회원_정보_수정() {
+    void 네이버_세션_내_회원_정보_수정_한줄_소개() {
         // given
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        MemberRequest memberRequest = new MemberRequest("한줄 소개 변경", "제목 변경");
+        MemberIntroductionRequest memberIntroductionRequest = new MemberIntroductionRequest("한줄 소개 변경");
 
         // when
-        ExtractableResponse<Response> response = 내_회원_정보_수정_요청(given(), sessionId, memberRequest);
+        ExtractableResponse<Response> response = 내_회원_정보_수정_요청_한줄_소개(given(), sessionId, memberIntroductionRequest);
+
+        // then
+        내_회원_정보_수정_됨(response);
+    }
+
+    /**
+     * Given 네이버 로그인 됨
+     * When 내 회원 제목 수정 요청
+     * Then 회원 정보 수정됨
+     */
+    @Test
+    void 네이버_세션_내_회원_정보_수정_제목() {
+        // given
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        MemberSubjectRequest memberSubjectRequest = new MemberSubjectRequest("제목 변경");
+
+        // when
+        ExtractableResponse<Response> response = 내_회원_정보_수정_요청_제목(given(), sessionId, memberSubjectRequest);
 
         // then
         내_회원_정보_수정_됨(response);

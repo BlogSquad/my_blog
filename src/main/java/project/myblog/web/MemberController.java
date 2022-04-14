@@ -27,8 +27,14 @@ public class MemberController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping(value = "/members/me", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void memberUpdate(@Login LoginMember loginMember) {
+    @PatchMapping(value = "/members/me/introduction", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updateMemberOfMineIntroduction(@Login LoginMember loginMember) {
+
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping(value = "/members/me/subject", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updateMemberOfMineSubject(@Login LoginMember loginMember) {
 
     }
 }
