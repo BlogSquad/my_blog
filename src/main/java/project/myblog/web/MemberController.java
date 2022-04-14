@@ -4,13 +4,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import project.myblog.auth.dto.Login;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.domain.Member;
 import project.myblog.service.member.MemberService;
+import project.myblog.web.dto.MemberIntroductionRequest;
 import project.myblog.web.dto.MemberResponse;
+import project.myblog.web.dto.MemberSubjectRequest;
 
 @RestController
 public class MemberController {
@@ -28,13 +31,13 @@ public class MemberController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(value = "/members/me/introduction", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void updateMemberOfMineIntroduction(@Login LoginMember loginMember) {
-
+    public void updateMemberOfMineIntroduction(@Login LoginMember loginMember, @RequestBody MemberIntroductionRequest request) {
+        memberService.updateMemberOfMineIntroduction(loginMember, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(value = "/members/me/subject", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void updateMemberOfMineSubject(@Login LoginMember loginMember) {
-
+    public void updateMemberOfMineSubject(@Login LoginMember loginMember, @RequestBody MemberSubjectRequest request) {
+        memberService.updateMemberOfMineSubject(loginMember, request);
     }
 }

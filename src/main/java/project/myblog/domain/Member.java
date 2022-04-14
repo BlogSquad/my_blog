@@ -1,10 +1,13 @@
 package project.myblog.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -12,10 +15,15 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, nullable = false)
+    @Email
     private String email;
+    @NotNull(message = "한줄 소개는 null일 수 없습니다.")
+    @NotEmpty(message = "한줄 소개는 빈 값일 수 없습니다.")
+    @NotBlank(message = "한줄 소개는 공백일 수 없습니다.")
     private String introduction;
-    @Column(nullable = false)
+    @NotNull(message = "제목은 null일 수 없습니다.")
+    @NotEmpty(message = "제목은 빈 값일 수 없습니다.")
+    @NotBlank(message = "제목은 공백일 수 없습니다.")
     private String subject;
 
     protected Member() {
