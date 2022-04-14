@@ -5,8 +5,8 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import project.myblog.documentation.Documentation;
-import project.myblog.web.dto.MemberIntroductionRequest;
-import project.myblog.web.dto.MemberSubjectRequest;
+import project.myblog.web.dto.member.request.MemberIntroductionRequest;
+import project.myblog.web.dto.member.request.MemberSubjectRequest;
 
 import static io.restassured.RestAssured.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;

@@ -6,8 +6,8 @@ import project.myblog.auth.dto.LoginMember;
 import project.myblog.auth.dto.OAuthApiResponse;
 import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
-import project.myblog.web.dto.MemberIntroductionRequest;
-import project.myblog.web.dto.MemberSubjectRequest;
+import project.myblog.web.dto.member.request.MemberIntroductionRequest;
+import project.myblog.web.dto.member.request.MemberSubjectRequest;
 
 @Service
 @Transactional

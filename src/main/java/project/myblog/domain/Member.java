@@ -8,6 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -16,14 +17,16 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Email
+    @NotNull(message = "[Entity] 이메일은 null일 수 없습니다.")
+    @NotEmpty(message = "[Entity] 이메일은 빈 값일 수 없습니다.")
     private String email;
-    @NotNull(message = "한줄 소개는 null일 수 없습니다.")
-    @NotEmpty(message = "한줄 소개는 빈 값일 수 없습니다.")
-    @NotBlank(message = "한줄 소개는 공백일 수 없습니다.")
+    @NotNull(message = "[Entity] 한줄 소개는 null일 수 없습니다.")
+    @NotBlank(message = "[Entity] 한줄 소개는 공백일 수 없습니다.")
+    @Size(min = 1, max = 30)
     private String introduction;
-    @NotNull(message = "제목은 null일 수 없습니다.")
-    @NotEmpty(message = "제목은 빈 값일 수 없습니다.")
-    @NotBlank(message = "제목은 공백일 수 없습니다.")
+    @NotNull(message = "[Entity] 제목은 null일 수 없습니다.")
+    @NotBlank(message = "[Entity] 제목은 공백일 수 없습니다.")
+    @Size(min = 1, max = 30)
     private String subject;
 
     protected Member() {

@@ -1,14 +1,14 @@
-package project.myblog.web.dto;
+package project.myblog.web.dto.member.request;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class MemberIntroductionRequest {
-    @NotNull(message = "한줄 소개는 null일 수 없습니다.")
-    @NotEmpty(message = "한줄 소개는 빈 값일 수 없습니다.")
-    @NotBlank(message = "한줄 소개는 공백일 수 없습니다.")
+    @NotNull(message = "[Request] 한줄 소개는 null일 수 없습니다.")
+    @NotBlank(message = "[Request] 한줄 소개는 공백일 수 없습니다.")
+    @Size(min = 1, max = 30)
     private String introduction;
 
     protected MemberIntroductionRequest() {

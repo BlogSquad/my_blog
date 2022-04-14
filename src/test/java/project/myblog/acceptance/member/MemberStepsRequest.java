@@ -4,8 +4,8 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.springframework.http.MediaType;
-import project.myblog.web.dto.MemberIntroductionRequest;
-import project.myblog.web.dto.MemberSubjectRequest;
+import project.myblog.web.dto.member.request.MemberIntroductionRequest;
+import project.myblog.web.dto.member.request.MemberSubjectRequest;
 
 import java.util.HashMap;
 import java.util.Map;

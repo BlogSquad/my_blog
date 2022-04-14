@@ -12,8 +12,8 @@ import project.myblog.auth.dto.naver.NaverOAuthApiResponse;
 import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
 import project.myblog.service.member.MemberService;
-import project.myblog.web.dto.MemberIntroductionRequest;
-import project.myblog.web.dto.MemberSubjectRequest;
+import project.myblog.web.dto.member.request.MemberIntroductionRequest;
+import project.myblog.web.dto.member.request.MemberSubjectRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
