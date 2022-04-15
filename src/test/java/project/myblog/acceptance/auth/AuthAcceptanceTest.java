@@ -53,7 +53,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
      * When 로그인 없이 내 회원 정보 요청
      * Then 회원 정보 조회 안됨
      */
-    @DisplayName("권한이 필요한 API 테스트")
+    @DisplayName("권한이 필요한 API 테스트(네이버)")
     @Test
     void 네이버_세션_내_정보_조회_관리() {
         ExtractableResponse<Response> loginResponse = 로그인_요청(given(), AUTHORIZATION_CODE, NAVER.getServiceName());
@@ -78,7 +78,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
      * When 로그인 없이 내 회원 정보 요청
      * Then 회원 정보 조회 안됨
      */
-    @DisplayName("권한이 필요한 API 테스트")
+    @DisplayName("권한이 필요한 API 테스트(깃허브)")
     @Test
     void 깃허브_세션_내_정보_조회_관리() {
         ExtractableResponse<Response> loginResponse = 로그인_요청(given(), AUTHORIZATION_CODE, GITHUB.getServiceName());
