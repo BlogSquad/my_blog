@@ -43,7 +43,8 @@ public class Documentation {
     }
 
     protected RequestSpecification givenRestDocsRequestParameters(String identifier,
-                                                                  ParameterDescriptor[] parameterDescriptors) {
+                                                                  ParameterDescriptor[] parameterDescriptors
+    ) {
         return RestAssured.given(this.spec)
                 .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
                         requestParameters(parameterDescriptors)
@@ -65,5 +66,10 @@ public class Documentation {
                         relaxedResponseFields(fieldDescriptors)
                         )
                 );
+    }
+
+    protected RequestSpecification givenRestDocs(String identifier) {
+        return RestAssured.given(this.spec).log().all()
+                .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())));
     }
 }

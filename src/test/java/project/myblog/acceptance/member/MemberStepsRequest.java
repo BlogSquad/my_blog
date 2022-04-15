@@ -10,11 +10,12 @@ import java.util.Map;
 
 public class MemberStepsRequest {
     public static final String EMAIL ="monkeyDugi@gmail.com";
+    public static final String JSESSIONID = "JSESSIONID";
 
     public static ExtractableResponse<Response> 내_회원_정보_조회_요청(RequestSpecification given, String sessionId) {
         return given.log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .cookie("JSESSIONID", sessionId)
+                .cookie(JSESSIONID, sessionId)
                 .when().get("members/me")
                 .then().log().all().extract();
     }
@@ -28,7 +29,7 @@ public class MemberStepsRequest {
 
         return given.log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .cookie("JSESSIONID", sessionId)
+                .cookie(JSESSIONID, sessionId)
                 .body(params)
                 .when().patch("members/me/introduction")
                 .then().log().all().extract();
@@ -42,9 +43,17 @@ public class MemberStepsRequest {
 
         return given.log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .cookie("JSESSIONID", sessionId)
+                .cookie(JSESSIONID, sessionId)
                 .body(params)
                 .when().patch("members/me/subject")
                 .then().log().all().extract();
+    }
+
+    public static ExtractableResponse<Response> 회원_탈퇴_요청(RequestSpecification given, String sessionId) {
+        return given.log().all()
+                .cookie(JSESSIONID, sessionId)
+                .when().delete("members/me")
+                .then().log().all()
+                .extract();
     }
 }
