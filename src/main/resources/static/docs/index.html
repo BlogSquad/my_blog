@@ -444,36 +444,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
-<ul class="sectlevel0">
+<ul class="sectlevel1">
 <li><a href="#resources-auth">Auth</a>
 <ul class="sectlevel2">
-<li><a href="#resources-auth-login">로그인</a>
-<ul class="sectlevel3">
-<li><a href="#resources-auth-login_http_request">HTTP request</a></li>
-<li><a href="#resources-auth-login_request_parameters">Request parameters</a></li>
-<li><a href="#resources-auth-login_http_response">HTTP response</a></li>
+<li><a href="#resources-auth-login-naver">네이버 로그인</a></li>
+<li><a href="#resources-auth-login-github">깃허브 로그인</a></li>
 </ul>
 </li>
+<li><a href="#resources-member">Member</a>
+<ul class="sectlevel2">
+<li><a href="#resources-member-findMemberOfMine">내 회원 정보 조회</a></li>
+<li><a href="#resources-member-update">내 회원 정보 한줄 소개 수정</a></li>
+<li><a href="#_내_회원_정보_제목_수정">내 회원 정보 제목 수정</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 <div id="content">
-<h1 id="resources-auth" class="sect0"><a class="link" href="#resources-auth">Auth</a></h1>
+<div class="sect1">
+<h2 id="resources-auth"><a class="link" href="#resources-auth">Auth</a></h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="resources-auth-login"><a class="link" href="#resources-auth-login">로그인</a></h3>
+<h3 id="resources-auth-login-naver"><a class="link" href="#resources-auth-login-naver">네이버 로그인</a></h3>
 <div class="sect3">
-<h4 id="resources-auth-login_http_request"><a class="link" href="#resources-auth-login_http_request">HTTP request</a></h4>
+<h4 id="resources-auth-login-naver_http_request"><a class="link" href="#resources-auth-login-naver_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /login/oauth2/code/naver?code=testAuthorizationCode HTTP/1.1
-Host: localhost:62641</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /login/session/naver?code=authorizationCode HTTP/1.1
+Host: localhost:50314</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="resources-auth-login_request_parameters"><a class="link" href="#resources-auth-login_request_parameters">Request parameters</a></h4>
+<h4 id="resources-auth-login-naver_request_parameters"><a class="link" href="#resources-auth-login-naver_request_parameters">Request parameters</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -488,23 +492,274 @@ Host: localhost:62641</code></pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">소셜 로그인 승인 코드(Authorization Code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소셜 로그인 승인 코드(Authorization Code)</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect3">
-<h4 id="resources-auth-login_http_response"><a class="link" href="#resources-auth-login_http_response">HTTP response</a></h4>
+<h4 id="resources-auth-login-naver_http_response"><a class="link" href="#resources-auth-login-naver_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: JSESSIONID=35BE7B572F330A5041591DAC1AF39686; Path=/; HttpOnly
-Date: Sat, 02 Apr 2022 11:53:14 GMT
+Set-Cookie: JSESSIONID=E8D0467DDBB01DF5CF81373F9689CDB8; Path=/; HttpOnly
+Date: Thu, 14 Apr 2022 00:58:59 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resources-auth-login-github"><a class="link" href="#resources-auth-login-github">깃허브 로그인</a></h3>
+<div class="sect3">
+<h4 id="resources-auth-login-github_http_request"><a class="link" href="#resources-auth-login-github_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /login/session/github?code=authorizationCode HTTP/1.1
+Host: localhost:50314</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="resources-auth-login-github_request_parameters"><a class="link" href="#resources-auth-login-github_request_parameters">Request parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소셜 로그인 승인 코드(Authorization Code)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="resources-auth-login-github_http_response"><a class="link" href="#resources-auth-login-github_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: JSESSIONID=DFCC86E14DC03748CE932C82256233B3; Path=/; HttpOnly
+Date: Thu, 14 Apr 2022 00:58:59 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="resources-member"><a class="link" href="#resources-member">Member</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="resources-member-findMemberOfMine"><a class="link" href="#resources-member-findMemberOfMine">내 회원 정보 조회</a></h3>
+<div class="sect3">
+<h4 id="resources-member-findMemberOfMine_http_request"><a class="link" href="#resources-member-findMemberOfMine_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /members/me HTTP/1.1
+Accept: application/json
+Host: localhost:50314
+Cookie: JSESSIONID=5793B889E5F3F0DD506DE549396C4148</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="resources-member-findMemberOfMine_http_response"><a class="link" href="#resources-member-findMemberOfMine_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 14 Apr 2022 00:58:59 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 135
+
+{
+  "email" : "monkeyDugi@gmail.com",
+  "introduction" : "한줄 소개가 작성되지 않았습니다.",
+  "subject" : "monkeyDugi"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="resources-member-findMemberOfMine_response_fields"><a class="link" href="#resources-member-findMemberOfMine_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>introduction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">한줄 소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>subject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">블로그 제목</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resources-member-update"><a class="link" href="#resources-member-update">내 회원 정보 한줄 소개 수정</a></h3>
+<div class="sect3">
+<h4 id="resources-member-update_http_request"><a class="link" href="#resources-member-update_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /members/me/introduction HTTP/1.1
+Content-Type: application/json; charset=UTF-8
+Host: localhost:50314
+Content-Length: 45
+Cookie: JSESSIONID=0A65327BB211BFF5E5428D82ADB1F69C
+
+{
+  "introduction" : "한줄 소개 변경"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="resources-member-update_request_body"><a class="link" href="#resources-member-update_request_body">Request body</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
+  "introduction" : "한줄 소개 변경"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="resources-member-update_request_fields"><a class="link" href="#resources-member-update_request_fields">Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>introduction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">한줄 소개</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="resources-member-update_http_response"><a class="link" href="#resources-member-update_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content
+Date: Thu, 14 Apr 2022 00:58:59 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_내_회원_정보_제목_수정"><a class="link" href="#_내_회원_정보_제목_수정">내 회원 정보 제목 수정</a></h3>
+<div class="sect3">
+<h4 id="_내_회원_정보_제목_수정_http_request"><a class="link" href="#_내_회원_정보_제목_수정_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /members/me/subject HTTP/1.1
+Content-Type: application/json; charset=UTF-8
+Host: localhost:50314
+Content-Length: 33
+Cookie: JSESSIONID=49864D1AAC73305FD65C4358CBCE4861
+
+{
+  "subject" : "제목 변경"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_내_회원_정보_제목_수정_request_body"><a class="link" href="#_내_회원_정보_제목_수정_request_body">Request body</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
+  "subject" : "제목 변경"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_내_회원_정보_제목_수정_request_fields"><a class="link" href="#_내_회원_정보_제목_수정_request_fields">Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>subject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_내_회원_정보_제목_수정_http_response"><a class="link" href="#_내_회원_정보_제목_수정_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content
+Date: Thu, 14 Apr 2022 00:58:59 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -513,7 +768,7 @@ Connection: keep-alive</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-04-02 20:37:11 +0900
+Last updated 2022-04-14 09:58:45 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
