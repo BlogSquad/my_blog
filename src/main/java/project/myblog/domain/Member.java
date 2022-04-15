@@ -29,6 +29,8 @@ public class Member {
     @Size(min = 1, max = 30)
     private String subject;
 
+    private boolean isDeleted = false;
+
     protected Member() {
     }
 
@@ -96,5 +98,13 @@ public class Member {
                 ", introduction='" + introduction + '\'' +
                 ", subject='" + subject + '\'' +
                 '}';
+    }
+
+    public void delete() {
+        isDeleted = true;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
     }
 }
