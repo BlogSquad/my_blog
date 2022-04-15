@@ -5,8 +5,6 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import project.myblog.documentation.Documentation;
-import project.myblog.web.dto.member.request.MemberIntroductionRequest;
-import project.myblog.web.dto.member.request.MemberSubjectRequest;
 
 import static io.restassured.RestAssured.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -36,26 +34,24 @@ class MemberDocumentation extends Documentation {
     @Test
     void 내_회원_정보_수정_한줄_소개() {
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        MemberIntroductionRequest memberIntroductionRequest = new MemberIntroductionRequest("한줄 소개 변경");
 
         // when
         내_회원_정보_수정_요청_한줄_소개(
                 givenRestDocsFieldDescriptorRequestFields("member-updateMemberOfMineIntroduction",
                         getFieldDescriptorsRequest("introduction", "한줄 소개"))
-                , sessionId, memberIntroductionRequest
+                , sessionId, "한줄 소개 변경"
         );
     }
 
     @Test
     void 내_회원_정보_수정_제목() {
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        MemberSubjectRequest memberSubjectRequest = new MemberSubjectRequest("제목 변경");
 
         // when
         내_회원_정보_수정_요청_제목(
                 givenRestDocsFieldDescriptorRequestFields("member-updateMemberOfMineSubject",
                         getFieldDescriptorsRequest("subject", "제목"))
-                , sessionId, memberSubjectRequest
+                , sessionId, "제목 변경"
         );
     }
 

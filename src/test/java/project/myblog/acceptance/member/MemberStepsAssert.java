@@ -8,6 +8,7 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_됨;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_요청;
+import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
 import static project.myblog.config.TestWebConfig.TestAbstractOAuthSessionAuthentication.AUTHORIZATION_CODE;
 
 public class MemberStepsAssert {
@@ -17,10 +18,10 @@ public class MemberStepsAssert {
         return loginResponse.sessionId();
     }
 
-    public static void 내_회원_정보_조회됨(ExtractableResponse<Response> response) {
-        assertThat(response.jsonPath().getString("email")).isEqualTo("monkeyDugi@gmail.com");
-        assertThat(response.jsonPath().getString("introduction")).isEqualTo("한줄 소개가 작성되지 않았습니다.");
-        assertThat(response.jsonPath().getString("subject")).isEqualTo("monkeyDugi");
+    public static void 내_회원_정보_조회됨(ExtractableResponse<Response> response, String introduction, String subject) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.jsonPath().getString("introduction")).isEqualTo(introduction);
+        assertThat(response.jsonPath().getString("subject")).isEqualTo(subject);
     }
 
     public static void 내_회원_정보_조회_안됨(ExtractableResponse<Response> response) {

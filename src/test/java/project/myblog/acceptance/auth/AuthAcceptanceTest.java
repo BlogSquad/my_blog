@@ -61,7 +61,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
         로그인_됨(loginResponse);
 
         ExtractableResponse<Response> membersMeResponse = 내_회원_정보_조회_요청(given(), sessionId);
-        내_회원_정보_조회됨(membersMeResponse);
+        내_회원_정보_조회됨(membersMeResponse, "한줄 소개가 작성되지 않았습니다.", "monkeyDugi");
 
         로그아웃_요청(sessionId);
 
@@ -87,7 +87,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
         로그인_됨(loginResponse);
 
         ExtractableResponse<Response> membersMeResponse = 내_회원_정보_조회_요청(given(), sessionId);
-        내_회원_정보_조회됨(membersMeResponse);
+        내_회원_정보_조회됨(membersMeResponse, "한줄 소개가 작성되지 않았습니다.", "monkeyDugi");
 
         로그아웃_요청(sessionId);
 

@@ -4,8 +4,6 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.springframework.http.MediaType;
-import project.myblog.web.dto.member.request.MemberIntroductionRequest;
-import project.myblog.web.dto.member.request.MemberSubjectRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,10 +21,10 @@ public class MemberStepsRequest {
 
 
     public static ExtractableResponse<Response> 내_회원_정보_수정_요청_한줄_소개(RequestSpecification given,
-                                                                    String sessionId,
-                                                                    MemberIntroductionRequest memberIntroductionRequest) {
+                                                                         String sessionId,
+                                                                         String introduction) {
         Map<String, String> params = new HashMap<>();
-        params.put("introduction", memberIntroductionRequest.getIntroduction());
+        params.put("introduction", introduction);
 
         return given.log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -37,10 +35,10 @@ public class MemberStepsRequest {
     }
 
     public static ExtractableResponse<Response> 내_회원_정보_수정_요청_제목(RequestSpecification given,
-                                                                 String sessionId,
-                                                                 MemberSubjectRequest memberSubjectRequest) {
+                                                                      String sessionId,
+                                                                      String subject) {
         Map<String, String> params = new HashMap<>();
-        params.put("subject", memberSubjectRequest.getSubject());
+        params.put("subject", subject);
 
         return given.log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
