@@ -31,3 +31,6 @@ operation::member-updateMemberOfMineIntroduction[snippets='http-request,request-
 
 === 내 회원 정보 제목 수정
 operation::member-updateMemberOfMineSubject[snippets='http-request,request-body,request-fields,http-response']
+
+=== 회원 탈퇴
+operation::member-delete[snippets='http-request,http-response']
