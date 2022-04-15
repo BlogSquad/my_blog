@@ -63,7 +63,7 @@ class MemberServiceTest {
         memberService.updateMemberOfMineIntroduction(EMAIL, "한줄 소개 변경");
 
         // then
-        Member member = memberRepository.findByEmail(EMAIL);
+        Member member = memberRepository.findByEmail(EMAIL).get();
         assertThat(member.getIntroduction()).isEqualTo("한줄 소개 변경");
     }
 
@@ -78,8 +78,21 @@ class MemberServiceTest {
         // jpa 지원 기능 ! @
 
         // then
-        Member member = memberRepository.findByEmail(EMAIL);
+        Member member = memberRepository.findByEmail(EMAIL).get();
         assertThat(member.getSubject()).isEqualTo("제목 변경");
+    }
+
+    @Test
+    void 회원_탈퇴() {
+        // given
+        memberRepository.save(createMember());
+
+        // when
+        memberService.deleteMember(EMAIL);
+
+        // then
+        Member member = memberRepository.findByEmail(EMAIL).get();
+        assertThat(member.isDeleted()).isTrue();
     }
 
     private Member createMember() {

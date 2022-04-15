@@ -54,6 +54,18 @@ public class Member {
         this.subject = subject;
     }
 
+    public void delete() {
+        isDeleted = true;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    private String extractEmailId(String email) {
+        return email.substring(0, email.indexOf("@"));
+    }
+
     public Long getId() {
         return id;
     }
@@ -68,10 +80,6 @@ public class Member {
 
     public String getSubject() {
         return subject;
-    }
-
-    private String extractEmailId(String email) {
-        return email.substring(0, email.indexOf("@"));
     }
 
     @Override
@@ -100,11 +108,4 @@ public class Member {
                 '}';
     }
 
-    public void delete() {
-        isDeleted = true;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
 }

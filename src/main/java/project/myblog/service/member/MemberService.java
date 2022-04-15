@@ -7,6 +7,8 @@ import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
 import project.myblog.web.dto.member.response.MemberResponse;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class MemberService {
@@ -17,26 +19,36 @@ public class MemberService {
     }
 
     public LoginMember signUp(String email) {
-        Member member = memberRepository.findByEmail(email);
-        if (member == null) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member.isEmpty()) {
             Member save = memberRepository.save(new Member(email));
             return new LoginMember(save);
         }
-        return new LoginMember(member);
+        return new LoginMember(member.get());
     }
 
     @Transactional(readOnly = true)
     public MemberResponse findMemberOfMine(String email) {
-        return new MemberResponse(memberRepository.findByEmail(email));
+        Member member = findMemberByEmail(email);
+        return new MemberResponse(member);
     }
 
     public void updateMemberOfMineIntroduction(String email, String introduction) {
-        Member member = memberRepository.findByEmail(email);
+        Member member = findMemberByEmail(email);
         member.updateIntroduction(introduction);
     }
 
     public void updateMemberOfMineSubject(String email, String subject) {
-        Member member = memberRepository.findByEmail(email);
+        Member member = findMemberByEmail(email);
         member.updateSubject(subject);
+    }
+
+    public void deleteMember(String email) {
+        Member member = findMemberByEmail(email);
+        member.delete();
+    }
+
+    private Member findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("회원 조회 실패"));
     }
 }
