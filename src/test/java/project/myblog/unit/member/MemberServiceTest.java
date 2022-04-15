@@ -3,58 +3,46 @@ package project.myblog.unit.member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.auth.dto.OAuthApiResponse;
 import project.myblog.auth.dto.naver.NaverOAuthApiResponse;
 import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
 import project.myblog.service.member.MemberService;
-import project.myblog.web.dto.member.request.MemberIntroductionRequest;
-import project.myblog.web.dto.member.request.MemberSubjectRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@Transactional
 class MemberServiceTest {
-    @Mock
+    @Autowired
     private MemberRepository memberRepository;
-
+    @Autowired
     private MemberService memberService;
+
     private OAuthApiResponse oAuthApiResponse;
 
     @BeforeEach
     void setUp() {
-        memberService = new MemberService(memberRepository);
         oAuthApiResponse = new NaverOAuthApiResponse(new NaverOAuthApiResponse.Response(EMAIL));
     }
 
     @Test
     void 회원가입() {
-        when(memberRepository.findByEmail(anyString())).thenReturn(null);
-        when(memberRepository.save(any())).thenReturn(createMember());
-
         // when
         LoginMember loginMember = memberService.signUp(oAuthApiResponse);
 
         // then
         assertThat(loginMember).isEqualTo(new LoginMember(createMember()));
-        verify(memberRepository, times(1)).save(any());
     }
 
     @DisplayName("중복된 회원가입은 회원가입을 하지 않고, 기존 회원 정보를 반환한다.")
     @Test
     void 중복_회원가입_안됨() {
-        when(memberRepository.findByEmail(anyString())).thenReturn(createMember());
-
         // when
         LoginMember loginMember = memberService.signUp(oAuthApiResponse);
 
@@ -65,57 +53,41 @@ class MemberServiceTest {
     @Test
     void 내_회원_정보_조회() {
         // given
-        when(memberRepository.findByEmail(anyString())).thenReturn(createMember());
+        Member saveMember = memberRepository.save(createMember());
 
         // when
-        Member member = memberService.findMemberOfMine(new LoginMember(createMember()));
+        Member member = memberService.findMemberOfMine(EMAIL);
 
         // then
-        assertThat(member).isEqualTo(new Member(
-                oAuthApiResponse.getEmail(),
-                "한줄 소개가 작성되지 않았습니다.",
-                "monkeyDugi"
-        ));
+        assertThat(member).isEqualTo(saveMember);
     }
 
     @Test
     void 내_회원_정보_수정_한줄_소개() {
         // given
-        when(memberRepository.findByEmail(anyString())).thenReturn(createMember());
+        memberRepository.save(createMember());
 
         // when
-        memberService.updateMemberOfMineIntroduction(
-                new LoginMember(createMember()),
-                new MemberIntroductionRequest("한줄 소개 변경")
-        );
+        memberService.updateMemberOfMineIntroduction(EMAIL, "한줄 소개 변경");
 
         // then
-        Member member = memberRepository.findByEmail(oAuthApiResponse.getEmail());
-        assertThat(member).isEqualTo(new Member(
-                oAuthApiResponse.getEmail(),
-                "한줄 소개 변경",
-                "monkeyDugi"
-        ));
+        Member member = memberRepository.findByEmail(EMAIL);
+        assertThat(member.getIntroduction()).isEqualTo("한줄 소개 변경");
     }
 
     @Test
     void 내_회원_정보_수정_제목() {
         // given
-        when(memberRepository.findByEmail(anyString())).thenReturn(createMember());
+        memberRepository.save(createMember());
 
         // when
-        memberService.updateMemberOfMineSubject(
-                new LoginMember(createMember()),
-                new MemberSubjectRequest("제목 변경")
-        );
+        memberService.updateMemberOfMineSubject(EMAIL, "제목 변경");
+
+        // jpa 지원 기능 ! @
 
         // then
-        Member member = memberRepository.findByEmail(oAuthApiResponse.getEmail());
-        assertThat(member).isEqualTo(new Member(
-                oAuthApiResponse.getEmail(),
-                "한줄 소개가 작성되지 않았습니다.",
-                "제목 변경"
-        ));
+        Member member = memberRepository.findByEmail(EMAIL);
+        assertThat(member.getSubject()).isEqualTo("제목 변경");
     }
 
     private Member createMember() {

@@ -27,7 +27,7 @@ public class MemberController {
 
     @GetMapping(value = "/members/me", produces = MediaType.APPLICATION_JSON_VALUE)
     public MemberResponse findMemberOfMine(@Login LoginMember loginMember) {
-        Member member = memberService.findMemberOfMine(loginMember);
+        Member member = memberService.findMemberOfMine(loginMember.getEmail());
         return new MemberResponse(member);
     }
 
@@ -35,13 +35,13 @@ public class MemberController {
     @PatchMapping(value = "/members/me/introduction", produces = MediaType.APPLICATION_JSON_VALUE)
     public void updateMemberOfMineIntroduction(@Login LoginMember loginMember,
                                                @Valid @RequestBody MemberIntroductionRequest request) {
-        memberService.updateMemberOfMineIntroduction(loginMember, request);
+        memberService.updateMemberOfMineIntroduction(loginMember.getEmail(), request.getIntroduction());
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(value = "/members/me/subject", produces = MediaType.APPLICATION_JSON_VALUE)
     public void updateMemberOfMineSubject(@Login LoginMember loginMember,
                                           @Valid @RequestBody MemberSubjectRequest request) {
-        memberService.updateMemberOfMineSubject(loginMember, request);
+        memberService.updateMemberOfMineSubject(loginMember.getEmail(), request.getSubject());
     }
 }

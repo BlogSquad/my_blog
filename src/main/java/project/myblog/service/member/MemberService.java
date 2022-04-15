@@ -6,8 +6,6 @@ import project.myblog.auth.dto.LoginMember;
 import project.myblog.auth.dto.OAuthApiResponse;
 import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
-import project.myblog.web.dto.member.request.MemberIntroductionRequest;
-import project.myblog.web.dto.member.request.MemberSubjectRequest;
 
 @Service
 @Transactional
@@ -28,17 +26,17 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member findMemberOfMine(LoginMember loginMember) {
-        return memberRepository.findByEmail(loginMember.getEmail());
+    public Member findMemberOfMine(String email) {
+        return memberRepository.findByEmail(email);
     }
 
-    public void updateMemberOfMineIntroduction(LoginMember loginMember, MemberIntroductionRequest request) {
-        Member member = memberRepository.findByEmail(loginMember.getEmail());
-        member.updateIntroduction(request.getIntroduction());
+    public void updateMemberOfMineIntroduction(String email, String introduction) {
+        Member member = memberRepository.findByEmail(email);
+        member.updateIntroduction(introduction);
     }
 
-    public void updateMemberOfMineSubject(LoginMember loginMember, MemberSubjectRequest request) {
-        Member member = memberRepository.findByEmail(loginMember.getEmail());
-        member.updateSubject(request.getSubject());
+    public void updateMemberOfMineSubject(String email, String subject) {
+        Member member = memberRepository.findByEmail(email);
+        member.updateSubject(subject);
     }
 }
