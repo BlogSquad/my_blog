@@ -1,14 +1,11 @@
 package project.myblog.unit.member;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
-import project.myblog.auth.dto.OAuthApiResponse;
-import project.myblog.auth.dto.naver.NaverOAuthApiResponse;
 import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
 import project.myblog.service.member.MemberService;
@@ -25,17 +22,10 @@ class MemberServiceTest {
     @Autowired
     private MemberService memberService;
 
-    private OAuthApiResponse oAuthApiResponse;
-
-    @BeforeEach
-    void setUp() {
-        oAuthApiResponse = new NaverOAuthApiResponse(new NaverOAuthApiResponse.Response(EMAIL));
-    }
-
     @Test
     void 회원가입() {
         // when
-        LoginMember loginMember = memberService.signUp(oAuthApiResponse);
+        LoginMember loginMember = memberService.signUp(EMAIL);
 
         // then
         assertThat(loginMember).isEqualTo(new LoginMember(createMember()));
@@ -45,7 +35,7 @@ class MemberServiceTest {
     @Test
     void 중복_회원가입_안됨() {
         // when
-        LoginMember loginMember = memberService.signUp(oAuthApiResponse);
+        LoginMember loginMember = memberService.signUp(EMAIL);
 
         // then
         assertThat(loginMember).isEqualTo(new LoginMember(createMember()));
@@ -93,6 +83,6 @@ class MemberServiceTest {
     }
 
     private Member createMember() {
-        return new Member(oAuthApiResponse.getEmail());
+        return new Member(EMAIL);
     }
 }

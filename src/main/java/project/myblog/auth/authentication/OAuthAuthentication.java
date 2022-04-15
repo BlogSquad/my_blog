@@ -51,7 +51,7 @@ public abstract class OAuthAuthentication {
 
     private void authenticate(HttpServletRequest request, HttpServletResponse response, String accessToken) {
         OAuthApiResponse oAuthApiResponse = requestUserInfo(accessToken);
-        LoginMember sessionMember = memberService.signUp(oAuthApiResponse);
+        LoginMember sessionMember = memberService.signUp(oAuthApiResponse.getEmail());
         afterAuthenticate(request, response, sessionMember);
     }
 

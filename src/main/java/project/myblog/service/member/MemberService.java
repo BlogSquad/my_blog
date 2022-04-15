@@ -3,7 +3,6 @@ package project.myblog.service.member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
-import project.myblog.auth.dto.OAuthApiResponse;
 import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
 import project.myblog.web.dto.member.response.MemberResponse;
@@ -17,10 +16,10 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public LoginMember signUp(OAuthApiResponse response) {
-        Member member = memberRepository.findByEmail(response.getEmail());
+    public LoginMember signUp(String email) {
+        Member member = memberRepository.findByEmail(email);
         if (member == null) {
-            Member save = memberRepository.save(new Member(response.getEmail()));
+            Member save = memberRepository.save(new Member(email));
             return new LoginMember(save);
         }
         return new LoginMember(member);
