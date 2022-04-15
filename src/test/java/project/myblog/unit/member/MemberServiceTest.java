@@ -12,6 +12,7 @@ import project.myblog.auth.dto.naver.NaverOAuthApiResponse;
 import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
 import project.myblog.service.member.MemberService;
+import project.myblog.web.dto.member.response.MemberResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
@@ -56,10 +57,11 @@ class MemberServiceTest {
         Member saveMember = memberRepository.save(createMember());
 
         // when
-        Member member = memberService.findMemberOfMine(EMAIL);
+        MemberResponse memberResponse = memberService.findMemberOfMine(EMAIL);
 
         // then
-        assertThat(member).isEqualTo(saveMember);
+        MemberResponse expectedMember = new MemberResponse(createMember());
+        assertThat(memberResponse).isEqualTo(expectedMember);
     }
 
     @Test

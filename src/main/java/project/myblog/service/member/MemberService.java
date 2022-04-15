@@ -6,6 +6,7 @@ import project.myblog.auth.dto.LoginMember;
 import project.myblog.auth.dto.OAuthApiResponse;
 import project.myblog.domain.Member;
 import project.myblog.repository.MemberRepository;
+import project.myblog.web.dto.member.response.MemberResponse;
 
 @Service
 @Transactional
@@ -26,8 +27,8 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member findMemberOfMine(String email) {
-        return memberRepository.findByEmail(email);
+    public MemberResponse findMemberOfMine(String email) {
+        return new MemberResponse(memberRepository.findByEmail(email));
     }
 
     public void updateMemberOfMineIntroduction(String email, String introduction) {

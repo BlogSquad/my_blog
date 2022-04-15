@@ -27,8 +27,7 @@ public class MemberController {
 
     @GetMapping(value = "/members/me", produces = MediaType.APPLICATION_JSON_VALUE)
     public MemberResponse findMemberOfMine(@Login LoginMember loginMember) {
-        Member member = memberService.findMemberOfMine(loginMember.getEmail());
-        return new MemberResponse(member);
+        return memberService.findMemberOfMine(loginMember.getEmail());
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

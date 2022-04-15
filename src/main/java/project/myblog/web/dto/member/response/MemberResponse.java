@@ -1,6 +1,5 @@
 package project.myblog.web.dto.member.response;
 
-import org.apache.commons.lang3.StringUtils;
 import project.myblog.domain.Member;
 
 import java.util.Objects;
