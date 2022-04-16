@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.domain.Member;
+import project.myblog.exception.NotExistsMemberException;
 import project.myblog.repository.MemberRepository;
 import project.myblog.web.dto.member.response.MemberResponse;
 
@@ -49,6 +50,7 @@ public class MemberService {
     }
 
     private Member findMemberByEmail(String email) {
-        return memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("회원 조회 실패"));
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NotExistsMemberException("존재하지 않는 회원입니다."));
     }
 }
