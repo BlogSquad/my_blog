@@ -23,6 +23,11 @@ public class ExceptionController {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
 
+    @ExceptionHandler(NotExistsMemberException.class)
+    public ResponseEntity<String> handlerAuthenticationException(NotExistsMemberException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
     @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<String> handlerConstraintViolationException(ConstraintViolationException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(extractConstraintViolationExceptionMessage(e));
@@ -30,8 +35,7 @@ public class ExceptionController {
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<String> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        String s = extractBindResultFieldErrorMessage(e);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(s);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(extractBindResultFieldErrorMessage(e));
     }
 
     private String extractConstraintViolationExceptionMessage(ConstraintViolationException e) {

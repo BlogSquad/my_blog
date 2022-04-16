@@ -14,6 +14,7 @@ import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요�
 import static project.myblog.acceptance.member.MemberStepsRequest.내_회원_정보_수정_요청_제목;
 import static project.myblog.acceptance.member.MemberStepsRequest.내_회원_정보_수정_요청_한줄_소개;
 import static project.myblog.acceptance.member.MemberStepsRequest.내_회원_정보_조회_요청;
+import static project.myblog.acceptance.member.MemberStepsRequest.회원_탈퇴_요청;
 import static project.myblog.auth.dto.SocialType.NAVER;
 import static project.myblog.config.TestWebConfig.TestAbstractOAuthSessionAuthentication.AUTHORIZATION_CODE;
 
@@ -33,6 +34,7 @@ class MemberDocumentation extends Documentation {
 
     @Test
     void 내_회원_정보_수정_한줄_소개() {
+        // given
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
 
         // when
@@ -45,6 +47,7 @@ class MemberDocumentation extends Documentation {
 
     @Test
     void 내_회원_정보_수정_제목() {
+        // given
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
 
         // when
@@ -67,5 +70,14 @@ class MemberDocumentation extends Documentation {
         return new FieldDescriptor[] {
                 fieldWithPath(fieldWithPath).description(description)
         };
+    }
+
+    @Test
+    void 회원_탈퇴() {
+        // given
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+
+        // when
+        회원_탈퇴_요청(givenRestDocs("member-delete"), sessionId);
     }
 }

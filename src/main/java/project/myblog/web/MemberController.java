@@ -2,6 +2,7 @@ package project.myblog.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,5 +43,11 @@ public class MemberController {
     public void updateMemberOfMineSubject(@Login LoginMember loginMember,
                                           @Valid @RequestBody MemberSubjectRequest request) {
         memberService.updateMemberOfMineSubject(loginMember.getEmail(), request.getSubject());
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(value = "/members/me")
+    public void deleteMember(@Login LoginMember loginMember) {
+
     }
 }
