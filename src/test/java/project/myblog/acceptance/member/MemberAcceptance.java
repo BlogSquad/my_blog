@@ -46,6 +46,20 @@ class MemberAcceptance extends AcceptanceTest {
     }
 
     /**
+     * Given 로그인 되어 있음
+     * When 회원 탈퇴 요청
+     * Then 회원 탈퇴됨
+     */
+    @Test
+    void 회원_탈퇴() {
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+
+        ExtractableResponse<Response> response = 회원_탈퇴_요청(given(), sessionId);
+
+        회원_탈퇴_됨(response);
+    }
+
+    /**
      * Given 로그인 됨
      * When 내 회원 한 줄 소개 수정 요청(NULL, EMPTY)
      * Then 회원 정보 수정 안됨
@@ -101,19 +115,5 @@ class MemberAcceptance extends AcceptanceTest {
         ExtractableResponse<Response> response = 내_회원_정보_수정_요청_제목(given(), sessionId, " ");
 
         내_회원_정보_수정_안됨(response);
-    }
-
-    /**
-     * Given 로그인 되어 있음
-     * When 회원 탈퇴 요청
-     * Then 회원 탈퇴됨
-     */
-    @Test
-    void 회원_탈퇴() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-
-        ExtractableResponse<Response> response = 회원_탈퇴_요청(given(), sessionId);
-
-        회원_탈퇴_됨(response);
     }
 }
