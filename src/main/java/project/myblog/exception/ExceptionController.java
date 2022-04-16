@@ -30,8 +30,7 @@ public class ExceptionController {
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<String> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        String s = extractBindResultFieldErrorMessage(e);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(s);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(extractBindResultFieldErrorMessage(e));
     }
 
     private String extractConstraintViolationExceptionMessage(ConstraintViolationException e) {
