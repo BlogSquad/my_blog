@@ -43,7 +43,7 @@ public class Documentation {
     }
 
     protected RequestSpecification givenRestDocsRequestParameters(String identifier,
-                                                                  ParameterDescriptor[] parameterDescriptors
+                                                                 ParameterDescriptor[] parameterDescriptors
     ) {
         return RestAssured.given(this.spec)
                 .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
@@ -52,7 +52,8 @@ public class Documentation {
                 );
     }
 
-    protected RequestSpecification givenRestDocsFieldDescriptorRequestFields(String identifier, FieldDescriptor[] fieldDescriptors) {
+    protected RequestSpecification givenRestDocsFieldDescriptorRequestFields(String identifier,
+                                                                            FieldDescriptor[] fieldDescriptors) {
         return RestAssured.given(this.spec)
                 .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
                         requestFields(fieldDescriptors)
@@ -60,7 +61,8 @@ public class Documentation {
                 );
     }
 
-    protected RequestSpecification givenRestDocsFieldDescriptorRelaxedResponseFields(String identifier, FieldDescriptor[] fieldDescriptors) {
+    protected RequestSpecification givenRestDocsFieldDescriptorRelaxedResponseFields(String identifier,
+                                                                                    FieldDescriptor[] fieldDescriptors) {
         return RestAssured.given(this.spec).log().all()
                 .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
                         relaxedResponseFields(fieldDescriptors)
