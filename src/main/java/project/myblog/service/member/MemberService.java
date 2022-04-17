@@ -6,7 +6,6 @@ import project.myblog.auth.dto.LoginMember;
 import project.myblog.domain.Member;
 import project.myblog.exception.BizException;
 import project.myblog.exception.ExceptionCode;
-import project.myblog.exception.NotExistsMemberException;
 import project.myblog.repository.MemberRepository;
 import project.myblog.web.dto.member.response.MemberResponse;
 

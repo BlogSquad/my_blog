@@ -1,7 +1,6 @@
 package project.myblog.auth.authorization.session;
 
 import project.myblog.auth.authorization.Authorization;
-import project.myblog.exception.AuthorizationException;
 import project.myblog.exception.BizException;
 import project.myblog.exception.ExceptionCode;
 
