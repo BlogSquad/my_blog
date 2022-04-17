@@ -3,7 +3,7 @@ package project.myblog.service.member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
-import project.myblog.domain.Member;
+import project.myblog.domain.member.Member;
 import project.myblog.exception.BizException;
 import project.myblog.exception.ExceptionCode;
 import project.myblog.repository.MemberRepository;

@@ -1,4 +1,4 @@
-package project.myblog.domain;
+package project.myblog.domain.member;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

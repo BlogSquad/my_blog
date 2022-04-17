@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
-import project.myblog.domain.Member;
+import project.myblog.domain.member.Member;
 import project.myblog.exception.BizException;
 import project.myblog.repository.MemberRepository;
 import project.myblog.service.member.MemberService;
