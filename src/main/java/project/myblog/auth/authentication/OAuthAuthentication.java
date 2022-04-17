@@ -37,7 +37,6 @@ public abstract class OAuthAuthentication {
             return true;
         }
 
-        request.setAttribute("message", "인증되지 않는 사용자입니다.");
         request.setAttribute("exception", AuthenticationException.class);
         try {
             request.getRequestDispatcher("/api/error").forward(request, response);

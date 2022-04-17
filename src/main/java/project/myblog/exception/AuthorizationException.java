@@ -1,7 +1,13 @@
 package project.myblog.exception;
 
 public class AuthorizationException extends RuntimeException {
-    public AuthorizationException(String message) {
-        super(message);
+    private final ErrorCode errorCode;
+
+    public AuthorizationException(ErrorCode errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public ErrorCode getErrorCode() {
+        return errorCode;
     }
 }

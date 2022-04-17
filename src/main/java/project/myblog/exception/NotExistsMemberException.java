@@ -1,7 +1,13 @@
 package project.myblog.exception;
 
 public class NotExistsMemberException extends RuntimeException {
-    public NotExistsMemberException(String message) {
-        super(message);
+    private final ErrorCode errorCode;
+
+    public NotExistsMemberException(ErrorCode errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public ErrorCode getErrorCode() {
+        return errorCode;
     }
 }

@@ -14,18 +14,21 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ExceptionController {
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<String> handlerAuthenticationException(AuthenticationException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    public ResponseEntity<ErrorResponse> handlerAuthenticationException(AuthenticationException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
     @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<String> handlerIllegalStateException(AuthorizationException e) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+    public ResponseEntity<ErrorResponse> handlerIllegalStateException(AuthorizationException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
     }
 
     @ExceptionHandler(NotExistsMemberException.class)
-    public ResponseEntity<String> handlerAuthenticationException(NotExistsMemberException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    public ResponseEntity<ErrorResponse> handlerAuthenticationException(NotExistsMemberException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler({ConstraintViolationException.class})

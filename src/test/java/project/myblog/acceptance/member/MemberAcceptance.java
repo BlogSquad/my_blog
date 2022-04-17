@@ -12,6 +12,7 @@ import project.myblog.acceptance.AcceptanceTest;
 import static io.restassured.RestAssured.given;
 import static project.myblog.acceptance.member.MemberStepsAssert.내_회원_정보_수정_됨;
 import static project.myblog.acceptance.member.MemberStepsAssert.내_회원_정보_수정_안됨;
+import static project.myblog.acceptance.member.MemberStepsAssert.내_회원_정보_조회_안됨_존재하지_않는_회원;
 import static project.myblog.acceptance.member.MemberStepsAssert.내_회원_정보_조회됨;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
 import static project.myblog.acceptance.member.MemberStepsAssert.회원_탈퇴_됨;
@@ -57,6 +58,22 @@ class MemberAcceptance extends AcceptanceTest {
         ExtractableResponse<Response> response = 회원_탈퇴_요청(given(), sessionId);
 
         회원_탈퇴_됨(response);
+    }
+
+    /**
+     * Given 로그인 되어 있음
+     * And 회원 탈퇴 요청
+     * When 내_회원_정보_조회_요청
+     * Then 회원 정보 조회 안됨
+     */
+    @Test
+    void 예외_존재하지_않는_회원() {
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        회원_탈퇴_요청(given(), sessionId);
+
+        ExtractableResponse<Response> responseIntroduction = 내_회원_정보_조회_요청(given(), sessionId);
+
+        내_회원_정보_조회_안됨_존재하지_않는_회원(responseIntroduction);
     }
 
     /**

@@ -8,7 +8,6 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_됨;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_요청;
-import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
 import static project.myblog.config.TestWebConfig.TestAbstractOAuthSessionAuthentication.AUTHORIZATION_CODE;
 
 public class MemberStepsAssert {
@@ -27,6 +26,10 @@ public class MemberStepsAssert {
     public static void 내_회원_정보_조회_안됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
         assertThat(response.sessionId()).isNullOrEmpty();
+    }
+
+    public static void 내_회원_정보_조회_안됨_존재하지_않는_회원(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
     public static void 내_회원_정보_수정_됨(ExtractableResponse<Response> response) {
