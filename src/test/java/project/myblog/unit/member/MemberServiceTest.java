@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.domain.Member;
-import project.myblog.exception.NotExistsMemberException;
+import project.myblog.exception.BizException;
 import project.myblog.repository.MemberRepository;
 import project.myblog.service.member.MemberService;
 import project.myblog.web.dto.member.response.MemberResponse;
@@ -15,6 +15,7 @@ import project.myblog.web.dto.member.response.MemberResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
+import static project.myblog.exception.ExceptionCode.MEMBER_INVALID;
 
 @SpringBootTest
 @Transactional
@@ -101,7 +102,8 @@ class MemberServiceTest {
     void 존재하지_않는_회원() {
         // when
         assertThatThrownBy(() -> memberService.findMemberOfMine("email"))
-                .isInstanceOf(NotExistsMemberException.class);
+                .isInstanceOf(BizException.class)
+                .hasMessage(MEMBER_INVALID.getMessage());
     }
 
     private Member createMember() {
