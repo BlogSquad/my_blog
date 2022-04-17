@@ -1,7 +1,8 @@
 package project.myblog.auth.authorization.session;
 
 import project.myblog.auth.authorization.Authorization;
-import project.myblog.exception.AuthorizationException;
+import project.myblog.exception.BizException;
+import project.myblog.exception.ExceptionCode;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +16,7 @@ public class SessionAuthorization implements Authorization {
     @Override
     public void authorize(HttpServletRequest request, HttpServletResponse response) {
         if (request.getSession(false) == null) {
-            throw new AuthorizationException("로그인이 필요합니다.");
+            throw new BizException(ExceptionCode.MEMBER_AUTHORIZATION);
         }
     }
 }

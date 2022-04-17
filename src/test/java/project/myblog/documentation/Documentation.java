@@ -5,6 +5,7 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
@@ -12,8 +13,8 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.request.ParameterDescriptor;
-import org.springframework.restdocs.request.RequestParametersSnippet;
 import project.myblog.config.TestWebConfig;
+import project.myblog.utils.DatabaseCleanup;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
@@ -31,11 +32,15 @@ public class Documentation {
     @LocalServerPort
     private int port;
 
+    @Autowired
+    private DatabaseCleanup databaseCleanup;
+
     private RequestSpecification spec;
 
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
+        databaseCleanup.execute();
 
         this.spec = new RequestSpecBuilder()
                 .addFilter(documentationConfiguration(restDocumentation))

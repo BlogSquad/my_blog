@@ -3,7 +3,7 @@ package project.myblog.auth.authentication;
 import org.springframework.web.client.RestTemplate;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.auth.dto.OAuthApiResponse;
-import project.myblog.exception.AuthenticationException;
+import project.myblog.exception.ExceptionCode;
 import project.myblog.service.member.MemberService;
 
 import javax.servlet.ServletException;
@@ -37,8 +37,7 @@ public abstract class OAuthAuthentication {
             return true;
         }
 
-        request.setAttribute("message", "인증되지 않는 사용자입니다.");
-        request.setAttribute("exception", AuthenticationException.class);
+        request.setAttribute("exceptionType", ExceptionCode.MEMBER_AUTHENTICATION);
         try {
             request.getRequestDispatcher("/api/error").forward(request, response);
         } catch (ServletException e) {
