@@ -1,7 +1,7 @@
 package project.myblog.auth.authorization.session;
 
 import project.myblog.auth.authorization.Authorization;
-import project.myblog.exception.BizException;
+import project.myblog.exception.BusinessException;
 import project.myblog.exception.ExceptionCode;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +16,7 @@ public class SessionAuthorization implements Authorization {
     @Override
     public void authorize(HttpServletRequest request, HttpServletResponse response) {
         if (request.getSession(false) == null) {
-            throw new BizException(ExceptionCode.MEMBER_AUTHORIZATION);
+            throw new BusinessException(ExceptionCode.MEMBER_AUTHORIZATION);
         }
     }
 }

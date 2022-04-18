@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.domain.member.Member;
-import project.myblog.exception.BizException;
+import project.myblog.exception.BusinessException;
 import project.myblog.repository.MemberRepository;
 import project.myblog.service.member.MemberService;
 import project.myblog.web.dto.member.response.MemberResponse;
@@ -78,8 +78,6 @@ class MemberServiceTest {
         // when
         memberService.updateMemberOfMineSubject(EMAIL, "제목 변경");
 
-        // jpa 지원 기능 ! @
-
         // then
         Member member = memberRepository.findByEmail(EMAIL).get();
         assertThat(member.getSubject()).isEqualTo("제목 변경");
@@ -102,7 +100,7 @@ class MemberServiceTest {
     void 존재하지_않는_회원() {
         // when
         assertThatThrownBy(() -> memberService.findMemberOfMine("email"))
-                .isInstanceOf(BizException.class)
+                .isInstanceOf(BusinessException.class)
                 .hasMessage(MEMBER_INVALID.getMessage());
     }
 
