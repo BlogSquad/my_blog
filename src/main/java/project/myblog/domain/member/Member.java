@@ -1,14 +1,10 @@
 package project.myblog.domain.member;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -16,19 +12,13 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Email
-    @NotNull(message = "[Entity] 이메일은 null일 수 없습니다.")
-    @NotEmpty(message = "[Entity] 이메일은 빈 값일 수 없습니다.")
+    @Column(nullable = false)
     private String email;
-    @NotNull(message = "[Entity] 한줄 소개는 null일 수 없습니다.")
-    @NotBlank(message = "[Entity] 한줄 소개는 공백일 수 없습니다.")
-    @Size(min = 1, max = 30)
+    @Column(length = 30, nullable = false)
     private String introduction;
-    @NotNull(message = "[Entity] 제목은 null일 수 없습니다.")
-    @NotBlank(message = "[Entity] 제목은 공백일 수 없습니다.")
-    @Size(min = 1, max = 30)
+    @Column(length = 30, nullable = false)
     private String subject;
-
+    @Column(nullable = false)
     private boolean isDeleted = false;
 
     protected Member() {
