@@ -2,7 +2,6 @@ package project.myblog.acceptance.member;
 
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -100,7 +99,7 @@ class MemberAcceptance extends AcceptanceTest {
     void 예외_내_회원_정보_수정_한줄_소개_BLANK() {
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
 
-        ExtractableResponse<Response> response = 내_회원_정보_수정_요청_한줄_소개(given(), sessionId, " ");
+        ExtractableResponse<Response> response = 내_회원_정보_수정_요청_한줄_소개(given(), sessionId,"");
 
         내_회원_정보_수정_안됨(response);
     }

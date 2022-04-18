@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.domain.member.Member;
-import project.myblog.exception.BizException;
+import project.myblog.exception.BusinessException;
 import project.myblog.exception.ExceptionCode;
 import project.myblog.repository.MemberRepository;
 import project.myblog.web.dto.member.response.MemberResponse;
@@ -53,6 +53,6 @@ public class MemberService {
     private Member findMemberByEmail(String email) {
         return memberRepository.findByEmail(email)
                 .filter(member -> !member.isDeleted())
-                .orElseThrow(() -> new BizException(ExceptionCode.MEMBER_INVALID));
+                .orElseThrow(() -> new BusinessException(ExceptionCode.MEMBER_INVALID));
     }
 }

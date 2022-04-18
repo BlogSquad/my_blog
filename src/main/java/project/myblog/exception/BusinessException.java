@@ -1,9 +1,9 @@
 package project.myblog.exception;
 
-public class BizException extends RuntimeException {
+public class BusinessException extends RuntimeException {
     private final ExceptionCode exceptionCode;
 
-    public BizException(ExceptionCode exceptionCode) {
+    public BusinessException(ExceptionCode exceptionCode) {
         super(exceptionCode.getMessage());
         this.exceptionCode = exceptionCode;
     }

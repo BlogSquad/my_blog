@@ -6,8 +6,8 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class MemberSubjectRequest {
-    @NotNull(message = "[Request] 제목은 null일 수 없습니다.")
-    @NotBlank(message = "[Request] 제목은 공백일 수 없습니다.")
+    @NotNull
+    @NotBlank
     @Size(min = 1, max = 30)
     private String subject;
 

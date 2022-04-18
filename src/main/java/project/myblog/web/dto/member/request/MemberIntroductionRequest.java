@@ -6,16 +6,12 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class MemberIntroductionRequest {
-    @NotNull(message = "[Request] 한줄 소개는 null일 수 없습니다.")
-    @NotBlank(message = "[Request] 한줄 소개는 공백일 수 없습니다.")
+    @NotNull
+    @NotBlank
     @Size(min = 1, max = 30)
     private String introduction;
 
     protected MemberIntroductionRequest() {
-    }
-
-    public MemberIntroductionRequest(String introduction) {
-        this.introduction = introduction;
     }
 
     public String getIntroduction() {

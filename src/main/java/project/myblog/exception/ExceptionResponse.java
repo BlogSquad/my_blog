@@ -7,10 +7,18 @@ public class ExceptionResponse {
     private final String code;
     private final String message;
 
-    public ExceptionResponse(ExceptionCode exceptionCode) {
-        this.status = exceptionCode.getStatus();
-        this.code = exceptionCode.getCode();
-        this.message = exceptionCode.getMessage();
+    private ExceptionResponse(HttpStatus status, String code, String message) {
+        this.status = status;
+        this.code = code;
+        this.message = message;
+    }
+
+    public static ExceptionResponse createBusiness(ExceptionCode exceptionCode) {
+        return new ExceptionResponse(exceptionCode.getStatus(), exceptionCode.getCode(), exceptionCode.getMessage());
+    }
+
+    public static ExceptionResponse createBind(HttpStatus status, String code, String message) {
+        return new ExceptionResponse(status, code, message);
     }
 
     public HttpStatus getStatus() {

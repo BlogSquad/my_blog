@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class ExceptionController {
     @GetMapping("/api/error")
-    public void error(HttpServletRequest request) throws BizException {
+    public void error(HttpServletRequest request) throws BusinessException {
         ExceptionCode exceptionType = (ExceptionCode) request.getAttribute("exceptionType");
-        throw new BizException(exceptionType);
+        throw new BusinessException(exceptionType);
     }
 }
