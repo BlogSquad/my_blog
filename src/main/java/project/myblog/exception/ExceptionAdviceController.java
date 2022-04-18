@@ -1,5 +1,6 @@
 package project.myblog.exception;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import project.myblog.config.FieldErrorDetail;
 import project.myblog.config.ValidationResult;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ExceptionAdviceController {
@@ -30,7 +28,7 @@ public class ExceptionAdviceController {
 
     @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<String> handlerConstraintViolationException(ConstraintViolationException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(extractConstraintViolationExceptionMessage(e));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("DB 예외는 어떻게 처리할까?");
     }
 
     @ExceptionHandler({BindException.class})
@@ -42,12 +40,12 @@ public class ExceptionAdviceController {
                 HttpStatus.BAD_REQUEST, fieldErrorDetail.getCode(), fieldErrorDetail.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
     }
-
-    private String extractConstraintViolationExceptionMessage(ConstraintViolationException e) {
-        return e.getConstraintViolations()
-                .stream()
-                .map(ConstraintViolation::getMessage)
-                .collect(Collectors.toList())
-                .toString();
-    }
+//
+//    private String extractConstraintViolationExceptionMessage(ConstraintViolationException e) {
+//        return e.getConstraintViolations()
+//                .stream()
+//                .map(ConstraintViolation::getMessage)
+//                .collect(Collectors.toList())
+//                .toString();
+//    }
 }
