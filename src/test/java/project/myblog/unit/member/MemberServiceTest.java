@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.domain.member.Member;
 import project.myblog.exception.BusinessException;
-import project.myblog.repository.MemberRepository;
+import project.myblog.repository.member.MemberRepository;
 import project.myblog.service.member.MemberService;
 import project.myblog.web.dto.member.response.MemberResponse;
 
@@ -19,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
 import static project.myblog.exception.ExceptionCode.MEMBER_INVALID;
 
-@SpringBootTest
 @Transactional
+@SpringBootTest
 class MemberServiceTest {
     @Autowired
     private MemberRepository memberRepository;

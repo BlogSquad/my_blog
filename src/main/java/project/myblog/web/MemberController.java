@@ -31,14 +31,14 @@ public class MemberController {
         return ResponseEntity.ok(member);
     }
 
-    @PatchMapping(value = "/members/me/introduction", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/members/me/introduction", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateMemberOfMineIntroduction(@Login LoginMember loginMember,
                                                          @Valid @RequestBody MemberIntroductionRequest request) {
         memberService.updateMemberOfMineIntroduction(loginMember.getEmail(), request.getIntroduction());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PatchMapping(value = "/members/me/subject", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/members/me/subject", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateMemberOfMineSubject(@Login LoginMember loginMember,
                                                             @Valid @RequestBody MemberSubjectRequest request) {
         memberService.updateMemberOfMineSubject(loginMember.getEmail(), request.getSubject());
