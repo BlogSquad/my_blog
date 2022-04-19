@@ -12,6 +12,8 @@ import project.myblog.repository.MemberRepository;
 import project.myblog.service.member.MemberService;
 import project.myblog.web.dto.member.response.MemberResponse;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
@@ -47,7 +49,7 @@ class MemberServiceTest {
     @Test
     void 내_회원_정보_조회() {
         // given
-        Member saveMember = memberRepository.save(createMember());
+        memberRepository.save(createMember());
 
         // when
         MemberResponse memberResponse = memberService.findMemberOfMine(EMAIL);
@@ -66,7 +68,7 @@ class MemberServiceTest {
         memberService.updateMemberOfMineIntroduction(EMAIL, "한줄 소개 변경");
 
         // then
-        Member member = memberRepository.findByEmail(EMAIL).get();
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(EMAIL).get();
         assertThat(member.getIntroduction()).isEqualTo("한줄 소개 변경");
     }
 
@@ -79,7 +81,7 @@ class MemberServiceTest {
         memberService.updateMemberOfMineSubject(EMAIL, "제목 변경");
 
         // then
-        Member member = memberRepository.findByEmail(EMAIL).get();
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(EMAIL).get();
         assertThat(member.getSubject()).isEqualTo("제목 변경");
     }
 
@@ -92,8 +94,25 @@ class MemberServiceTest {
         memberService.deleteMember(EMAIL);
 
         // then
-        Member member = memberRepository.findByEmail(EMAIL).get();
-        assertThat(member.isDeleted()).isTrue();
+        List<Member> members = memberRepository.findAllByEmail(EMAIL);
+        assertThat(members.get(0).isDeleted()).isTrue();
+    }
+
+    @Test
+    void 회원_탈퇴_후_재가입() {
+        // given
+        memberRepository.save(createMember());
+        memberService.deleteMember(EMAIL);
+
+        // when
+        memberService.signUp(EMAIL);
+
+        // then
+        List<Member> members = memberRepository.findAllByEmail(EMAIL);
+        assertThat(members.size()).isEqualTo(2);
+
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(EMAIL).get();
+        assertThat(member.isDeleted()).isFalse();
     }
 
     @Test
