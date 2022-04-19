@@ -21,7 +21,7 @@ public class MemberService {
     }
 
     public LoginMember signUp(String email) {
-        Optional<Member> member = memberRepository.findByEmail(email);
+        Optional<Member> member = memberRepository.findByEmailAndIsDeletedFalse(email);
         if (member.isEmpty()) {
             Member save = memberRepository.save(new Member(email));
             return new LoginMember(save);
@@ -51,8 +51,7 @@ public class MemberService {
     }
 
     private Member findMemberByEmail(String email) {
-        return memberRepository.findByEmail(email)
-                .filter(member -> !member.isDeleted())
+        return memberRepository.findByEmailAndIsDeletedFalse(email)
                 .orElseThrow(() -> new BusinessException(ExceptionCode.MEMBER_INVALID));
     }
 }
