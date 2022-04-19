@@ -34,3 +34,9 @@ operation::member-updateMemberOfMineSubject[snippets='http-request,request-body,
 
 === 회원 탈퇴
 operation::member-delete[snippets='http-request,http-response']
+
+[[resources-post]]
+== Post
+
+=== 포스트 작성
+operation::post-create[snippets='http-request,request-body,request-fields,http-response']
