@@ -11,8 +11,8 @@ import project.myblog.web.dto.member.response.MemberResponse;
 
 import java.util.Optional;
 
-@Service
 @Transactional
+@Service
 public class MemberService {
     private final MemberRepository memberRepository;
 
@@ -50,7 +50,7 @@ public class MemberService {
         member.delete();
     }
 
-    private Member findMemberByEmail(String email) {
+    public Member findMemberByEmail(String email) {
         return memberRepository.findByEmailAndIsDeletedFalse(email)
                 .orElseThrow(() -> new BusinessException(ExceptionCode.MEMBER_INVALID));
     }
