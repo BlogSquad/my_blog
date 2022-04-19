@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import project.myblog.auth.dto.Login;
 import project.myblog.auth.dto.LoginMember;
-import project.myblog.service.PostService;
+import project.myblog.service.post.PostService;
 import project.myblog.web.dto.post.PostRequest;
 
 import javax.validation.Valid;

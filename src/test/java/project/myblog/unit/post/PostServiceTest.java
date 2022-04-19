@@ -6,9 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.member.Member;
 import project.myblog.domain.post.Post;
-import project.myblog.repository.MemberRepository;
-import project.myblog.repository.PostRepository;
-import project.myblog.service.PostService;
+import project.myblog.repository.member.MemberRepository;
+import project.myblog.repository.post.PostRepository;
+import project.myblog.service.post.PostService;
 import project.myblog.web.dto.post.PostRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;

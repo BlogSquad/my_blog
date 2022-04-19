@@ -1,10 +1,9 @@
-package project.myblog.service;
+package project.myblog.service.post;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.member.Member;
-import project.myblog.domain.post.Post;
-import project.myblog.repository.PostRepository;
+import project.myblog.repository.post.PostRepository;
 import project.myblog.service.member.MemberService;
 import project.myblog.web.dto.post.PostRequest;
 
