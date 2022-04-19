@@ -19,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
 import static project.myblog.exception.ExceptionCode.MEMBER_INVALID;
 
-@SpringBootTest
 @Transactional
+@SpringBootTest
 class MemberServiceTest {
     @Autowired
     private MemberRepository memberRepository;
