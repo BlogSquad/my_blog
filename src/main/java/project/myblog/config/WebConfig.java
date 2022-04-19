@@ -15,6 +15,7 @@ import project.myblog.auth.authentication.session.github.GithubOAuthSessionAuthe
 import project.myblog.auth.authentication.session.naver.NaverOAuthSessionAuthentication;
 import project.myblog.auth.authorization.Authorization;
 import project.myblog.auth.authorization.interceptor.AuthorizationInterceptor;
+import project.myblog.auth.authorization.interceptor.MvcMatcherInterceptor;
 import project.myblog.auth.authorization.session.SessionAuthorization;
 import project.myblog.auth.dto.AuthProperties;
 import project.myblog.auth.dto.LoginMemberArgumentResolver;
