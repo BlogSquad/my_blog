@@ -43,3 +43,6 @@ operation::post-create[snippets='http-request,request-body,request-fields,http-r
 
 === 포스트 조회
 operation::post-find[snippets='http-request,http-response,response-fields']
+
+=== 포스트 수정
+operation::post-update[snippets='http-request,request-body,request-fields,http-response']
