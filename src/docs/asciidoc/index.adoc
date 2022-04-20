@@ -40,3 +40,6 @@ operation::member-delete[snippets='http-request,http-response']
 
 === 포스트 작성
 operation::post-create[snippets='http-request,request-body,request-fields,http-response']
+
+=== 포스트 조회
+operation::post-find[snippets='http-request,http-response,response-fields']
