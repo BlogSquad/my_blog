@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import project.myblog.auth.authentication.Logout;
@@ -56,7 +57,7 @@ public class WebConfig implements WebMvcConfigurer {
         resolvers.add(new LoginMemberArgumentResolver());
     }
 
-    protected OAuthAuthenticationInterceptor oAuthAuthenticationInterceptor() {
+    protected HandlerInterceptor oAuthAuthenticationInterceptor() {
         List<OAuthAuthentication> oAuthAuthentications = new ArrayList<>();
         oAuthAuthentications.add(new NaverOAuthSessionAuthentication(memberService, restTemplate(), authProperties));
         oAuthAuthentications.add(new GithubOAuthSessionAuthentication(memberService, restTemplate(), authProperties));
@@ -64,14 +65,14 @@ public class WebConfig implements WebMvcConfigurer {
         return new OAuthAuthenticationInterceptor(oAuthAuthentications);
     }
 
-    protected AuthorizationInterceptor authorizationInterceptor() {
+    protected HandlerInterceptor authorizationInterceptor() {
         List<Authorization> authorizations = new ArrayList<>();
         authorizations.add(new SessionAuthorization());
 
-        return new AuthorizationInterceptor(authorizations);
+        return new MvcMatcherInterceptor(new AuthorizationInterceptor(authorizations));
     }
 
-    protected LogoutInterceptor logoutInterceptor() {
+    protected HandlerInterceptor logoutInterceptor() {
         List<Logout> logouts = new ArrayList<>();
         logouts.add(new SessionLogout());
 
