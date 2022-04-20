@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import java.util.Objects;
 
@@ -20,6 +21,7 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
+    @Lob
     private String contents;
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")

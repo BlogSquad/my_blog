@@ -4,15 +4,19 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.springframework.http.HttpStatus;
 
-import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static project.myblog.acceptance.auth.AuthSteps.로그인_됨;
-import static project.myblog.acceptance.auth.AuthSteps.로그인_요청;
-import static project.myblog.config.TestWebConfig.TestAbstractOAuthSessionAuthentication.AUTHORIZATION_CODE;
+import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
 
 public class PostStepsAssert {
     public static void 포스트_작성됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.header("Location")).isNotNull();
+    }
+
+    public static void 포스트_조회됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.jsonPath().getString("title")).isEqualTo("포스트1제목");
+        assertThat(response.jsonPath().getString("contents")).isEqualTo("포스트1내용");
+        assertThat(response.jsonPath().getString("author")).isEqualTo(EMAIL);
     }
 }

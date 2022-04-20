@@ -30,8 +30,8 @@ class PostServiceTest {
         Member member = memberRepository.save(createMember());
 
         // when
-        String title = "첫 포스팅";
-        String contents = "첫 포스팅을 작성했다.";
+        String title = "포스트1제목";
+        String contents = "포스트1내용";
         PostRequest postRequest = new PostRequest(title, contents);
 
         postService.createPost(EMAIL, postRequest);
