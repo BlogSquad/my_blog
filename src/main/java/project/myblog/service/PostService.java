@@ -30,7 +30,6 @@ public class PostService {
 
     public PostResponse findPost(Long postId) {
         Post post = findPostById(postId);
-
         return new PostResponse(post);
     }
 
@@ -39,7 +38,10 @@ public class PostService {
 
         Optional<Post> post = postRepository.findById(postId);
         if (post.isPresent()) {
-            return post.get().update(requestDto.getTitle(), requestDto.getContents());
+            if (post.get().isAuthorization(member)) {
+                return post.get().update(requestDto.getTitle(), requestDto.getContents());
+            }
+            throw new BusinessException(ExceptionCode.POST_AUTHORIZATION);
         }
         return postRepository.save(requestDto.toEntity(member)).getId();
     }

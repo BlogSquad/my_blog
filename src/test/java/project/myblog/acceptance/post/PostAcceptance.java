@@ -9,6 +9,7 @@ import project.myblog.acceptance.AcceptanceTest;
 import static io.restassured.RestAssured.given;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
 import static project.myblog.acceptance.post.PostStepsAssert.타인_포스트_삭제_안됨;
+import static project.myblog.acceptance.post.PostStepsAssert.타인_포스트_수정_안됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_삭제_안됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_삭제됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_수정됨;
@@ -95,6 +96,24 @@ class PostAcceptance extends AcceptanceTest {
         ExtractableResponse<Response> response = 포스트_조회_요청(given());
 
         포스트_조회_안됨(response);
+    }
+
+    /**
+     * Given 회원1 로그인 되어있음
+     * And 회원2 로그인 되어 있음
+     * And 회원2 포스트 작성 되어있음
+     * When 회원1이 회원2 포스트 수정 요청
+     * Then 포스트가 수정 안됨
+     */
+    @Test
+    void 예외_타인의_포스트_수정() {
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        String sessionId2 = 로그인_요청_로그인_됨(GITHUB.getServiceName());
+        포스트_작성_되어있음(sessionId2, "포스트2제목", "포스트2내용");
+
+        ExtractableResponse<Response> response = 포스트_수정_요청(given(), sessionId, "포스트2제목 변경", "포스트2내용 변경");
+
+        타인_포스트_수정_안됨(response);
     }
 
     /**
