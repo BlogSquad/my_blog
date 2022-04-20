@@ -5,15 +5,17 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import project.myblog.domain.Post;
 import project.myblog.domain.Member;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class PostRequest {
     @NotNull
     @NotBlank
-    @javax.validation.constraints.NotEmpty
+    @Size(min = 1, max = 255)
     private String title;
     @NotNull
     @NotBlank
-    @javax.validation.constraints.NotEmpty
+    @NotEmpty
     private String contents;
 
     protected PostRequest() {
