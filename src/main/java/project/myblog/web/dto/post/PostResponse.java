@@ -1,6 +1,6 @@
-package project.myblog.web.dto.post.response;
+package project.myblog.web.dto.post;
 
-import project.myblog.domain.post.Post;
+import project.myblog.domain.Post;
 
 import java.util.Objects;
 

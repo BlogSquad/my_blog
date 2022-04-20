@@ -1,4 +1,4 @@
-package project.myblog.web.dto.member.request;
+package project.myblog.web.dto.member;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

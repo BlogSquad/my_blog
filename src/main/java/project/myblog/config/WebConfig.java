@@ -20,7 +20,7 @@ import project.myblog.auth.authorization.interceptor.MvcMatcherInterceptor;
 import project.myblog.auth.authorization.session.SessionAuthorization;
 import project.myblog.auth.dto.AuthProperties;
 import project.myblog.auth.dto.LoginMemberArgumentResolver;
-import project.myblog.service.member.MemberService;
+import project.myblog.service.MemberService;
 
 import java.util.ArrayList;
 import java.util.List;

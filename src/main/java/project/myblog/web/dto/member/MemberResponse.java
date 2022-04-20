@@ -1,6 +1,6 @@
-package project.myblog.web.dto.member.response;
+package project.myblog.web.dto.member;
 
-import project.myblog.domain.member.Member;
+import project.myblog.domain.Member;
 
 import java.util.Objects;
 

@@ -1,8 +1,8 @@
 package project.myblog.unit.post;
 
 import org.junit.jupiter.api.Test;
-import project.myblog.domain.member.Member;
-import project.myblog.domain.post.Post;
+import project.myblog.domain.Member;
+import project.myblog.domain.Post;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;

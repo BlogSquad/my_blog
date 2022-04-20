@@ -1,15 +1,16 @@
-package project.myblog.service.member;
+package project.myblog.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
-import project.myblog.domain.member.Member;
+import project.myblog.domain.Member;
 import project.myblog.exception.BusinessException;
 import project.myblog.exception.ExceptionCode;
-import project.myblog.repository.member.MemberRepository;
-import project.myblog.web.dto.member.response.MemberResponse;
+import project.myblog.repository.MemberRepository;
+import project.myblog.web.dto.member.MemberResponse;
 
 import java.util.Optional;
+
 
 @Transactional
 @Service

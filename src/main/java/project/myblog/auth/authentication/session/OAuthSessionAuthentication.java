@@ -3,7 +3,7 @@ package project.myblog.auth.authentication.session;
 import org.springframework.web.client.RestTemplate;
 import project.myblog.auth.authentication.OAuthAuthentication;
 import project.myblog.auth.dto.LoginMember;
-import project.myblog.service.member.MemberService;
+import project.myblog.service.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

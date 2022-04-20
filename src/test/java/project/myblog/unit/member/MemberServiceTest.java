@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
-import project.myblog.domain.member.Member;
+import project.myblog.domain.Member;
 import project.myblog.exception.BusinessException;
-import project.myblog.repository.member.MemberRepository;
-import project.myblog.service.member.MemberService;
-import project.myblog.web.dto.member.response.MemberResponse;
+import project.myblog.repository.MemberRepository;
+import project.myblog.service.MemberService;
+import project.myblog.web.dto.member.MemberResponse;
 
 import java.util.List;
 

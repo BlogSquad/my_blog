@@ -1,7 +1,4 @@
-package project.myblog.domain.post;
-
-import project.myblog.domain.BaseTimeEntity;
-import project.myblog.domain.member.Member;
+package project.myblog.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

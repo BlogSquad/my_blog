@@ -10,7 +10,7 @@ import project.myblog.auth.dto.AuthProperties;
 import project.myblog.auth.dto.OAuthApiResponse;
 import project.myblog.auth.dto.github.GithubAccessToken;
 import project.myblog.auth.dto.github.GithubOAuthApiResponse;
-import project.myblog.service.member.MemberService;
+import project.myblog.service.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;

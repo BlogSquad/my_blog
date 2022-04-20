@@ -1,8 +1,8 @@
-package project.myblog.repository.member;
+package project.myblog.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import project.myblog.domain.member.Member;
+import project.myblog.domain.Member;
 
 import java.util.List;
 import java.util.Optional;

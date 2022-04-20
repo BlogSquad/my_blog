@@ -4,7 +4,7 @@ import org.springframework.web.client.RestTemplate;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.auth.dto.OAuthApiResponse;
 import project.myblog.exception.ExceptionCode;
-import project.myblog.service.member.MemberService;
+import project.myblog.service.MemberService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

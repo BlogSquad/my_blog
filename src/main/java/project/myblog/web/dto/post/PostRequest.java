@@ -1,11 +1,10 @@
 package project.myblog.web.dto.post;
 
-import project.myblog.domain.member.Member;
-import project.myblog.domain.post.Post;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import project.myblog.domain.Post;
+import project.myblog.domain.Member;
 
 public class PostRequest {
     @NotNull
