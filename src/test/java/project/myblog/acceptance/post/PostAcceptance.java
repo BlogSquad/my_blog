@@ -41,7 +41,8 @@ class PostAcceptance extends AcceptanceTest {
     }
 
     /**
-     * Given 포스트가 작성되어 있음
+     * Given 로그인 되어 있음
+     * And 포스트가 작성되어 있음
      * When 포스트 조회 요청
      * Then 포스트가 조회됨
      */
