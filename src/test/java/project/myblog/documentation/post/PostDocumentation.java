@@ -4,9 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import project.myblog.documentation.Documentation;
 
+import static io.restassured.RestAssured.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
 import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
+import static project.myblog.acceptance.post.PostStepsRequest.포스트_수정_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_작성_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_조회_요청;
 import static project.myblog.auth.dto.SocialType.NAVER;
@@ -20,7 +22,7 @@ class PostDocumentation extends Documentation {
         // when
         포스트_작성_요청(
                 givenRestDocsFieldDescriptorRequestFields("post-create", getFieldDescriptorsRequest())
-                , sessionId, "첫 포스팅", "첫 포스팅을 작성했다."
+                , sessionId, "포스트1제목", "포스트1내용"
         );
     }
 
@@ -28,14 +30,24 @@ class PostDocumentation extends Documentation {
     void 포스트_조회() {
         // given
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        포스트_작성_요청(
-                givenRestDocsFieldDescriptorRequestFields("post-create", getFieldDescriptorsRequest())
-                , sessionId, "첫 포스팅", "첫 포스팅을 작성했다."
-        );
+        포스트_작성_요청(given(), sessionId, "포스트1제목", "포스트1내용");
 
         // when
         포스트_조회_요청(
                 givenRestDocsFieldDescriptorRelaxedResponseFields("post-find", getFieldDescriptors())
+        );
+    }
+
+    @Test
+    void 포스트_수정() {
+        // given
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        포스트_작성_요청(given(), sessionId, "포스트1제목", "포스트1내용");
+
+        // when
+        포스트_수정_요청(
+                givenRestDocsFieldDescriptorRequestFields("post-update", getFieldDescriptorsRequest())
+                , sessionId, "포스트1제목 변경", "포스트1내용 변경"
         );
     }
 
