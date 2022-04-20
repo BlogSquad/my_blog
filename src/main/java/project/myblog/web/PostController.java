@@ -44,4 +44,9 @@ public class PostController {
         postService.updatePost(loginMember.getEmail(), id, postRequest);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping(value = "/posts/{id}")
+    public ResponseEntity<Void> deletePost(@Login LoginMember loginMember, @PathVariable Long id) {
+        return ResponseEntity.noContent().build();
+    }
 }

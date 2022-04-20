@@ -45,7 +45,18 @@ public class PostStepsRequest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .cookie(JSESSIONID, sessionId)
                 .body(params)
-                .when().put("/posts/1")
+                .when().put("/posts/{id}", 1L)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 포스트_삭제_요청(RequestSpecification given, String sessionId) {
+        Map<String, String> params = new HashMap<>();
+
+        return given.log().all()
+                .cookie(JSESSIONID, sessionId)
+                .body(params)
+                .when().delete("/posts/{id}", 1L)
                 .then().log().all()
                 .extract();
     }
