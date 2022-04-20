@@ -8,6 +8,7 @@ import static io.restassured.RestAssured.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
 import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
+import static project.myblog.acceptance.post.PostStepsRequest.포스트_삭제_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_수정_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_작성_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_조회_요청;
@@ -49,6 +50,16 @@ class PostDocumentation extends Documentation {
                 givenRestDocsFieldDescriptorRequestFields("post-update", getFieldDescriptorsRequest())
                 , sessionId, "포스트1제목 변경", "포스트1내용 변경"
         );
+    }
+
+    @Test
+    void 포스트_삭제() {
+        // given
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        포스트_작성_요청(given(), sessionId, "포스트1제목", "포스트1내용");
+
+        // when
+        포스트_삭제_요청(givenRestDocs("post-delete"), sessionId);
     }
 
     private FieldDescriptor[] getFieldDescriptorsRequest() {
