@@ -23,4 +23,8 @@ public class PostStepsAssert {
         assertThat(response.jsonPath().getString("contents")).isEqualTo("포스트1내용");
         assertThat(response.jsonPath().getString("author")).isEqualTo(EMAIL);
     }
+
+    public static void 포스트_안됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
+    }
 }

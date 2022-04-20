@@ -9,6 +9,7 @@ import project.myblog.acceptance.AcceptanceTest;
 import static io.restassured.RestAssured.given;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_수정됨;
+import static project.myblog.acceptance.post.PostStepsAssert.포스트_안됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_작성됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_조회됨;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_수정_요청;
@@ -71,5 +72,18 @@ class PostAcceptance extends AcceptanceTest {
 
         // then
         포스트_수정됨(response);
+    }
+
+    /**
+     * When 포스트 조회 요청
+     * Then 포스트가 조회 안됨
+     */
+    @Test
+    void 예외_존재하지_않는_포스트_조회() {
+        // when
+        ExtractableResponse<Response> response = 포스트_조회_요청(given());
+
+        // then
+        포스트_안됨(response);
     }
 }

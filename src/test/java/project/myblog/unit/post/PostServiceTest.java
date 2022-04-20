@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Member;
 import project.myblog.domain.Post;
+import project.myblog.exception.BusinessException;
 import project.myblog.repository.MemberRepository;
 import project.myblog.repository.PostRepository;
 import project.myblog.service.PostService;
@@ -14,6 +15,7 @@ import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
 
 @Transactional
@@ -72,6 +74,12 @@ class PostServiceTest {
         PostResponse findPost = postService.findPost(postId);
         PostResponse postResponse = new PostResponse(postId, "포스트1제목 변경", "포스트1내용 변경", EMAIL);
         assertThat(findPost).isEqualTo(postResponse);
+    }
+
+    @Test
+    void 예외_존재하지_않는_포스트_조회_실패() {
+        assertThatThrownBy(() -> postService.findPost(1L))
+                .isInstanceOf(BusinessException.class);
     }
 
     private Member createMember() {
