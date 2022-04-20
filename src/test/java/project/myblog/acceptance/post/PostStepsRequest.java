@@ -31,7 +31,7 @@ public class PostStepsRequest {
     public static ExtractableResponse<Response> 포스트_조회_요청(RequestSpecification given) {
         return given.log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .when().get("/posts/1")
+                .when().get("/posts/{id}", 1L)
                 .then().log().all()
                 .extract();
     }
