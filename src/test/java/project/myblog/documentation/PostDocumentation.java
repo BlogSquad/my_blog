@@ -1,8 +1,7 @@
-package project.myblog.documentation.post;
+package project.myblog.documentation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.FieldDescriptor;
-import project.myblog.documentation.Documentation;
 
 import static io.restassured.RestAssured.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;

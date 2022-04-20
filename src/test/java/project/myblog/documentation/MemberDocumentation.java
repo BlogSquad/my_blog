@@ -1,8 +1,7 @@
-package project.myblog.documentation.member;
+package project.myblog.documentation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.FieldDescriptor;
-import project.myblog.documentation.Documentation;
 
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;

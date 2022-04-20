@@ -1,8 +1,7 @@
-package project.myblog.documentation.auth;
+package project.myblog.documentation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.request.ParameterDescriptor;
-import project.myblog.documentation.Documentation;
 
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static project.myblog.acceptance.auth.AuthSteps.로그인_요청;
