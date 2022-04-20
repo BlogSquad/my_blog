@@ -27,7 +27,7 @@ import java.util.List;
 
 @Configuration(value = "webConfig")
 public class WebConfig implements WebMvcConfigurer {
-    public static String SESSION_LOGIN_URI = "/login/session";
+    public static String SESSION_LOGIN_URI = "/login/oauth2/code";
     public static String SESSION_LOGOUT_URI = "/logout/session";
 
     protected final MemberService memberService;
