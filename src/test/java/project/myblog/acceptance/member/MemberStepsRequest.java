@@ -17,7 +17,8 @@ public class MemberStepsRequest {
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .cookie(JSESSIONID, sessionId)
                 .when().get("members/me")
-                .then().log().all().extract();
+                .then().log().all()
+                .extract();
     }
 
 
@@ -32,7 +33,8 @@ public class MemberStepsRequest {
                 .cookie(JSESSIONID, sessionId)
                 .body(params)
                 .when().patch("members/me/introduction")
-                .then().log().all().extract();
+                .then().log().all()
+                .extract();
     }
 
     public static ExtractableResponse<Response> 내_회원_정보_수정_요청_제목(RequestSpecification given,
@@ -46,7 +48,8 @@ public class MemberStepsRequest {
                 .cookie(JSESSIONID, sessionId)
                 .body(params)
                 .when().patch("members/me/subject")
-                .then().log().all().extract();
+                .then().log().all()
+                .extract();
     }
 
     public static ExtractableResponse<Response> 회원_탈퇴_요청(RequestSpecification given, String sessionId) {
