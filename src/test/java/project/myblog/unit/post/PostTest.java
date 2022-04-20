@@ -21,4 +21,28 @@ class PostTest {
         Post expectedPost = new Post(1L, "포스트1제목 변경", "포스트1내용 변경", member);
         assertThat(post).isEqualTo(expectedPost);
     }
+
+    @Test
+    void 내_포스트_권한_검증_실패() {
+        // given
+        Member member = new Member(EMAIL);
+        Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
+
+        // when
+        boolean isAuthorization =  post.isAuthorization(new Member("member2@gmail.com"));
+
+        assertThat(isAuthorization).isFalse();
+    }
+
+    @Test
+    void 내_포스트_권한_검증_검증() {
+        // given
+        Member member = new Member(EMAIL);
+        Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
+
+        // when
+        boolean isAuthorization =  post.isAuthorization(member);
+
+        assertThat(isAuthorization).isTrue();
+    }
 }

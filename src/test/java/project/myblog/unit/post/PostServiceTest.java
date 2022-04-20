@@ -31,7 +31,7 @@ class PostServiceTest {
     @Test
     void 포스트_작성() {
         // given
-        Member member = memberRepository.save(createMember());
+        Member member = memberRepository.save(createMember(EMAIL));
         PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
 
         // when
@@ -47,7 +47,7 @@ class PostServiceTest {
     @Test
     void 포스트_조회() {
         // given
-        memberRepository.save(createMember());
+        memberRepository.save(createMember(EMAIL));
         PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
         Long postId = postService.createPost(EMAIL, postRequest);
 
@@ -62,7 +62,7 @@ class PostServiceTest {
     @Test
     void 포스트_수정() {
         // given
-        memberRepository.save(createMember());
+        memberRepository.save(createMember(EMAIL));
         PostRequest postSaveRequest = new PostRequest("포스트1제목", "포스트1내용");
         Long postId = postService.createPost(EMAIL, postSaveRequest);
 
@@ -77,12 +77,52 @@ class PostServiceTest {
     }
 
     @Test
+    void 포스트_삭제() {
+        // given
+        memberRepository.save(createMember(EMAIL));
+        PostRequest postSaveRequest = new PostRequest("포스트1제목", "포스트1내용");
+        Long postId = postService.createPost(EMAIL, postSaveRequest);
+
+        // when
+        postService.deletePost(EMAIL, postId);
+
+        // then
+        assertThatThrownBy(() -> postService.findPost(postId))
+                .isInstanceOf(BusinessException.class);
+    }
+
+    @Test
     void 예외_존재하지_않는_포스트_조회_실패() {
+        // when, then
         assertThatThrownBy(() -> postService.findPost(1L))
                 .isInstanceOf(BusinessException.class);
     }
 
-    private Member createMember() {
-        return new Member(EMAIL);
+    @Test
+    void 예외_타인의_포스트_삭제_실패() {
+        // given
+        memberRepository.save(createMember(EMAIL));
+        memberRepository.save(createMember("member2@gmail.com"));
+
+        PostRequest postSaveRequest = new PostRequest("member2의 포스트제목", "member2의 포스트1내용");
+        Long postId = postService.createPost("member2@gmail.com", postSaveRequest);
+
+        // when, then
+        assertThatThrownBy(() -> postService.deletePost(EMAIL, postId))
+                .isInstanceOf(BusinessException.class);
+    }
+
+    @Test
+    void 존재하지_않는_포스트_삭제_실패() {
+        // given
+        memberRepository.save(createMember(EMAIL));
+
+        // when, then
+        assertThatThrownBy(() -> postService.deletePost(EMAIL, 1L))
+                .isInstanceOf(BusinessException.class);
+    }
+
+    private Member createMember(String email) {
+        return new Member(email);
     }
 }

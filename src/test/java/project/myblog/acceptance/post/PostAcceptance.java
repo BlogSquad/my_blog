@@ -8,6 +8,8 @@ import project.myblog.acceptance.AcceptanceTest;
 
 import static io.restassured.RestAssured.given;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
+import static project.myblog.acceptance.post.PostStepsAssert.타인_포스트_삭제_안됨;
+import static project.myblog.acceptance.post.PostStepsAssert.포스트_삭제_안됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_삭제됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_수정됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_작성됨;
@@ -18,6 +20,7 @@ import static project.myblog.acceptance.post.PostStepsRequest.포스트_수정_�
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_작성_되어있음;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_작성_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_조회_요청;
+import static project.myblog.auth.dto.SocialType.GITHUB;
 import static project.myblog.auth.dto.SocialType.NAVER;
 
 @DisplayName("포스트 관리")
@@ -29,13 +32,10 @@ class PostAcceptance extends AcceptanceTest {
      */
     @Test
     void 포스트_작성() {
-        // given
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
 
-        // when
         ExtractableResponse<Response> response = 포스트_작성_요청(given(), sessionId, "포스트1제목", "포스트1내용");
 
-        // then
         포스트_작성됨(response);
     }
 
@@ -46,14 +46,11 @@ class PostAcceptance extends AcceptanceTest {
      */
     @Test
     void 포스트_조회() {
-        // given
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
         포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
 
-        // when
         ExtractableResponse<Response> response = 포스트_조회_요청(given());
 
-        // then
         포스트_조회됨(response);
     }
 
@@ -65,14 +62,11 @@ class PostAcceptance extends AcceptanceTest {
       */
     @Test
     void 포스트_수정() {
-        // given
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
         포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
 
-        // when
         ExtractableResponse<Response> response = 포스트_수정_요청(given(), sessionId, "포스트1제목 변경", "포스트1내용 변경");
 
-        // then
         포스트_수정됨(response);
     }
 
@@ -84,14 +78,11 @@ class PostAcceptance extends AcceptanceTest {
      */
     @Test
     void 포스트_삭제() {
-        // given
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
         포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
 
-        // when
         ExtractableResponse<Response> response = 포스트_삭제_요청(given(), sessionId);
 
-        // then
         포스트_삭제됨(response);
     }
 
@@ -101,10 +92,40 @@ class PostAcceptance extends AcceptanceTest {
      */
     @Test
     void 예외_존재하지_않는_포스트_조회() {
-        // when
         ExtractableResponse<Response> response = 포스트_조회_요청(given());
 
-        // then
         포스트_조회_안됨(response);
+    }
+
+    /**
+     * Given 회원1 로그인 되어있음
+     * And 회원2 로그인 되어 있음
+     * And 회원2 포스트 작성 되어있음
+     * When 회원1이 회원2 포스트 삭제 요청
+     * Then 포스트가 삭제 안됨
+     */
+    @Test
+    void 예외_타인의_포스트_삭제() {
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        String sessionId2 = 로그인_요청_로그인_됨(GITHUB.getServiceName());
+        포스트_작성_되어있음(sessionId2, "포스트2제목", "포스트2내용");
+
+        ExtractableResponse<Response> response = 포스트_삭제_요청(given(), sessionId);
+
+        타인_포스트_삭제_안됨(response);
+    }
+
+    /**
+     * Given 로그인 되어 있음
+     * When 포스트 삭제 요청
+     * Then 포스트가 삭제 안됨
+     */
+    @Test
+    void 예외_존재하지_않는_포스트_삭제() {
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+
+        ExtractableResponse<Response> response = 포스트_삭제_요청(given(), sessionId);
+
+        포스트_삭제_안됨(response);
     }
 }

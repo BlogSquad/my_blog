@@ -75,7 +75,7 @@ public class TestWebConfig extends WebConfig {
 
         @Override
         protected OAuthApiResponse requestUserInfo(String accessToken) {
-            return new GithubOAuthApiResponse("monkeyDugi@gmail.com");
+            return new GithubOAuthApiResponse("monkeyDugi@github.com");
         }
     }
 }

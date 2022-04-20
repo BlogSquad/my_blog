@@ -10,6 +10,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import java.util.Objects;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 public class Post extends BaseTimeEntity {
     @Id
@@ -20,7 +22,7 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     @Lob
     private String contents;
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
@@ -45,6 +47,10 @@ public class Post extends BaseTimeEntity {
         this.contents = contents;
 
         return id;
+    }
+
+    public boolean isAuthorization(Member member) {
+        return this.member.equals(member);
     }
 
     public Long getId() {

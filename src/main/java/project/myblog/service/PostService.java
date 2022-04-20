@@ -29,8 +29,7 @@ public class PostService {
     }
 
     public PostResponse findPost(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new BusinessException(ExceptionCode.POST_INVALID));
+        Post post = findPostById(postId);
 
         return new PostResponse(post);
     }
@@ -43,5 +42,21 @@ public class PostService {
             return post.get().update(requestDto.getTitle(), requestDto.getContents());
         }
         return postRepository.save(requestDto.toEntity(member)).getId();
+    }
+
+    public void deletePost(String email, Long postId) {
+        Member member = memberService.findMemberByEmail(email);
+        Post post = findPostById(postId);
+
+        if (post.isAuthorization(member)) {
+            postRepository.delete(post);
+        } else {
+            throw new BusinessException(ExceptionCode.POST_AUTHORIZATION);
+        }
+    }
+
+    private Post findPostById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new BusinessException(ExceptionCode.POST_INVALID));
     }
 }
