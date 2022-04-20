@@ -1,5 +1,6 @@
 package project.myblog.unit.post;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,8 +12,6 @@ import project.myblog.repository.PostRepository;
 import project.myblog.service.PostService;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
-
-import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
@@ -31,17 +30,14 @@ class PostServiceTest {
     void 포스트_작성() {
         // given
         Member member = memberRepository.save(createMember());
-
-        String title = "포스트1제목";
-        String contents = "포스트1내용";
-        PostRequest postRequest = new PostRequest(title, contents);
+        PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
 
         // when
         Long postId = postService.createPost(EMAIL, postRequest);
 
         // then
         Post post = postRepository.findById(postId).get();
-        Post expectedPost = new Post(postId, title, contents, member);
+        Post expectedPost = new Post(postId, "포스트1제목", "포스트1내용", member);
 
         assertThat(post).isEqualTo(expectedPost);
     }
@@ -50,18 +46,31 @@ class PostServiceTest {
     void 포스트_조회() {
         // given
         memberRepository.save(createMember());
-
-        String title = "포스트1제목".toUpperCase(Locale.ROOT);
-        String contents = "포스트1내용";
-        PostRequest postRequest = new PostRequest(title, contents);
-
+        PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
         Long postId = postService.createPost(EMAIL, postRequest);
 
         // when
         PostResponse findPost = postService.findPost(postId);
 
         // then
-        PostResponse postResponse = new PostResponse(postId, title, contents, EMAIL);
+        PostResponse postResponse = new PostResponse(postId, "포스트1제목", "포스트1내용", EMAIL);
+        assertThat(findPost).isEqualTo(postResponse);
+    }
+
+    @Test
+    void 포스트_수정() {
+        // given
+        memberRepository.save(createMember());
+        PostRequest postSaveRequest = new PostRequest("포스트1제목", "포스트1내용");
+        Long postId = postService.createPost(EMAIL, postSaveRequest);
+
+        // when
+        PostRequest postUpdateRequest = new PostRequest("포스트1제목 변경", "포스트1내용 변경");
+        postService.updatePost(EMAIL, postId, postUpdateRequest);
+
+        // then
+        PostResponse findPost = postService.findPost(postId);
+        PostResponse postResponse = new PostResponse(postId, "포스트1제목 변경", "포스트1내용 변경", EMAIL);
         assertThat(findPost).isEqualTo(postResponse);
     }
 

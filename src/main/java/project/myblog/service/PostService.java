@@ -10,6 +10,8 @@ import project.myblog.repository.PostRepository;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
 
+import java.util.Optional;
+
 @Transactional
 @Service
 public class PostService {
@@ -31,5 +33,15 @@ public class PostService {
                 .orElseThrow(() -> new BusinessException(ExceptionCode.POST_INVALID));
 
         return new PostResponse(post);
+    }
+
+    public Long updatePost(String email, Long postId, PostRequest requestDto) {
+        Member member = memberService.findMemberByEmail(email);
+
+        Optional<Post> post = postRepository.findById(postId);
+        if (post.isPresent()) {
+            return post.get().update(requestDto.getTitle(), requestDto.getContents());
+        }
+        return postRepository.save(requestDto.toEntity(member)).getId();
     }
 }

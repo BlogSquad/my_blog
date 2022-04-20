@@ -40,9 +40,11 @@ public class Post extends BaseTimeEntity {
         this.member = member;
     }
 
-    public void update(String title, String contents) {
+    public Long update(String title, String contents) {
         this.title = title;
         this.contents = contents;
+
+        return id;
     }
 
     public Long getId() {
