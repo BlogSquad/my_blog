@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import project.myblog.auth.dto.Login;
@@ -34,5 +35,10 @@ public class PostController {
     public ResponseEntity<PostResponse> findPost(@PathVariable Long id) {
         PostResponse postResponse = postService.findPost(id);
         return ResponseEntity.ok(postResponse);
+    }
+
+    @PutMapping(value = "/posts/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updatePost(@PathVariable Long id, @Valid @RequestBody PostRequest postRequest) {
+        return ResponseEntity.noContent().build();
     }
 }

@@ -9,11 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+import static project.myblog.acceptance.member.MemberStepsRequest.JSESSIONID;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_작성됨;
 
 public class PostStepsRequest {
-    public static final String JSESSIONID = "JSESSIONID";
-
     public static ExtractableResponse<Response> 포스트_작성_요청(
             RequestSpecification given, String sessionId, String title, String contents) {
         Map<String, String> params = new HashMap<>();
@@ -29,10 +28,24 @@ public class PostStepsRequest {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 포스트_조회_요청(RequestSpecification given, ExtractableResponse<Response> createResponse) {
+    public static ExtractableResponse<Response> 포스트_조회_요청(RequestSpecification given) {
         return given.log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/posts/1")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 포스트_수정_요청(RequestSpecification given, String sessionId, String title, String contents) {
+        Map<String, String> params = new HashMap<>();
+        params.put("title", title);
+        params.put("contents", contents);
+
+        return given.log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .cookie(JSESSIONID, sessionId)
+                .body(params)
+                .when().put("/posts/1")
                 .then().log().all()
                 .extract();
     }

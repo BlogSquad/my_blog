@@ -10,9 +10,11 @@ import java.util.Objects;
 public class PostRequest {
     @NotNull
     @NotBlank
+    @javax.validation.constraints.NotEmpty
     private String title;
     @NotNull
     @NotBlank
+    @javax.validation.constraints.NotEmpty
     private String contents;
 
     protected PostRequest() {
