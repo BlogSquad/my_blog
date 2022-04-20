@@ -5,7 +5,7 @@ import io.restassured.response.Response;
 import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
+import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 
 public class PostStepsAssert {
     public static void 포스트_작성됨(ExtractableResponse<Response> response) {
@@ -21,7 +21,7 @@ public class PostStepsAssert {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.jsonPath().getString("title")).isEqualTo("포스트1제목");
         assertThat(response.jsonPath().getString("contents")).isEqualTo("포스트1내용");
-        assertThat(response.jsonPath().getString("author")).isEqualTo(EMAIL);
+        assertThat(response.jsonPath().getString("author")).isEqualTo(NAVER_EMAIL);
     }
 
     public static void 포스트_조회_안됨(ExtractableResponse<Response> response) {

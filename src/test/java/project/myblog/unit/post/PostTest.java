@@ -5,13 +5,13 @@ import project.myblog.domain.Member;
 import project.myblog.domain.Post;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
+import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 
 class PostTest {
     @Test
     void 포스트_수정() {
         // given
-        Member member = new Member(EMAIL);
+        Member member = new Member(NAVER_EMAIL);
         Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
 
         // when
@@ -25,7 +25,7 @@ class PostTest {
     @Test
     void 내_포스트_권한_검증_실패() {
         // given
-        Member member = new Member(EMAIL);
+        Member member = new Member(NAVER_EMAIL);
         Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
 
         // when
@@ -37,7 +37,7 @@ class PostTest {
     @Test
     void 내_포스트_권한_검증_검증() {
         // given
-        Member member = new Member(EMAIL);
+        Member member = new Member(NAVER_EMAIL);
         Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
 
         // when

@@ -6,7 +6,7 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 import static io.restassured.RestAssured.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
-import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
+import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_삭제_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_수정_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_작성_요청;
@@ -73,7 +73,7 @@ class PostDocumentation extends Documentation {
                 fieldWithPath("id").description("포스트 id"),
                 fieldWithPath("title").description("포스트 제목"),
                 fieldWithPath("contents").description("포스트 내용"),
-                fieldWithPath("author").description(EMAIL)
+                fieldWithPath("author").description(NAVER_EMAIL)
         };
     }
 }

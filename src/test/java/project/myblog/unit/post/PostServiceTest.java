@@ -1,6 +1,5 @@
 package project.myblog.unit.post;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +15,7 @@ import project.myblog.web.dto.post.PostResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
+import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 
 @Transactional
 @SpringBootTest
@@ -31,11 +30,11 @@ class PostServiceTest {
     @Test
     void 포스트_작성() {
         // given
-        Member member = memberRepository.save(createMember(EMAIL));
+        Member member = memberRepository.save(createMember(NAVER_EMAIL));
         PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
 
         // when
-        Long postId = postService.createPost(EMAIL, postRequest);
+        Long postId = postService.createPost(NAVER_EMAIL, postRequest);
 
         // then
         Post post = postRepository.findById(postId).get();
@@ -47,47 +46,64 @@ class PostServiceTest {
     @Test
     void 포스트_조회() {
         // given
-        memberRepository.save(createMember(EMAIL));
+        memberRepository.save(createMember(NAVER_EMAIL));
         PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
-        Long postId = postService.createPost(EMAIL, postRequest);
+        Long postId = postService.createPost(NAVER_EMAIL, postRequest);
 
         // when
         PostResponse findPost = postService.findPost(postId);
 
         // then
-        PostResponse postResponse = new PostResponse(postId, "포스트1제목", "포스트1내용", EMAIL);
+        PostResponse postResponse = new PostResponse(postId, "포스트1제목", "포스트1내용", NAVER_EMAIL);
         assertThat(findPost).isEqualTo(postResponse);
     }
 
     @Test
     void 포스트_수정() {
         // given
-        memberRepository.save(createMember(EMAIL));
+        memberRepository.save(createMember(NAVER_EMAIL));
         PostRequest postSaveRequest = new PostRequest("포스트1제목", "포스트1내용");
-        Long postId = postService.createPost(EMAIL, postSaveRequest);
+        Long postId = postService.createPost(NAVER_EMAIL, postSaveRequest);
 
         // when
         PostRequest postUpdateRequest = new PostRequest("포스트1제목 변경", "포스트1내용 변경");
-        postService.updatePost(EMAIL, postId, postUpdateRequest);
+        postService.updatePost(NAVER_EMAIL, postId, postUpdateRequest);
 
         // then
         PostResponse findPost = postService.findPost(postId);
-        PostResponse postResponse = new PostResponse(postId, "포스트1제목 변경", "포스트1내용 변경", EMAIL);
+        PostResponse postResponse = new PostResponse(postId, "포스트1제목 변경", "포스트1내용 변경", NAVER_EMAIL);
         assertThat(findPost).isEqualTo(postResponse);
     }
 
     @Test
     void 포스트_삭제() {
         // given
-        memberRepository.save(createMember(EMAIL));
+        memberRepository.save(createMember(NAVER_EMAIL));
         PostRequest postSaveRequest = new PostRequest("포스트1제목", "포스트1내용");
-        Long postId = postService.createPost(EMAIL, postSaveRequest);
+        Long postId = postService.createPost(NAVER_EMAIL, postSaveRequest);
 
         // when
-        postService.deletePost(EMAIL, postId);
+        postService.deletePost(NAVER_EMAIL, postId);
 
         // then
         assertThatThrownBy(() -> postService.findPost(postId))
+                .isInstanceOf(BusinessException.class);
+    }
+
+    @Test
+    void 예외_타인_포스트_수정_실패() {
+        // given
+        memberRepository.save(createMember(NAVER_EMAIL));
+        memberRepository.save(createMember("member2@gmail.com"));
+
+        PostRequest postSaveRequest = new PostRequest("member2의 포스트1제목", "member2의 포스트1내용");
+        Long postId = postService.createPost("member2@gmail.com", postSaveRequest);
+
+        // when
+        PostRequest postUpdateRequest = new PostRequest("member2의 포스트1제목 변경", "member2의 포스트1내용 변경");
+
+        // then
+        assertThatThrownBy(() -> postService.updatePost(NAVER_EMAIL, postId, postUpdateRequest))
                 .isInstanceOf(BusinessException.class);
     }
 
@@ -101,24 +117,24 @@ class PostServiceTest {
     @Test
     void 예외_타인의_포스트_삭제_실패() {
         // given
-        memberRepository.save(createMember(EMAIL));
+        memberRepository.save(createMember(NAVER_EMAIL));
         memberRepository.save(createMember("member2@gmail.com"));
 
-        PostRequest postSaveRequest = new PostRequest("member2의 포스트제목", "member2의 포스트1내용");
+        PostRequest postSaveRequest = new PostRequest("member2의 포스트1제목", "member2의 포스트1내용");
         Long postId = postService.createPost("member2@gmail.com", postSaveRequest);
 
         // when, then
-        assertThatThrownBy(() -> postService.deletePost(EMAIL, postId))
+        assertThatThrownBy(() -> postService.deletePost(NAVER_EMAIL, postId))
                 .isInstanceOf(BusinessException.class);
     }
 
     @Test
     void 존재하지_않는_포스트_삭제_실패() {
         // given
-        memberRepository.save(createMember(EMAIL));
+        memberRepository.save(createMember(NAVER_EMAIL));
 
         // when, then
-        assertThatThrownBy(() -> postService.deletePost(EMAIL, 1L))
+        assertThatThrownBy(() -> postService.deletePost(NAVER_EMAIL, 1L))
                 .isInstanceOf(BusinessException.class);
     }
 
