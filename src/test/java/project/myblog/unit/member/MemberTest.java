@@ -8,7 +8,7 @@ import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
 
 class MemberTest {
     @Test
-    void delete() {
+    void 회원_탈퇴() {
         // given
         Member member = new Member(EMAIL);
 
