@@ -61,7 +61,7 @@ class PostServiceTest {
         PostResponse findPost = postService.findPost(postId);
 
         // then
-        PostResponse postResponse = new PostResponse(title, contents, EMAIL);
+        PostResponse postResponse = new PostResponse(postId, title, contents, EMAIL);
         assertThat(findPost).isEqualTo(postResponse);
     }
 
