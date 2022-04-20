@@ -32,7 +32,6 @@ public class PostStepsRequest {
     public static ExtractableResponse<Response> 포스트_조회_요청(RequestSpecification given, ExtractableResponse<Response> createResponse) {
         return given.log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-//                .when().get(createResponse.header("Location"))
                 .when().get("/posts/1")
                 .then().log().all()
                 .extract();

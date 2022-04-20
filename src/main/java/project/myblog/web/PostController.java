@@ -32,7 +32,7 @@ public class PostController {
 
     @GetMapping(value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PostResponse> findPost(@PathVariable Long id) {
-        PostResponse postResponse = new PostResponse("포스트1제목", "포스트1내용", "monkeyDugi@gmail.com");
+        PostResponse postResponse = postService.findPost(id);
         return ResponseEntity.ok(postResponse);
     }
 }
