@@ -8,6 +8,9 @@ import org.springframework.http.MediaType;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.restassured.RestAssured.given;
+import static project.myblog.acceptance.post.PostStepsAssert.포스트_작성됨;
+
 public class PostStepsRequest {
     public static final String JSESSIONID = "JSESSIONID";
 
@@ -21,7 +24,23 @@ public class PostStepsRequest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .cookie(JSESSIONID, sessionId)
                 .body(params)
-                .when().post("/post")
-                .then().log().all().extract();
+                .when().post("/posts")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 포스트_조회_요청(RequestSpecification given, ExtractableResponse<Response> createResponse) {
+        return given.log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+//                .when().get(createResponse.header("Location"))
+                .when().get("/posts/1")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 포스트_작성_되어있음(String sessionId, String title, String contents) {
+        ExtractableResponse<Response> response = 포스트_작성_요청(given(), sessionId, title, contents);
+        포스트_작성됨(response);
+        return response;
     }
 }
