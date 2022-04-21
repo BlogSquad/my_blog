@@ -1,7 +1,5 @@
 package project.myblog.domain;
 
-import project.myblog.domain.BaseTimeEntity;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
