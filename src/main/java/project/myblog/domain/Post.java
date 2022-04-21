@@ -44,17 +44,19 @@ public class Post extends BaseTimeEntity {
         this.member = member;
     }
 
-    public Long update(String title, String contents, Member member) {
-        if (!isAuthorization(member)) {
-            throw new BusinessException(POST_AUTHORIZATION);
-        }
+    public void update(String title, String contents, Member member) {
+        validateOwner(member);
         this.title = title;
         this.contents = contents;
-
-        return id;
     }
 
-    public boolean isAuthorization(Member member) {
+    public void validateOwner(Member member) {
+        if (!isOwner(member)) {
+            throw new BusinessException(POST_AUTHORIZATION);
+        }
+    }
+
+    private boolean isOwner(Member member) {
         return this.member.equals(member);
     }
 

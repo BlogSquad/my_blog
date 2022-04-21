@@ -3,8 +3,10 @@ package project.myblog.unit.post;
 import org.junit.jupiter.api.Test;
 import project.myblog.domain.Member;
 import project.myblog.domain.Post;
+import project.myblog.exception.BusinessException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 
 class PostTest {
@@ -23,26 +25,16 @@ class PostTest {
     }
 
     @Test
-    void 내_포스트_권한_검증_실패() {
+    void 예외_타인_포스트_수정_실패() {
         // given
         Member member = new Member(NAVER_EMAIL);
         Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
 
         // when
-        boolean isAuthorization =  post.isAuthorization(new Member("member2@gmail.com"));
+        assertThatThrownBy(() ->
+                post.update("포스트1제목 변경", "포스트1내용 변경", new Member("member2@gmail.com")))
+                // then
+                .isInstanceOf(BusinessException.class);
 
-        assertThat(isAuthorization).isFalse();
-    }
-
-    @Test
-    void 내_포스트_권한_검증_검증() {
-        // given
-        Member member = new Member(NAVER_EMAIL);
-        Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
-
-        // when
-        boolean isAuthorization =  post.isAuthorization(member);
-
-        assertThat(isAuthorization).isTrue();
     }
 }

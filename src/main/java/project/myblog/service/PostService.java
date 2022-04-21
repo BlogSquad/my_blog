@@ -33,21 +33,19 @@ public class PostService {
         return new PostResponse(post);
     }
 
-    public Long updatePost(String email, Long postId, PostRequest requestDto) {
+    public void updatePost(String email, Long postId, PostRequest requestDto) {
         Member member = memberService.findMemberByEmail(email);
-        return findPostById(postId)
-                .update(requestDto.getTitle(), requestDto.getContents(), member);
+        Post post = findPostById(postId);
+
+        post.update(requestDto.getTitle(), requestDto.getContents(), member);
     }
 
     public void deletePost(String email, Long postId) {
         Member member = memberService.findMemberByEmail(email);
         Post post = findPostById(postId);
 
-        if (post.isAuthorization(member)) {
-            postRepository.delete(post);
-        } else {
-            throw new BusinessException(ExceptionCode.POST_AUTHORIZATION);
-        }
+        post.validateOwner(member);
+        postRepository.delete(post);
     }
 
     private Post findPostById(Long postId) {
