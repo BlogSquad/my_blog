@@ -1,6 +1,6 @@
 package project.myblog.auth.dto;
 
-import project.myblog.domain.member.Member;
+import project.myblog.domain.Member;
 
 import java.util.Objects;
 

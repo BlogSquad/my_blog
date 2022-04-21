@@ -24,7 +24,7 @@ public class MemberStepsAssert {
     }
 
     public static void 내_회원_정보_조회_안됨(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
         assertThat(response.sessionId()).isNullOrEmpty();
     }
 

@@ -1,16 +1,16 @@
 package project.myblog.unit.member;
 
 import org.junit.jupiter.api.Test;
-import project.myblog.domain.member.Member;
+import project.myblog.domain.Member;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
+import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 
 class MemberTest {
     @Test
-    void delete() {
+    void 회원_탈퇴() {
         // given
-        Member member = new Member(EMAIL);
+        Member member = new Member(NAVER_EMAIL);
 
         // when
         member.delete();

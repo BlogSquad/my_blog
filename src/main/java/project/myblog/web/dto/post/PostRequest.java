@@ -1,18 +1,21 @@
 package project.myblog.web.dto.post;
 
-import project.myblog.domain.member.Member;
-import project.myblog.domain.post.Post;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import project.myblog.domain.Post;
+import project.myblog.domain.Member;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class PostRequest {
     @NotNull
     @NotBlank
+    @Size(min = 1, max = 255)
     private String title;
     @NotNull
     @NotBlank
+    @NotEmpty
     private String contents;
 
     protected PostRequest() {

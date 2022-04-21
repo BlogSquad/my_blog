@@ -6,17 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
-import project.myblog.domain.member.Member;
+import project.myblog.domain.Member;
 import project.myblog.exception.BusinessException;
-import project.myblog.repository.member.MemberRepository;
-import project.myblog.service.member.MemberService;
-import project.myblog.web.dto.member.response.MemberResponse;
+import project.myblog.repository.MemberRepository;
+import project.myblog.service.MemberService;
+import project.myblog.web.dto.member.MemberResponse;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static project.myblog.acceptance.member.MemberStepsRequest.EMAIL;
+import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 import static project.myblog.exception.ExceptionCode.MEMBER_INVALID;
 
 @Transactional
@@ -30,7 +30,7 @@ class MemberServiceTest {
     @Test
     void 회원가입() {
         // when
-        LoginMember loginMember = memberService.signUp(EMAIL);
+        LoginMember loginMember = memberService.signUp(NAVER_EMAIL);
 
         // then
         assertThat(loginMember).isEqualTo(new LoginMember(createMember()));
@@ -40,7 +40,7 @@ class MemberServiceTest {
     @Test
     void 중복_회원가입_안됨() {
         // when
-        LoginMember loginMember = memberService.signUp(EMAIL);
+        LoginMember loginMember = memberService.signUp(NAVER_EMAIL);
 
         // then
         assertThat(loginMember).isEqualTo(new LoginMember(createMember()));
@@ -52,7 +52,7 @@ class MemberServiceTest {
         memberRepository.save(createMember());
 
         // when
-        MemberResponse memberResponse = memberService.findMemberOfMine(EMAIL);
+        MemberResponse memberResponse = memberService.findMemberOfMine(NAVER_EMAIL);
 
         // then
         MemberResponse expectedMember = new MemberResponse(createMember());
@@ -65,10 +65,10 @@ class MemberServiceTest {
         memberRepository.save(createMember());
 
         // when
-        memberService.updateMemberOfMineIntroduction(EMAIL, "한줄 소개 변경");
+        memberService.updateMemberOfMineIntroduction(NAVER_EMAIL, "한줄 소개 변경");
 
         // then
-        Member member = memberRepository.findByEmailAndIsDeletedFalse(EMAIL).get();
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(NAVER_EMAIL).get();
         assertThat(member.getIntroduction()).isEqualTo("한줄 소개 변경");
     }
 
@@ -78,10 +78,10 @@ class MemberServiceTest {
         memberRepository.save(createMember());
 
         // when
-        memberService.updateMemberOfMineSubject(EMAIL, "제목 변경");
+        memberService.updateMemberOfMineSubject(NAVER_EMAIL, "제목 변경");
 
         // then
-        Member member = memberRepository.findByEmailAndIsDeletedFalse(EMAIL).get();
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(NAVER_EMAIL).get();
         assertThat(member.getSubject()).isEqualTo("제목 변경");
     }
 
@@ -91,10 +91,10 @@ class MemberServiceTest {
         memberRepository.save(createMember());
 
         // when
-        memberService.deleteMember(EMAIL);
+        memberService.deleteMember(NAVER_EMAIL);
 
         // then
-        List<Member> members = memberRepository.findAllByEmail(EMAIL);
+        List<Member> members = memberRepository.findAllByEmail(NAVER_EMAIL);
         assertThat(members.get(0).isDeleted()).isTrue();
     }
 
@@ -102,16 +102,16 @@ class MemberServiceTest {
     void 회원_탈퇴_후_재가입() {
         // given
         memberRepository.save(createMember());
-        memberService.deleteMember(EMAIL);
+        memberService.deleteMember(NAVER_EMAIL);
 
         // when
-        memberService.signUp(EMAIL);
+        memberService.signUp(NAVER_EMAIL);
 
         // then
-        List<Member> members = memberRepository.findAllByEmail(EMAIL);
+        List<Member> members = memberRepository.findAllByEmail(NAVER_EMAIL);
         assertThat(members.size()).isEqualTo(2);
 
-        Member member = memberRepository.findByEmailAndIsDeletedFalse(EMAIL).get();
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(NAVER_EMAIL).get();
         assertThat(member.isDeleted()).isFalse();
     }
 
@@ -124,6 +124,6 @@ class MemberServiceTest {
     }
 
     private Member createMember() {
-        return new Member(EMAIL);
+        return new Member(NAVER_EMAIL);
     }
 }

@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.metamodel.EntityType;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

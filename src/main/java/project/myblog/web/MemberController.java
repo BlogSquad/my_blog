@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import project.myblog.auth.dto.Login;
 import project.myblog.auth.dto.LoginMember;
-import project.myblog.service.member.MemberService;
-import project.myblog.web.dto.member.request.MemberIntroductionRequest;
-import project.myblog.web.dto.member.request.MemberSubjectRequest;
-import project.myblog.web.dto.member.response.MemberResponse;
+import project.myblog.service.MemberService;
+import project.myblog.web.dto.member.MemberIntroductionRequest;
+import project.myblog.web.dto.member.MemberSubjectRequest;
+import project.myblog.web.dto.member.MemberResponse;
 
 import javax.validation.Valid;
 
