@@ -27,62 +27,27 @@ class PostAcceptance extends AcceptanceTest {
      * Given 로그인 되어 있음
      * When 포스트 작성 요청
      * Then 포스트 작성됨
-     */
-    @Test
-    void 포스트_작성() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-
-        ExtractableResponse<Response> response = 포스트_작성_요청(given(), sessionId, "포스트1제목", "포스트1내용");
-
-        포스트_작성됨(response);
-    }
-
-    /**
-     * Given 로그인 되어 있음
-     * And 포스트가 작성되어 있음
      * When 포스트 조회 요청
-     * Then 포스트가 조회됨
-     */
-    @Test
-    void 포스트_조회() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
-
-        ExtractableResponse<Response> response = 포스트_조회_요청(given());
-
-        포스트_조회됨(response);
-    }
-
-     /**
-      * Given 로그인 되어 있음
-      * And 포스트가 작성되어 있음
-      * When 포스트 수정 요청
-      * Then 포스트 수정됨
-      */
-    @Test
-    void 포스트_수정() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
-
-        ExtractableResponse<Response> response = 포스트_수정_요청(given(), sessionId, "포스트1제목 변경", "포스트1내용 변경");
-
-        포스트_수정_or_삭제됨(response);
-    }
-
-    /**
-     * Given 로그인 되어 있음
-     * And 포스트가 작성되어 있음
+     * Then 포스트 조회됨
+     * When 포스트 수정 요청
+     * Then 포스트 수정됨
      * When 포스트 삭제 요청
      * Then 포스트 삭제됨
      */
     @Test
-    void 포스트_삭제() {
+    void 포스트_관리() {
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
+        ExtractableResponse<Response> createResponse = 포스트_작성_요청(given(), sessionId, "포스트1제목", "포스트1내용");
+        포스트_작성됨(createResponse);
 
-        ExtractableResponse<Response> response = 포스트_삭제_요청(given(), sessionId);
+        ExtractableResponse<Response> findResponse = 포스트_조회_요청(given());
+        포스트_조회됨(findResponse);
 
-        포스트_수정_or_삭제됨(response);
+        ExtractableResponse<Response> updateResponse = 포스트_수정_요청(given(), sessionId, "포스트1제목 변경", "포스트1내용 변경");
+        포스트_수정_or_삭제됨(updateResponse);
+
+        ExtractableResponse<Response> deleteResponse = 포스트_삭제_요청(given(), sessionId);
+        포스트_수정_or_삭제됨(deleteResponse);
     }
 
     /**
