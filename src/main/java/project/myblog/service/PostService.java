@@ -10,8 +10,6 @@ import project.myblog.repository.PostRepository;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
 
-import java.util.Optional;
-
 @Transactional
 @Service
 public class PostService {
@@ -48,7 +46,7 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    private Post findPostById(Long postId) {
+    public Post findPostById(Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(ExceptionCode.POST_INVALID));
     }
