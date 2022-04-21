@@ -24,7 +24,7 @@ class AuthDocumentation extends Documentation {
 
     private ParameterDescriptor[] getParameterDescriptors() {
         return new ParameterDescriptor[] {
-                parameterWithName("code").description("소셜 로그인 승인 코드(Authorization Code)")
+                parameterWithName("code").description("소셜 로그인 승인 코드(Authentication Code)")
         };
     }
 }

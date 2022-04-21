@@ -1,7 +1,7 @@
-package project.myblog.auth.authentication.session;
+package project.myblog.auth.oauthAuthentication.session;
 
 import org.springframework.web.client.RestTemplate;
-import project.myblog.auth.authentication.OAuthAuthentication;
+import project.myblog.auth.oauthAuthentication.OAuthAuthentication;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.service.MemberService;
 

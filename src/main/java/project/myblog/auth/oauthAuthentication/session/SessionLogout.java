@@ -1,6 +1,6 @@
-package project.myblog.auth.authentication.session;
+package project.myblog.auth.oauthAuthentication.session;
 
-import project.myblog.auth.authentication.Logout;
+import project.myblog.auth.oauthAuthentication.Logout;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,13 +1,13 @@
-package project.myblog.auth.authorization.session;
+package project.myblog.auth.authentication.session;
 
-import project.myblog.auth.authorization.Authorization;
+import project.myblog.auth.authentication.Authentication;
 import project.myblog.exception.BusinessException;
 import project.myblog.exception.ExceptionCode;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SessionAuthorization implements Authorization {
+public class SessionAuthentication implements Authentication {
     @Override
     public boolean isSupported(HttpServletRequest request, HttpServletResponse response) {
         return true;

@@ -1,4 +1,4 @@
-package project.myblog.auth.authentication;
+package project.myblog.auth.oauthAuthentication;
 
 import org.springframework.web.client.RestTemplate;
 import project.myblog.auth.dto.LoginMember;
@@ -33,19 +33,17 @@ public abstract class OAuthAuthentication {
     }
 
     private boolean isAccessToken(HttpServletRequest request, HttpServletResponse response, String accessToken) {
-        if (accessToken != null) {
-            return true;
+        if (accessToken == null) {
+            try {
+                request.setAttribute("exceptionType", ExceptionCode.MEMBER_AUTHENTICATION);
+                request.getRequestDispatcher("/api/error").forward(request, response);
+            } catch (ServletException | IOException e) {
+                e.printStackTrace();
+            }
+            return false;
         }
 
-        request.setAttribute("exceptionType", ExceptionCode.MEMBER_AUTHENTICATION);
-        try {
-            request.getRequestDispatcher("/api/error").forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return true;
     }
 
     private void authenticate(HttpServletRequest request, HttpServletResponse response, String accessToken) {

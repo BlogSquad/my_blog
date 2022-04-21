@@ -7,19 +7,19 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import project.myblog.auth.authentication.Logout;
-import project.myblog.auth.authentication.OAuthAuthentication;
-import project.myblog.auth.authentication.intercpetor.LogoutInterceptor;
-import project.myblog.auth.authentication.intercpetor.OAuthAuthenticationInterceptor;
-import project.myblog.auth.authentication.session.SessionLogout;
-import project.myblog.auth.authentication.session.github.GithubOAuthSessionAuthentication;
-import project.myblog.auth.authentication.session.naver.NaverOAuthSessionAuthentication;
-import project.myblog.auth.authorization.Authorization;
-import project.myblog.auth.authorization.interceptor.AuthorizationInterceptor;
-import project.myblog.auth.authorization.interceptor.MvcMatcherInterceptor;
-import project.myblog.auth.authorization.session.SessionAuthorization;
+import project.myblog.auth.authentication.Authentication;
+import project.myblog.auth.authentication.interceptor.AuthenticationInterceptor;
+import project.myblog.auth.authentication.interceptor.MvcMatcherInterceptor;
+import project.myblog.auth.authentication.session.SessionAuthentication;
 import project.myblog.auth.dto.AuthProperties;
 import project.myblog.auth.dto.LoginMemberArgumentResolver;
+import project.myblog.auth.oauthAuthentication.Logout;
+import project.myblog.auth.oauthAuthentication.OAuthAuthentication;
+import project.myblog.auth.oauthAuthentication.intercpetor.LogoutInterceptor;
+import project.myblog.auth.oauthAuthentication.intercpetor.OAuthAuthenticationInterceptor;
+import project.myblog.auth.oauthAuthentication.session.SessionLogout;
+import project.myblog.auth.oauthAuthentication.session.github.GithubOAuthSessionAuthentication;
+import project.myblog.auth.oauthAuthentication.session.naver.NaverOAuthSessionAuthentication;
 import project.myblog.service.MemberService;
 
 import java.util.ArrayList;
@@ -66,10 +66,10 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     protected HandlerInterceptor authorizationInterceptor() {
-        List<Authorization> authorizations = new ArrayList<>();
-        authorizations.add(new SessionAuthorization());
+        List<Authentication> authentications = new ArrayList<>();
+        authentications.add(new SessionAuthentication());
 
-        return new MvcMatcherInterceptor(new AuthorizationInterceptor(authorizations));
+        return new MvcMatcherInterceptor(new AuthenticationInterceptor(authentications));
     }
 
     protected HandlerInterceptor logoutInterceptor() {

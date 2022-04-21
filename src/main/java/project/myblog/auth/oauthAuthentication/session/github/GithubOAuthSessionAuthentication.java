@@ -1,11 +1,11 @@
-package project.myblog.auth.authentication.session.github;
+package project.myblog.auth.oauthAuthentication.session.github;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import project.myblog.auth.authentication.session.OAuthSessionAuthentication;
+import project.myblog.auth.oauthAuthentication.session.OAuthSessionAuthentication;
 import project.myblog.auth.dto.AuthProperties;
 import project.myblog.auth.dto.OAuthApiResponse;
 import project.myblog.auth.dto.github.GithubAccessToken;

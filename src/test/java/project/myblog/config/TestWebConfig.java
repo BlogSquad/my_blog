@@ -2,9 +2,9 @@ package project.myblog.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.web.client.RestTemplate;
-import project.myblog.auth.authentication.OAuthAuthentication;
-import project.myblog.auth.authentication.intercpetor.OAuthAuthenticationInterceptor;
-import project.myblog.auth.authentication.session.OAuthSessionAuthentication;
+import project.myblog.auth.oauthAuthentication.OAuthAuthentication;
+import project.myblog.auth.oauthAuthentication.intercpetor.OAuthAuthenticationInterceptor;
+import project.myblog.auth.oauthAuthentication.session.OAuthSessionAuthentication;
 import project.myblog.auth.dto.AuthProperties;
 import project.myblog.auth.dto.OAuthApiResponse;
 import project.myblog.auth.dto.SocialType;
