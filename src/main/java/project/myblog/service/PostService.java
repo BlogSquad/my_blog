@@ -35,15 +35,8 @@ public class PostService {
 
     public Long updatePost(String email, Long postId, PostRequest requestDto) {
         Member member = memberService.findMemberByEmail(email);
-
-        Optional<Post> post = postRepository.findById(postId);
-        if (post.isPresent()) {
-            if (post.get().isAuthorization(member)) {
-                return post.get().update(requestDto.getTitle(), requestDto.getContents());
-            }
-            throw new BusinessException(ExceptionCode.POST_AUTHORIZATION);
-        }
-        return postRepository.save(requestDto.toEntity(member)).getId();
+        return findPostById(postId)
+                .update(requestDto.getTitle(), requestDto.getContents(), member);
     }
 
     public void deletePost(String email, Long postId) {

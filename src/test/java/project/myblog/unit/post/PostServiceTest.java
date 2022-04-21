@@ -99,11 +99,21 @@ class PostServiceTest {
         PostRequest postSaveRequest = new PostRequest("member2의 포스트1제목", "member2의 포스트1내용");
         Long postId = postService.createPost("member2@gmail.com", postSaveRequest);
 
-        // when
         PostRequest postUpdateRequest = new PostRequest("member2의 포스트1제목 변경", "member2의 포스트1내용 변경");
 
-        // then
+        // when, then
         assertThatThrownBy(() -> postService.updatePost(NAVER_EMAIL, postId, postUpdateRequest))
+                .isInstanceOf(BusinessException.class);
+    }
+
+    @Test
+    void 존재하지_않는_포스트_수정_실패() {
+        // given
+        memberRepository.save(createMember(NAVER_EMAIL));
+        PostRequest postUpdateRequest = new PostRequest("member2의 포스트1제목 변경", "member2의 포스트1내용 변경");
+
+        // when, then
+        assertThatThrownBy(() -> postService.updatePost(NAVER_EMAIL, 1L, postUpdateRequest))
                 .isInstanceOf(BusinessException.class);
     }
 

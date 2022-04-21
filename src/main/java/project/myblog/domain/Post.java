@@ -9,8 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import java.util.Objects;
+import project.myblog.exception.BusinessException;
 
 import static javax.persistence.FetchType.LAZY;
+import static project.myblog.exception.ExceptionCode.POST_AUTHORIZATION;
 
 @Entity
 public class Post extends BaseTimeEntity {
@@ -42,7 +44,10 @@ public class Post extends BaseTimeEntity {
         this.member = member;
     }
 
-    public Long update(String title, String contents) {
+    public Long update(String title, String contents, Member member) {
+        if (!isAuthorization(member)) {
+            throw new BusinessException(POST_AUTHORIZATION);
+        }
         this.title = title;
         this.contents = contents;
 

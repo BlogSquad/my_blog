@@ -8,13 +8,10 @@ import project.myblog.acceptance.AcceptanceTest;
 
 import static io.restassured.RestAssured.given;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
-import static project.myblog.acceptance.post.PostStepsAssert.타인_포스트_삭제_안됨;
-import static project.myblog.acceptance.post.PostStepsAssert.타인_포스트_수정_안됨;
-import static project.myblog.acceptance.post.PostStepsAssert.포스트_삭제_안됨;
-import static project.myblog.acceptance.post.PostStepsAssert.포스트_삭제됨;
-import static project.myblog.acceptance.post.PostStepsAssert.포스트_수정됨;
+import static project.myblog.acceptance.post.PostStepsAssert.존재하지_않는_포스트;
+import static project.myblog.acceptance.post.PostStepsAssert.타인_포스트_수정_or_삭제_안됨;
+import static project.myblog.acceptance.post.PostStepsAssert.포스트_수정_or_삭제됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_작성됨;
-import static project.myblog.acceptance.post.PostStepsAssert.포스트_조회_안됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_조회됨;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_삭제_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_수정_요청;
@@ -69,7 +66,7 @@ class PostAcceptance extends AcceptanceTest {
 
         ExtractableResponse<Response> response = 포스트_수정_요청(given(), sessionId, "포스트1제목 변경", "포스트1내용 변경");
 
-        포스트_수정됨(response);
+        포스트_수정_or_삭제됨(response);
     }
 
     /**
@@ -85,7 +82,7 @@ class PostAcceptance extends AcceptanceTest {
 
         ExtractableResponse<Response> response = 포스트_삭제_요청(given(), sessionId);
 
-        포스트_삭제됨(response);
+        포스트_수정_or_삭제됨(response);
     }
 
     /**
@@ -96,7 +93,36 @@ class PostAcceptance extends AcceptanceTest {
     void 예외_존재하지_않는_포스트_조회() {
         ExtractableResponse<Response> response = 포스트_조회_요청(given());
 
-        포스트_조회_안됨(response);
+        존재하지_않는_포스트(response);
+    }
+
+    /**
+     * Given 로그인 되어 있음
+     * When 포스트 수정 요청
+     * Then 포스트가 수정 안됨
+     */
+    @Test
+    void 예외_존재하지_않는_포스트_수정() {
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+
+        ExtractableResponse<Response> response = 포스트_수정_요청(given(), sessionId,
+                "포스트2제목 변경", "포스트2내용 변경");
+
+        존재하지_않는_포스트(response);
+    }
+
+    /**
+     * Given 로그인 되어 있음
+     * When 포스트 삭제 요청
+     * Then 포스트가 삭제 안됨
+     */
+    @Test
+    void 예외_존재하지_않는_포스트_삭제() {
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+
+        ExtractableResponse<Response> response = 포스트_삭제_요청(given(), sessionId);
+
+        존재하지_않는_포스트(response);
     }
 
     /**
@@ -112,9 +138,10 @@ class PostAcceptance extends AcceptanceTest {
         String sessionId2 = 로그인_요청_로그인_됨(GITHUB.getServiceName());
         포스트_작성_되어있음(sessionId2, "포스트2제목", "포스트2내용");
 
-        ExtractableResponse<Response> response = 포스트_수정_요청(given(), sessionId, "포스트2제목 변경", "포스트2내용 변경");
+        ExtractableResponse<Response> response = 포스트_수정_요청(given(), sessionId,
+                                                        "포스트2제목 변경", "포스트2내용 변경");
 
-        타인_포스트_수정_안됨(response);
+        타인_포스트_수정_or_삭제_안됨(response);
     }
 
     /**
@@ -132,20 +159,6 @@ class PostAcceptance extends AcceptanceTest {
 
         ExtractableResponse<Response> response = 포스트_삭제_요청(given(), sessionId);
 
-        타인_포스트_삭제_안됨(response);
-    }
-
-    /**
-     * Given 로그인 되어 있음
-     * When 포스트 삭제 요청
-     * Then 포스트가 삭제 안됨
-     */
-    @Test
-    void 예외_존재하지_않는_포스트_삭제() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-
-        ExtractableResponse<Response> response = 포스트_삭제_요청(given(), sessionId);
-
-        포스트_삭제_안됨(response);
+        타인_포스트_수정_or_삭제_안됨(response);
     }
 }

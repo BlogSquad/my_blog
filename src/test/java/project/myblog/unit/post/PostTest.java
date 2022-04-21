@@ -15,7 +15,7 @@ class PostTest {
         Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
 
         // when
-        post.update("포스트1제목 변경", "포스트1내용 변경");
+        post.update("포스트1제목 변경", "포스트1내용 변경", member);
 
         // then
         Post expectedPost = new Post(1L, "포스트1제목 변경", "포스트1내용 변경", member);
