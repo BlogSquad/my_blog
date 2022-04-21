@@ -10,18 +10,15 @@ public class PostResponse {
     private String contents;
     private String author;
 
-    public PostResponse(Post post) {
-        this.id = post.getId();
-        this.title = post.getTitle();
-        this.contents = post.getContents();
-        this.author = post.getMember().getEmail();
-    }
-
     public PostResponse(Long id, String title, String contents, String author) {
         this.id = id;
         this.title = title;
         this.contents = contents;
         this.author = author;
+    }
+
+    public PostResponse(Post post) {
+        this(post.getId(), post.getTitle(), post.getContents(), post.getMember().getEmail());
     }
 
     public Long getId() {
