@@ -21,7 +21,7 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public Long createComments(String email, Long postId, CommentRequest commentsRequest) {
+    public Long createComment(String email, Long postId, CommentRequest commentsRequest) {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
 

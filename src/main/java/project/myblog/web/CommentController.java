@@ -25,7 +25,7 @@ public class CommentController {
     @PostMapping(value = "/posts/{postId}/comments", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createComment(@Login LoginMember loginMember, @PathVariable("postId") Long postId,
                                                @Valid @RequestBody CommentRequest commentRequest) {
-        Long commentId = commentService.createComments(loginMember.getEmail(), postId, commentRequest);
+        Long commentId = commentService.createComment(loginMember.getEmail(), postId, commentRequest);
         return ResponseEntity.created(URI.create("/posts/" + postId + "/comments/" + commentId)).build();
     }
 }

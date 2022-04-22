@@ -41,7 +41,7 @@ class CommentServiceTest {
 
         // when
         CommentRequest commentRequest = new CommentRequest("댓글1");
-        Long commentId = commentService.createComments(NAVER_EMAIL, postId, commentRequest);
+        Long commentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest);
 
         // then
         Comment comment = commentRepository.findById(commentId).get();
