@@ -2,6 +2,7 @@ package project.myblog.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -9,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import project.myblog.auth.authentication.Authentication;
 import project.myblog.auth.authentication.interceptor.AuthenticationInterceptor;
-import project.myblog.auth.authentication.interceptor.MvcMatcherInterceptor;
+import project.myblog.auth.authentication.interceptor.MvcPatternInterceptor;
 import project.myblog.auth.authentication.session.SessionAuthentication;
 import project.myblog.auth.dto.AuthProperties;
 import project.myblog.auth.dto.LoginMemberArgumentResolver;
@@ -69,7 +70,8 @@ public class WebConfig implements WebMvcConfigurer {
         List<Authentication> authentications = new ArrayList<>();
         authentications.add(new SessionAuthentication());
 
-        return new MvcMatcherInterceptor(new AuthenticationInterceptor(authentications));
+        return new MvcPatternInterceptor(new AuthenticationInterceptor(authentications))
+                .addExcludePattern(HttpMethod.GET, "/posts/**");
     }
 
     protected HandlerInterceptor logoutInterceptor() {
