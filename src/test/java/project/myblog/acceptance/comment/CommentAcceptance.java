@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import project.myblog.acceptance.AcceptanceTest;
 
 import static io.restassured.RestAssured.given;
@@ -40,29 +41,15 @@ class CommentAcceptance extends AcceptanceTest {
      * When 댓글 작성 요청
      * Then 댓글 작성 안됨
      */
+    @DisplayName("NULL, Empty, 공백 검증")
     @ParameterizedTest
     @NullAndEmptySource
-    void 예외_댓글_작성_NULL_EMPTY(String contents) {
+    @ValueSource(strings = " ")
+    void 예외_댓글_작성_유효성_검증(String contents) {
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
         포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
 
         ExtractableResponse<Response> response = 댓글_작성_요청(given(), sessionId, contents);
-
-        댓글_작성_안됨(response);
-    }
-
-    /**
-     * Given 로그인 되어 있음
-     * And 포스트가 작성되어 있음
-     * When 댓글 작성 요청
-     * Then 댓글 작성 안됨
-     */
-    @Test
-    void 예외_댓글_작성_BLANK() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
-
-        ExtractableResponse<Response> response = 댓글_작성_요청(given(), sessionId, " ");
 
         댓글_작성_안됨(response);
     }

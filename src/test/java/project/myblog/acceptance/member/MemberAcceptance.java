@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import project.myblog.acceptance.AcceptanceTest;
 
 import static io.restassured.RestAssured.given;
@@ -77,12 +78,14 @@ class MemberAcceptance extends AcceptanceTest {
 
     /**
      * Given 로그인 됨
-     * When 내 회원 한 줄 소개 수정 요청(NULL, EMPTY)
+     * When 내 회원 한 줄 소개 수정 요청
      * Then 회원 정보 수정 안됨
      */
+    @DisplayName("NULL, Empty, 공백 검증")
     @ParameterizedTest
     @NullAndEmptySource
-    void 예외_내_회원_정보_수정_한줄_소개_NULL_EMPTY(String introduction) {
+    @ValueSource(strings = " ")
+    void 예외_내_회원_정보_수정_한줄_소개_유효성_검증(String introduction) {
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
 
         ExtractableResponse<Response> response = 내_회원_정보_수정_요청_한줄_소개(given(), sessionId, introduction);
@@ -92,43 +95,17 @@ class MemberAcceptance extends AcceptanceTest {
 
     /**
      * Given 로그인 됨
-     * When 내 회원 한 줄 소개 수정 요청(BLANK)
+     * When 내 회원 제목 수정 요청
      * Then 회원 정보 수정 안됨
      */
-    @Test
-    void 예외_내_회원_정보_수정_한줄_소개_BLANK() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-
-        ExtractableResponse<Response> response = 내_회원_정보_수정_요청_한줄_소개(given(), sessionId," ");
-
-        내_회원_정보_수정_안됨(response);
-    }
-
-    /**
-     * Given 로그인 됨
-     * When 내 회원 제목 수정 요청(NULL, EMPTY)
-     * Then 회원 정보 수정 안됨
-     */
+    @DisplayName("NULL, Empty, 공백 검증")
     @ParameterizedTest
     @NullAndEmptySource
-    void 예외_내_회원_정보_수정_제목_NULL_EMPTY(String introduction) {
+    @ValueSource(strings = " ")
+    void 예외_내_회원_정보_수정_제목_유효성_검증(String introduction) {
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
 
         ExtractableResponse<Response> response = 내_회원_정보_수정_요청_제목(given(), sessionId, introduction);
-
-        내_회원_정보_수정_안됨(response);
-    }
-
-    /**
-     * Given 로그인 됨
-     * When 내 회원 제목 수정 요청(BLANK)
-     * Then 회원 정보 수정 안됨
-     */
-    @Test
-    void 예외_내_회원_정보_수정_제목_BLANK() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-
-        ExtractableResponse<Response> response = 내_회원_정보_수정_요청_제목(given(), sessionId, " ");
 
         내_회원_정보_수정_안됨(response);
     }
