@@ -12,12 +12,16 @@ public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String email;
+
     @Column(length = 30, nullable = false)
     private String introduction;
+
     @Column(length = 30, nullable = false)
     private String subject;
+
     @Column(nullable = false)
     private boolean isDeleted = false;
 
