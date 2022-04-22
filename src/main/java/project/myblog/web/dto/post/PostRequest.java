@@ -13,6 +13,7 @@ public class PostRequest {
     @NotBlank
     @Size(min = 1, max = 255)
     private String title;
+
     @NotNull
     @NotBlank
     @NotEmpty

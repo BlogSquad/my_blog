@@ -24,6 +24,7 @@ import static project.myblog.exception.ExceptionCode.MEMBER_INVALID;
 class MemberServiceTest {
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private MemberService memberService;
 

@@ -22,8 +22,10 @@ import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 class PostServiceTest {
     @Autowired
     private PostService postService;
+
     @Autowired
     private PostRepository postRepository;
+
     @Autowired
     private MemberRepository memberRepository;
 

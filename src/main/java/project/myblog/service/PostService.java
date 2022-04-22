@@ -48,7 +48,7 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    private Post findPostById(Long postId) {
+    public Post findPostById(Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(ExceptionCode.POST_INVALID));
     }
