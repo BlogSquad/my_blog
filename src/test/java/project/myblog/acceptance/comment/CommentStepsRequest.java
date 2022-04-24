@@ -19,7 +19,15 @@ public class CommentStepsRequest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .cookie(JSESSIONID, sessionId)
                 .body(params)
-                .when().post("/posts/{id}/comments", 1L)
+                .when().post("/posts/{postId}/comments", 1L)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 댓글_조회_요청(RequestSpecification given) {
+        return given.log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/posts/{postId}/comments", 1L)
                 .then().log().all()
                 .extract();
     }
