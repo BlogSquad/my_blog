@@ -61,3 +61,6 @@ operation::comment-find[snippets='http-request,path-parameters,http-response,res
 
 === 댓글 수정
 operation::comment-update[snippets='http-request,path-parameters,request-body,request-fields,http-response']
+
+=== 댓글 삭제
+operation::comment-delete[snippets='http-request,path-parameters,http-response']
