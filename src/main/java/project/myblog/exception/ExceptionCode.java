@@ -14,7 +14,7 @@ public enum ExceptionCode {
     POST_INVALID(NOT_FOUND, "POST_001", "존재하지 않는 포스트입니다."),
     POST_AUTHORIZATION(FORBIDDEN, "POST_002", "포스트에 대한 권한이 없습니다."),
     COMMENT_AUTHORIZATION(FORBIDDEN, "POST_003", "댓글에 대한 권한이 없습니다."),
-    COMMENT_INVALID(FORBIDDEN, "POST_003", "댓글에 대한 권한이 없습니다.");
+    COMMENT_INVALID(NOT_FOUND, "POST_004", "존재하지 않는 댓글입니다.");
 
     private final HttpStatus status;
     private final String code;
