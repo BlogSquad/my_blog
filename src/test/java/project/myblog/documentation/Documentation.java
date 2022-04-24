@@ -83,11 +83,23 @@ public class Documentation {
     }
 
     protected RequestSpecification givenRestDocsFieldDescriptorRelaxedResponseFieldsAndPathParam(String identifier,
-                                                                                     FieldDescriptor[] fieldDescriptors) {
+                                                                                                FieldDescriptor[] fieldDescriptors,
+                                                                                                ParameterDescriptor[] pathParameters) {
         return RestAssured.given(this.spec).log().all()
                 .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
-                        pathParameters(parameterWithName("postId").description("포스트 ID")),
+                        pathParameters(pathParameters),
                         relaxedResponseFields(fieldDescriptors)
+                        )
+                );
+    }
+
+    protected RequestSpecification givenRestDocsFieldDescriptorRequestFieldsAndPathParam(String identifier,
+                                                                                        FieldDescriptor[] fieldDescriptors,
+                                                                                        ParameterDescriptor[] pathParameters) {
+        return RestAssured.given(this.spec)
+                .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+                        pathParameters(pathParameters),
+                        requestFields(fieldDescriptors)
                         )
                 );
     }

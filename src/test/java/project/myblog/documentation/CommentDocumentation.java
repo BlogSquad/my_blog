@@ -1,12 +1,12 @@
 package project.myblog.documentation;
 
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.request.ParameterDescriptor;
 
 import static io.restassured.RestAssured.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_작성_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_조회_요청;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
@@ -22,7 +22,10 @@ class CommentDocumentation extends Documentation {
 
         // when
         댓글_작성_요청(
-                givenRestDocsFieldDescriptorRequestFields("comment-create", getFieldDescriptorsRequest())
+                givenRestDocsFieldDescriptorRequestFieldsAndPathParam("comment-create",
+                        getFieldDescriptorsRequest(),
+                        getPathParameters()
+                )
                 , sessionId, "댓글1"
         );
     }
@@ -36,7 +39,12 @@ class CommentDocumentation extends Documentation {
         댓글_작성_요청(given(), sessionId, "댓글2");
 
         // when
-        댓글_조회_요청(givenRestDocsFieldDescriptorRelaxedResponseFieldsAndPathParam("comment-find", getFieldDescriptorsResponse()));
+        댓글_조회_요청(
+                givenRestDocsFieldDescriptorRelaxedResponseFieldsAndPathParam("comment-find",
+                        getFieldDescriptorsResponse(),
+                        getPathParameters()
+                )
+        );
     }
 
     private FieldDescriptor[] getFieldDescriptorsRequest() {
@@ -49,6 +57,12 @@ class CommentDocumentation extends Documentation {
         return new FieldDescriptor[] {
                 fieldWithPath("[].contents").description("댓글 내용"),
                 fieldWithPath("[].author").description("작성자")
+        };
+    }
+
+    private ParameterDescriptor[] getPathParameters() {
+        return new ParameterDescriptor[] {
+                parameterWithName("postId").description("포스트 ID")
         };
     }
 }
