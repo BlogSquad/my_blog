@@ -1,5 +1,7 @@
 package project.myblog.domain;
 
+import project.myblog.exception.BusinessException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,10 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-
 import java.util.Objects;
 
 import static javax.persistence.FetchType.LAZY;
+import static project.myblog.exception.ExceptionCode.POST_COMMENT_AUTHORIZATION;
 
 @Entity
 public class Comment extends BaseTimeEntity {
@@ -45,6 +47,21 @@ public class Comment extends BaseTimeEntity {
         this.contents = contents;
         this.post = post;
         this.member = member;
+    }
+
+    public void update(String contents, Member member) {
+        validateOwner(member);
+        this.contents = contents;
+    }
+
+    public void validateOwner(Member member) {
+        if (!isOwner(member)) {
+            throw new BusinessException(POST_COMMENT_AUTHORIZATION);
+        }
+    }
+
+    private boolean isOwner(Member member) {
+        return this.member.equals(member);
     }
 
     public Long getId() {
