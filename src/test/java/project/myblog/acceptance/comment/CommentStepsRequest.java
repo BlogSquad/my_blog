@@ -40,7 +40,7 @@ public class CommentStepsRequest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .cookie(JSESSIONID, sessionId)
                 .body(params)
-                .when().put("/posts/{postId}/comments/{commentId}", 1L, 1L)
+                .when().put("/comments/{commentId}", 1L)
                 .then().log().all()
                 .extract();
     }
