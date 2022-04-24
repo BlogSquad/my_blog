@@ -46,17 +46,13 @@ class CommentAcceptance extends AcceptanceTest {
      */
     @Test
     void 댓글_조회() {
-        // given
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
         포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
-
         댓글_작성_요청(given(), sessionId, "댓글1");
         댓글_작성_요청(given(), sessionId, "댓글2");
 
-        // when
         ExtractableResponse<Response> response = 댓글_조회_요청(given());
 
-        // then
         댓글_조회됨(response);
     }
 
