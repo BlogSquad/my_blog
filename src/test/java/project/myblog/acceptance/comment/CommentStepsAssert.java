@@ -19,6 +19,10 @@ public class CommentStepsAssert {
         assertThat(response.jsonPath().getList("author")).containsExactly(NAVER_EMAIL, NAVER_EMAIL);
     }
 
+    public static void 댓글_수정됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
     public static void 댓글_작성_안됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
