@@ -96,7 +96,43 @@ class CommentAcceptance extends AcceptanceTest {
         타인_댓글_수정_or_삭제_안됨(response);
     }
 
+    /**
+     * Given 로그인 되어 있음
+     * And 포스트가 작성되어 있음
+     * When 댓글 삭제 요청
+     * Then 댓글 삭제 안됨
+     */
+    @Test
+    void 예외_존재하지_않는_댓글_삭제() {
+        // given
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
 
+        ExtractableResponse<Response> response = 댓글_삭제_요청(given(), sessionId);
+
+        존재하지_않는_댓글(response);
+    }
+
+    /**
+     * Given 회원1 로그인 되어 있음
+     * And 회원2 로그인 되어 있음
+     * And 회원2 포스트 작성 되어있음
+     * And 회원2 댓글 작성 되어있음
+     * When 회원1이 회원2 댓글 삭제 요청
+     * Then 댓글 삭제 안됨
+     */
+    @Test
+    void 예외_타인의_댓글_삭제() {
+        // given
+        String sessionId1 = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        String sessionId2 = 로그인_요청_로그인_됨(GITHUB.getServiceName());
+        포스트_작성_되어있음(sessionId2, "포스트1제목", "포스트1내용");
+        댓글_작성_요청(given(), sessionId2, "댓글1");
+
+        ExtractableResponse<Response> response = 댓글_삭제_요청(given(), sessionId1);
+
+        타인_댓글_수정_or_삭제_안됨(response);
+    }
 
     /**
      * Given 로그인 되어 있음
