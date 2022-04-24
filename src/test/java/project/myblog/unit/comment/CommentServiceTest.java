@@ -12,7 +12,11 @@ import project.myblog.repository.MemberRepository;
 import project.myblog.service.CommentService;
 import project.myblog.service.PostService;
 import project.myblog.web.dto.comment.CommentRequest;
+import project.myblog.web.dto.comment.CommentResponse;
 import project.myblog.web.dto.post.PostRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
@@ -50,6 +54,26 @@ class CommentServiceTest {
         Comment expectedComments = new Comment(commentId, "댓글1", expectedPost, member);
 
         assertThat(comment).isEqualTo(expectedComments);
+    }
+
+    @Test
+    void 댓글_조회() {
+        // given
+        Member member = memberRepository.save(createMember(NAVER_EMAIL));
+        PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
+        Long postId = postService.createPost(NAVER_EMAIL, postRequest);
+
+        // when
+        commentService.createComment(NAVER_EMAIL, postId, new CommentRequest("댓글1"));
+        commentService.createComment(NAVER_EMAIL, postId, new CommentRequest("댓글2"));
+
+        // then
+        List<CommentResponse> commentResponses = commentService.findComments(postId);
+        List<CommentResponse> expectedCommentResponses = new ArrayList<>();
+        expectedCommentResponses.add(new CommentResponse("댓글1", NAVER_EMAIL));
+        expectedCommentResponses.add(new CommentResponse("댓글2", NAVER_EMAIL));
+
+        assertThat(commentResponses).isEqualTo(expectedCommentResponses);
     }
 
     private Member createMember(String email) {
