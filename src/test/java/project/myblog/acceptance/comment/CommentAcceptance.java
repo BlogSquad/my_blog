@@ -10,12 +10,13 @@ import org.junit.jupiter.params.provider.ValueSource;
 import project.myblog.acceptance.AcceptanceTest;
 
 import static io.restassured.RestAssured.given;
-import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_수정됨;
+import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_수정_or_삭제됨;
 import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_작성_안됨;
 import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_작성됨;
 import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_조회됨;
 import static project.myblog.acceptance.comment.CommentStepsAssert.존재하지_않는_댓글;
 import static project.myblog.acceptance.comment.CommentStepsAssert.타인_댓글_수정_or_삭제_안됨;
+import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_삭제_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_수정_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_작성_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_조회_요청;
@@ -31,52 +32,30 @@ class CommentAcceptance extends AcceptanceTest {
      * And 포스트가 작성되어 있음
      * When 댓글 작성 요청
      * Then 댓글 작성됨
-     */
-    @Test
-    void 댓글_생성() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
-
-        ExtractableResponse<Response> response = 댓글_작성_요청(given(), sessionId, "댓글1");
-
-        댓글_작성됨(response);
-    }
-
-    /**
-     * Given 로그인 되어 있음
-     * And 포스트가 작성되어 있음
-     * And 댓글 작성되어 있음
-     * And 댓글 작성되어 있음
+     * Given 댓글 작성 요청
+     * When 댓글 조회 요청
      * Then 댓글 조회됨
-     */
-    @Test
-    void 댓글_조회() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
-        댓글_작성_요청(given(), sessionId, "댓글1");
-        댓글_작성_요청(given(), sessionId, "댓글2");
-
-        ExtractableResponse<Response> response = 댓글_조회_요청(given());
-
-        댓글_조회됨(response);
-    }
-
-    /**
-     * Given 로그인 되어 있음
-     * And 포스트가 작성되어 있음
-     * And 댓글 작성되어 있음
      * When 댓글 수정 요청
      * Then 댓글 수정됨
+     * When 댓글 삭제 요청
+     * Then 댓글 삭제됨
      */
     @Test
-    void 댓글_수정() {
+    void 댓글_관리() {
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
         포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
-        댓글_작성_요청(given(), sessionId, "댓글1");
+        ExtractableResponse<Response> createResponse = 댓글_작성_요청(given(), sessionId, "댓글1");
+        댓글_작성됨(createResponse);
 
-        ExtractableResponse<Response> response = 댓글_수정_요청(given(), sessionId, "댓글1 수정");
+        댓글_작성_요청(given(), sessionId, "댓글2");
+        ExtractableResponse<Response> findResponse = 댓글_조회_요청(given());
+        댓글_조회됨(findResponse);
 
-        댓글_수정됨(response);
+        ExtractableResponse<Response> updateResponse = 댓글_수정_요청(given(), sessionId, "댓글1 수정");
+        댓글_수정_or_삭제됨(updateResponse);
+
+        ExtractableResponse<Response> deleteResponse = 댓글_삭제_요청(given(), sessionId);
+        댓글_수정_or_삭제됨(deleteResponse);
     }
 
     /**

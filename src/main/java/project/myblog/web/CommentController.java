@@ -2,6 +2,7 @@ package project.myblog.web;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +45,12 @@ public class CommentController {
                                               @PathVariable("commentId") Long commentId,
                                               @Valid @RequestBody CommentRequest commentRequest) {
         commentService.updateComment(loginMember.getEmail(), commentId, commentRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping(value = "/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(@Login LoginMember loginMember,
+                                              @PathVariable("commentId") Long commentId) {
         return ResponseEntity.noContent().build();
     }
 }
