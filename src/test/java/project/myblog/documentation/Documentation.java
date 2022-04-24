@@ -21,7 +21,6 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
@@ -80,6 +79,14 @@ public class Documentation {
     protected RequestSpecification givenRestDocs(String identifier) {
         return RestAssured.given(this.spec).log().all()
                 .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())));
+    }
+
+    protected RequestSpecification givenRestDocsPathParam(String identifier, ParameterDescriptor[] pathParameters) {
+        return RestAssured.given(this.spec).log().all()
+                .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+                        pathParameters(pathParameters)
+                        )
+                );
     }
 
     protected RequestSpecification givenRestDocsFieldDescriptorRelaxedResponseFieldsAndPathParam(String identifier,
