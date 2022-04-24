@@ -96,6 +96,8 @@ class CommentAcceptance extends AcceptanceTest {
         타인_댓글_수정_or_삭제_안됨(response);
     }
 
+
+
     /**
      * Given 로그인 되어 있음
      * And 포스트가 작성되어 있음
