@@ -5,12 +5,15 @@ import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Comment;
 import project.myblog.domain.Member;
 import project.myblog.domain.Post;
+import project.myblog.exception.BusinessException;
 import project.myblog.repository.CommentRepository;
 import project.myblog.web.dto.comment.CommentRequest;
 import project.myblog.web.dto.comment.CommentResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static project.myblog.exception.ExceptionCode.COMMENT_INVALID;
 
 @Transactional
 @Service
@@ -26,16 +29,23 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public Long createComment(String email, Long postId, CommentRequest commentsRequest) {
+    public Long createComment(String email, Long postId, CommentRequest requestDto) {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
 
-        return commentRepository.save(commentsRequest.toEntity(post, member)).getId();
+        return commentRepository.save(requestDto.toEntity(post, member)).getId();
     }
 
     public List<CommentResponse> findComments(Long postId) {
         List<Comment> comments = commentRepository.findAllByPostId(postId);
         return createCommentsResponse(comments);
+    }
+
+    public void updateComment(String email, Long commentId, CommentRequest requestDto) {
+        Member member = memberService.findMemberByEmail(email);
+        Comment comment = findCommentById(commentId);
+
+        comment.update(requestDto.getContents(), member);
     }
 
     private List<CommentResponse> createCommentsResponse(List<Comment> comments) {
@@ -44,5 +54,10 @@ public class CommentService {
             commentResponses.add(new CommentResponse(comment.getContents(), comment.getMember().getEmail()));
         }
         return commentResponses;
+    }
+
+    private Comment findCommentById(Long commentId) {
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new BusinessException(COMMENT_INVALID));
     }
 }

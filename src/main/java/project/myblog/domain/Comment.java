@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import java.util.Objects;
 
 import static javax.persistence.FetchType.LAZY;
-import static project.myblog.exception.ExceptionCode.POST_COMMENT_AUTHORIZATION;
+import static project.myblog.exception.ExceptionCode.COMMENT_AUTHORIZATION;
 
 @Entity
 public class Comment extends BaseTimeEntity {
@@ -56,7 +56,7 @@ public class Comment extends BaseTimeEntity {
 
     public void validateOwner(Member member) {
         if (!isOwner(member)) {
-            throw new BusinessException(POST_COMMENT_AUTHORIZATION);
+            throw new BusinessException(COMMENT_AUTHORIZATION);
         }
     }
 
