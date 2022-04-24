@@ -7,16 +7,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.myblog.auth.dto.Login;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.service.MemberService;
 import project.myblog.web.dto.member.MemberIntroductionRequest;
-import project.myblog.web.dto.member.MemberSubjectRequest;
 import project.myblog.web.dto.member.MemberResponse;
+import project.myblog.web.dto.member.MemberSubjectRequest;
 
 import javax.validation.Valid;
 
+@RequestMapping(value = "/members/me")
 @RestController
 public class MemberController {
     private final MemberService memberService;
@@ -25,27 +27,27 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @GetMapping(value = "/members/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MemberResponse> findMemberOfMine(@Login LoginMember loginMember) {
         MemberResponse member = memberService.findMemberOfMine(loginMember.getEmail());
         return ResponseEntity.ok(member);
     }
 
-    @PatchMapping(value = "/members/me/introduction", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/introduction", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateMemberOfMineIntroduction(@Login LoginMember loginMember,
                                                          @Valid @RequestBody MemberIntroductionRequest request) {
         memberService.updateMemberOfMineIntroduction(loginMember.getEmail(), request.getIntroduction());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PatchMapping(value = "/members/me/subject", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/subject", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateMemberOfMineSubject(@Login LoginMember loginMember,
                                                             @Valid @RequestBody MemberSubjectRequest request) {
         memberService.updateMemberOfMineSubject(loginMember.getEmail(), request.getSubject());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @DeleteMapping(value = "/members/me")
+    @DeleteMapping
     public ResponseEntity<Void> deleteMember(@Login LoginMember loginMember) {
         memberService.deleteMember(loginMember.getEmail());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

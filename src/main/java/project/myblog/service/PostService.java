@@ -10,8 +10,6 @@ import project.myblog.repository.PostRepository;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
 
-import java.util.Optional;
-
 @Transactional
 @Service
 public class PostService {

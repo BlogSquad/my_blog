@@ -31,4 +31,17 @@ public class CommentStepsRequest {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 댓글_수정_요청(RequestSpecification given, String sessionId, String contents) {
+        Map<String, String> params = new HashMap<>();
+        params.put("contents", contents);
+
+        return given.log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .cookie(JSESSIONID, sessionId)
+                .body(params)
+                .when().put("/posts/{postId}/comments/{commentId}", 1L, 1L)
+                .then().log().all()
+                .extract();
+    }
 }
