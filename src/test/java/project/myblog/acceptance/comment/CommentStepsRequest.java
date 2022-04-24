@@ -40,7 +40,16 @@ public class CommentStepsRequest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .cookie(JSESSIONID, sessionId)
                 .body(params)
-                .when().put("/posts/{postId}/comments/{commentId}", 1L, 1L)
+                .when().put("/comments/{commentId}", 1L)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 댓글_삭제_요청(RequestSpecification given, String sessionId) {
+        return given.log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .cookie(JSESSIONID, sessionId)
+                .when().delete("/comments/{commentId}", 1L)
                 .then().log().all()
                 .extract();
     }

@@ -48,6 +48,14 @@ public class CommentService {
         comment.update(requestDto.getContents(), member);
     }
 
+    public void deleteComment(String email, Long commentId) {
+        Member member = memberService.findMemberByEmail(email);
+        Comment comment = findCommentById(commentId);
+
+        comment.validateOwner(member);
+        commentRepository.delete(comment);
+    }
+
     private List<CommentResponse> createCommentsResponse(List<Comment> comments) {
         List<CommentResponse> commentResponses = new ArrayList<>();
         for (Comment comment : comments) {

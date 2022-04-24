@@ -7,6 +7,7 @@ import org.springframework.restdocs.request.ParameterDescriptor;
 import static io.restassured.RestAssured.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_삭제_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_수정_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_작성_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_조회_요청;
@@ -25,7 +26,7 @@ class CommentDocumentation extends Documentation {
         댓글_작성_요청(
                 givenRestDocsFieldDescriptorRequestFieldsAndPathParam("comment-create",
                         getFieldDescriptorsRequest(),
-                        getPathParametersForCreate()
+                        getPathParameters("postId", "포스트 ID")
                 )
                 , sessionId, "댓글1"
         );
@@ -43,7 +44,7 @@ class CommentDocumentation extends Documentation {
         댓글_조회_요청(
                 givenRestDocsFieldDescriptorRelaxedResponseFieldsAndPathParam("comment-find",
                         getFieldDescriptorsResponse(),
-                        getPathParametersForCreate()
+                        getPathParameters("postId", "포스트 ID")
                 )
         );
     }
@@ -59,9 +60,24 @@ class CommentDocumentation extends Documentation {
         댓글_수정_요청(
                 givenRestDocsFieldDescriptorRequestFieldsAndPathParam("comment-update",
                         getFieldDescriptorsRequest(),
-                        getPathParametersForUpdateOrDelete()
+                        getPathParameters("commentId", "댓글 ID")
                 )
                 , sessionId, "댓글1 수정"
+        );
+    }
+
+    @Test
+    void 댓글_삭제() {
+        // given
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
+        댓글_작성_요청(given(), sessionId, "댓글1");
+
+        // when
+        댓글_삭제_요청(
+                givenRestDocsPathParam("comment-delete",
+                        getPathParameters("commentId", "댓글 ID"))
+                , sessionId
         );
     }
 
@@ -78,16 +94,9 @@ class CommentDocumentation extends Documentation {
         };
     }
 
-    private ParameterDescriptor[] getPathParametersForCreate() {
+    private ParameterDescriptor[] getPathParameters(String name, String description) {
         return new ParameterDescriptor[] {
-                parameterWithName("postId").description("포스트 ID")
-        };
-    }
-
-    private ParameterDescriptor[] getPathParametersForUpdateOrDelete() {
-        return new ParameterDescriptor[] {
-                parameterWithName("postId").description("포스트 ID"),
-                parameterWithName("commentId").description("댓글 ID")
+                parameterWithName(name).description(description)
         };
     }
 }

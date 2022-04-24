@@ -88,8 +88,7 @@ class PostServiceTest {
         postService.deletePost(NAVER_EMAIL, postId);
 
         // then
-        assertThatThrownBy(() -> postService.findPost(postId))
-                .isInstanceOf(BusinessException.class);
+        assertThat(postRepository.findById(postId).isPresent()).isFalse();
     }
 
     @Test

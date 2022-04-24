@@ -18,6 +18,7 @@ import project.myblog.web.dto.post.PostRequest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -99,6 +100,23 @@ class CommentServiceTest {
     }
 
     @Test
+    void 댓글_삭제() {
+        // given
+        memberRepository.save(createMember(NAVER_EMAIL));
+        PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
+        Long postId = postService.createPost(NAVER_EMAIL, postRequest);
+
+        CommentRequest commentCreateRequest = new CommentRequest("댓글1");
+        Long commentId = commentService.createComment(NAVER_EMAIL, postId, commentCreateRequest);
+
+        // when
+        commentService.deleteComment(NAVER_EMAIL, commentId);
+
+        // then
+        assertThat(commentRepository.findById(commentId).isPresent()).isFalse();
+    }
+
+    @Test
     void 예외_타인_댓글_수정_실패() {
         // given
         memberRepository.save(createMember(NAVER_EMAIL));
@@ -129,6 +147,36 @@ class CommentServiceTest {
 
         // when, then
         assertThatThrownBy(() -> commentService.updateComment(NAVER_EMAIL, 1L, commentUpdateRequest))
+                .isInstanceOf(BusinessException.class);
+    }
+
+    @Test
+    void 예외_타인_댓글_삭제_실패() {
+        // given
+        memberRepository.save(createMember(NAVER_EMAIL));
+        memberRepository.save(createMember("member2@gmail.com"));
+
+        PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
+        Long postId = postService.createPost(NAVER_EMAIL, postRequest);
+
+        CommentRequest commentCreateRequest = new CommentRequest("댓글1");
+        Long commentId = commentService.createComment("member2@gmail.com", postId, commentCreateRequest);
+
+        // when, then
+        assertThatThrownBy(() -> commentService.deleteComment(NAVER_EMAIL, commentId))
+                .isInstanceOf(BusinessException.class);
+    }
+
+    @Test
+    void 예외_존재하지_않는_댓글_삭제_실패() {
+        // given
+        memberRepository.save(createMember(NAVER_EMAIL));
+
+        PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
+        postService.createPost(NAVER_EMAIL, postRequest);
+
+        // when, then
+        assertThatThrownBy(() -> commentService.deleteComment(NAVER_EMAIL, 1L))
                 .isInstanceOf(BusinessException.class);
     }
 
