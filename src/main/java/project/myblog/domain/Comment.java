@@ -23,11 +23,11 @@ public class Comment extends BaseTimeEntity {
     @Column(nullable = false)
     private String contents;
 
-    @JoinColumn(name = "POST_ID")
+    @JoinColumn(name = "POST_ID", nullable = false)
     @ManyToOne(fetch = LAZY)
     private Post post;
 
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumn(name = "MEMBER_ID", nullable = false)
     @ManyToOne(fetch = LAZY)
     private Member member;
 

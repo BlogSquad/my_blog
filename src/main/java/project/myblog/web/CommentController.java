@@ -15,7 +15,6 @@ import project.myblog.web.dto.comment.CommentResponse;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,14 +33,8 @@ public class CommentController {
     }
 
     @GetMapping(value = "/posts/{postId}/comments", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CommentResponse>> findComment(@PathVariable("postId") Long postId) {
-        CommentResponse commentResponse1 = new CommentResponse("댓글1", "monkeyDugi@gmail.com");
-        CommentResponse commentResponse2 = new CommentResponse("댓글2", "monkeyDugi@gmail.com");
-
-        List<CommentResponse> responses = new ArrayList<>();
-        responses.add(commentResponse1);
-        responses.add(commentResponse2);
-
-        return ResponseEntity.ok(responses);
+    public ResponseEntity<List<CommentResponse>> findComments(@PathVariable("postId") Long postId) {
+        List<CommentResponse> commentResponses = commentService.findComments(postId);
+        return ResponseEntity.ok(commentResponses);
     }
 }
