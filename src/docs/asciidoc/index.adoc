@@ -42,16 +42,19 @@ operation::member-delete[snippets='http-request,http-response']
 operation::post-create[snippets='http-request,request-body,request-fields,http-response']
 
 === 포스트 조회
-operation::post-find[snippets='http-request,http-response,response-fields']
+operation::post-find[snippets='http-request,path-parameters,http-response,response-fields']
 
 === 포스트 수정
-operation::post-update[snippets='http-request,request-body,request-fields,http-response']
+operation::post-update[snippets='http-request,path-parameters,request-body,request-fields,http-response']
 
 === 포스트 삭제
-operation::post-delete[snippets='http-request,http-response']
+operation::post-delete[snippets='http-request,path-parameters,http-response']
 
-[[resources-comments]]
-== Comments
+[[resources-comment]]
+== Comment
 
 === 댓글 작성
-operation::comments-create[snippets='http-request,request-body,request-fields,http-response']
+operation::comment-create[snippets='http-request,path-parameters,request-body,request-fields,http-response']
+
+=== 댓글 조회
+operation::comment-find[snippets='http-request,path-parameters,http-response,response-fields']
