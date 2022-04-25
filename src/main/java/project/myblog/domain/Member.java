@@ -52,10 +52,6 @@ public class Member extends BaseTimeEntity {
         isDeleted = true;
     }
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
     private String extractEmailId(String email) {
         return email.substring(0, email.indexOf("@"));
     }
@@ -74,6 +70,10 @@ public class Member extends BaseTimeEntity {
 
     public String getSubject() {
         return subject;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
     @Override
