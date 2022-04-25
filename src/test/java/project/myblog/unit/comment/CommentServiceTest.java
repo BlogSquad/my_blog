@@ -180,6 +180,35 @@ class CommentServiceTest {
                 .isInstanceOf(BusinessException.class);
     }
 
+    @Test
+    void 대댓글_작성() {
+        // given
+        memberRepository.save(createMember(NAVER_EMAIL));
+        PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
+        Long postId = postService.createPost(NAVER_EMAIL, postRequest);
+
+        CommentRequest commentRequest = new CommentRequest("댓글1");
+        Long parentCommentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest);
+
+        // when
+        CommentRequest childCommentRequest1 = new CommentRequest("대댓글1");
+        commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId, childCommentRequest1);
+        CommentRequest childCommentRequest2 = new CommentRequest("대댓글2");
+        commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId, childCommentRequest2);
+
+        // then
+        Comment comment = commentRepository.findById(parentCommentId).get();
+        List<Comment> children = comment.getChildren();
+
+        assertThat(children.size()).isEqualTo(2);
+
+        assertThat(children.get(0).getParent().getId()).isEqualTo(parentCommentId);
+        assertThat(children.get(1).getParent().getId()).isEqualTo(parentCommentId);
+
+        assertThat(children.get(0).getContents()).isEqualTo("대댓글1");
+        assertThat(children.get(1).getContents()).isEqualTo("대댓글2");
+    }
+
     private Member createMember(String email) {
         return new Member(email);
     }

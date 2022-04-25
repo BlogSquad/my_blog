@@ -22,18 +22,25 @@ public class CommentService {
     private final MemberService memberService;
     private final CommentRepository commentRepository;
 
-
     public CommentService(PostService postService, MemberService memberService, CommentRepository commentRepository) {
         this.postService = postService;
         this.memberService = memberService;
         this.commentRepository = commentRepository;
     }
 
+    public Long createNestedComment(String email, Long postId, Long parentId, CommentRequest requestDto) {
+        Member member = memberService.findMemberByEmail(email);
+        Post post = postService.findPostById(postId);
+        Comment parent = findCommentById(parentId);
+
+        return commentRepository.save(requestDto.toNestedCommentEntity(post, member, parent)).getId();
+    }
+
     public Long createComment(String email, Long postId, CommentRequest requestDto) {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
 
-        return commentRepository.save(requestDto.toEntity(post, member)).getId();
+        return commentRepository.save(requestDto.toCommentEntity(post, member)).getId();
     }
 
     public List<CommentResponse> findComments(Long postId) {

@@ -22,8 +22,12 @@ public class CommentRequest {
         this.contents = contents;
     }
 
-    public Comment toEntity(Post post, Member member) {
+    public Comment toCommentEntity(Post post, Member member) {
         return new Comment(contents, post, member);
+    }
+
+    public Comment toNestedCommentEntity(Post post, Member member, Comment parent) {
+        return new Comment(contents, post, member, parent);
     }
 
     public String getContents() {
