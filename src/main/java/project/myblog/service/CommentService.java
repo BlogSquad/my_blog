@@ -37,7 +37,7 @@ public class CommentService {
     }
 
     public List<CommentResponse> findComments(Long postId) {
-        List<Comment> comments = commentRepository.findAllByPostId(postId);
+        List<Comment> comments = commentRepository.findAllByPostIdAndIsDeletedFalse(postId);
         return createCommentsResponse(comments);
     }
 
@@ -52,8 +52,7 @@ public class CommentService {
         Member member = memberService.findMemberByEmail(email);
         Comment comment = findCommentById(commentId);
 
-        comment.validateOwner(member);
-        commentRepository.delete(comment);
+        comment.delete(member);
     }
 
     private List<CommentResponse> createCommentsResponse(List<Comment> comments) {
@@ -65,7 +64,7 @@ public class CommentService {
     }
 
     private Comment findCommentById(Long commentId) {
-        return commentRepository.findById(commentId)
+        return commentRepository.findByIdAndIsDeletedFalse(commentId)
                 .orElseThrow(() -> new BusinessException(COMMENT_INVALID));
     }
 }

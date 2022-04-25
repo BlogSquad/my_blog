@@ -113,7 +113,7 @@ class CommentServiceTest {
         commentService.deleteComment(NAVER_EMAIL, commentId);
 
         // then
-        assertThat(commentRepository.findById(commentId).isPresent()).isFalse();
+        assertThat(commentRepository.findById(commentId).get().isDeleted()).isTrue();
     }
 
     @Test

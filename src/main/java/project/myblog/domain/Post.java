@@ -61,7 +61,7 @@ public class Post extends BaseTimeEntity {
         this.isDeleted = true;
     }
 
-    public void validateOwner(Member member) {
+    private void validateOwner(Member member) {
         if (!isOwner(member)) {
             throw new BusinessException(POST_AUTHORIZATION);
         }

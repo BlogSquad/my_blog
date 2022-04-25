@@ -27,6 +27,20 @@ class CommentTest {
     }
 
     @Test
+    void 댓글_삭제() {
+        // given
+        Member member = new Member(NAVER_EMAIL);
+        Post post = new Post("포스트1제목", "포스트1내용", member);
+        Comment comment = new Comment("댓글", post, member);
+
+        // when
+        comment.delete(member);
+
+        // then
+        assertThat(comment.isDeleted()).isTrue();
+    }
+
+    @Test
     void 예외_타인_댓글_수정_실패() {
         // given
         Member member = new Member(NAVER_EMAIL);
