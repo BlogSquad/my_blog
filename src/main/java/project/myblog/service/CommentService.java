@@ -57,9 +57,10 @@ public class CommentService {
     public Long createNestedComment(String email, Long postId, Long parentId, CommentRequest requestDto) {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
-        Comment parent = findCommentById(parentId);
+        Comment parent = findCommentById(parentId)
+                .makeNestedComment(requestDto.toCommentEntity(post, member));
 
-        return commentRepository.save(requestDto.toNestedCommentEntity(post, member, parent)).getId();
+        return commentRepository.save(parent).getId();
     }
 
     private List<CommentResponse> createCommentsResponse(List<Comment> comments) {

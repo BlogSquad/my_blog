@@ -26,10 +26,6 @@ public class CommentRequest {
         return new Comment(contents, post, member);
     }
 
-    public Comment toNestedCommentEntity(Post post, Member member, Comment parent) {
-        return new Comment(contents, post, member, parent);
-    }
-
     public String getContents() {
         return contents;
     }

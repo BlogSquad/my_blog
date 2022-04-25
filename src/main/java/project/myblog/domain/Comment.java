@@ -2,6 +2,7 @@ package project.myblog.domain;
 
 import project.myblog.exception.BusinessException;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     private Comment parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = {CascadeType.MERGE})
     private List<Comment> children = new ArrayList<>();
 
     @JoinColumn(name = "POST_ID", nullable = false)
@@ -50,18 +51,7 @@ public class Comment extends BaseTimeEntity {
     }
 
     public Comment(String contents, Post post, Member member) {
-        this.contents = contents;
-        this.post = post;
-        this.member = member;
-    }
-
-    public Comment(String contents, Post post, Member member, Comment parent) {
-        this.contents = contents;
-        this.post = post;
-        this.member = member;
-        this.parent = parent;
-
-        parent.getChildren().add(this);
+        this(null, contents, post, member);
     }
 
     public Comment(Long id, String contents, Post post, Member member) {
@@ -79,6 +69,17 @@ public class Comment extends BaseTimeEntity {
     public void delete(Member member) {
         validateOwner(member);
         this.isDeleted = true;
+    }
+
+    public Comment makeNestedComment(Comment comment){
+        if (this.parent == null) {
+            comment.parent = this;
+            children.add(comment);
+            return this;
+        }
+        comment.parent = this.parent;
+        this.parent.children.add(comment);
+        return this.parent;
     }
 
     private void validateOwner(Member member) {
