@@ -25,16 +25,40 @@ class PostTest {
     }
 
     @Test
-    void 예외_타인_포스트_수정_실패() {
+    void 포스트_삭제() {
         // given
         Member member = new Member(NAVER_EMAIL);
         Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
 
         // when
+        post.delete(member);
+
+        // then
+        assertThat(post.isDeleted()).isTrue();
+    }
+
+    @Test
+    void 예외_타인_포스트_수정_실패() {
+        // given
+        Member member = new Member(NAVER_EMAIL);
+        Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
+
+        // when, then
         assertThatThrownBy(() ->
                 post.update("포스트1제목 변경", "포스트1내용 변경", new Member("member2@gmail.com")))
-                // then
                 .isInstanceOf(BusinessException.class);
 
+    }
+
+    @Test
+    void 예외_타인_포스트_삭제_실패() {
+        // given
+        Member member = new Member(NAVER_EMAIL);
+        Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
+
+        // when, then
+        assertThatThrownBy(() ->
+                post.delete(new Member("member2@gmail.com")))
+                .isInstanceOf(BusinessException.class);
     }
 }

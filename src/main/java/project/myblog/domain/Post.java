@@ -31,6 +31,9 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @Column(nullable = false)
+    private boolean isDeleted = false;
+
     protected Post() {
     }
 
@@ -53,7 +56,12 @@ public class Post extends BaseTimeEntity {
         this.contents = contents;
     }
 
-    public void validateOwner(Member member) {
+    public void delete(Member member) {
+        validateOwner(member);
+        this.isDeleted = true;
+    }
+
+    private void validateOwner(Member member) {
         if (!isOwner(member)) {
             throw new BusinessException(POST_AUTHORIZATION);
         }
@@ -77,6 +85,10 @@ public class Post extends BaseTimeEntity {
 
     public Member getMember() {
         return member;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
     @Override

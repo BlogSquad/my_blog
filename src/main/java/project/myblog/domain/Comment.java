@@ -33,6 +33,9 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     private Member member;
 
+    @Column(nullable = false)
+    private boolean isDeleted = false;
+
     protected Comment() {
     }
 
@@ -54,7 +57,12 @@ public class Comment extends BaseTimeEntity {
         this.contents = contents;
     }
 
-    public void validateOwner(Member member) {
+    public void delete(Member member) {
+        validateOwner(member);
+        this.isDeleted = true;
+    }
+
+    private void validateOwner(Member member) {
         if (!isOwner(member)) {
             throw new BusinessException(COMMENT_AUTHORIZATION);
         }
@@ -78,6 +86,10 @@ public class Comment extends BaseTimeEntity {
 
     public Member getMember() {
         return member;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
     @Override

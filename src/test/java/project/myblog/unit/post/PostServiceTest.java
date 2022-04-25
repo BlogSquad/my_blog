@@ -88,7 +88,7 @@ class PostServiceTest {
         postService.deletePost(NAVER_EMAIL, postId);
 
         // then
-        assertThat(postRepository.findById(postId).isPresent()).isFalse();
+        assertThat(postRepository.findById(postId).get().isDeleted()).isTrue();
     }
 
     @Test

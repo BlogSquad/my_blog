@@ -42,12 +42,11 @@ public class PostService {
         Member member = memberService.findMemberByEmail(email);
         Post post = findPostById(postId);
 
-        post.validateOwner(member);
-        postRepository.delete(post);
+        post.delete(member);
     }
 
     public Post findPostById(Long postId) {
-        return postRepository.findById(postId)
+        return postRepository.findByIdAndIsDeletedFalse(postId)
                 .orElseThrow(() -> new BusinessException(ExceptionCode.POST_INVALID));
     }
 }
