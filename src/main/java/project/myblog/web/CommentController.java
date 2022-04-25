@@ -16,7 +16,6 @@ import project.myblog.web.dto.comment.CommentRequest;
 import project.myblog.web.dto.comment.CommentResponse;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -30,8 +29,8 @@ public class CommentController {
     @PostMapping(value = "/posts/{postId}/comments", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createComment(@Login LoginMember loginMember, @PathVariable("postId") Long postId,
                                               @Valid @RequestBody CommentRequest commentRequest) {
-        Long commentId = commentService.createComment(loginMember.getEmail(), postId, commentRequest);
-        return ResponseEntity.created(URI.create("/posts/" + postId + "/comments/" + commentId)).build();
+        commentService.createComment(loginMember.getEmail(), postId, commentRequest);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/posts/{postId}/comments", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,6 +51,15 @@ public class CommentController {
     public ResponseEntity<Void> deleteComment(@Login LoginMember loginMember,
                                               @PathVariable("commentId") Long commentId) {
         commentService.deleteComment(loginMember.getEmail(), commentId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/posts/{postId}/comments/{parentId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createNestedComment(@Login LoginMember loginMember,
+                                                    @PathVariable("postId") Long postId,
+                                                    @PathVariable("parentId") Long parentId,
+                                              @Valid @RequestBody CommentRequest commentRequest) {
+        commentService.createNestedComment(loginMember.getEmail(), postId, parentId, commentRequest);
         return ResponseEntity.noContent().build();
     }
 }

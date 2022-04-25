@@ -2,6 +2,7 @@ package project.myblog.domain;
 
 import project.myblog.exception.BusinessException;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static javax.persistence.FetchType.LAZY;
@@ -24,6 +28,13 @@ public class Comment extends BaseTimeEntity {
     @Lob
     @Column(nullable = false)
     private String contents;
+
+    @JoinColumn(name = "PARENT_ID")
+    @ManyToOne(fetch = LAZY)
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent", cascade = {CascadeType.MERGE})
+    private List<Comment> children = new ArrayList<>();
 
     @JoinColumn(name = "POST_ID", nullable = false)
     @ManyToOne(fetch = LAZY)
@@ -40,9 +51,7 @@ public class Comment extends BaseTimeEntity {
     }
 
     public Comment(String contents, Post post, Member member) {
-        this.contents = contents;
-        this.post = post;
-        this.member = member;
+        this(null, contents, post, member);
     }
 
     public Comment(Long id, String contents, Post post, Member member) {
@@ -60,6 +69,17 @@ public class Comment extends BaseTimeEntity {
     public void delete(Member member) {
         validateOwner(member);
         this.isDeleted = true;
+    }
+
+    public Comment makeNestedComment(Comment comment){
+        if (this.parent == null) {
+            comment.parent = this;
+            children.add(comment);
+            return this;
+        }
+        comment.parent = this.parent;
+        this.parent.children.add(comment);
+        return this.parent;
     }
 
     private void validateOwner(Member member) {
@@ -80,6 +100,14 @@ public class Comment extends BaseTimeEntity {
         return contents;
     }
 
+    public Comment getParent() {
+        return parent;
+    }
+
+    public List<Comment> getChildren() {
+        return children;
+    }
+
     public Post getPost() {
         return post;
     }
@@ -97,15 +125,12 @@ public class Comment extends BaseTimeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
-        return Objects.equals(getId(), comment.getId()) &&
-                Objects.equals(getContents(), comment.getContents()) &&
-                Objects.equals(getPost(), comment.getPost()) &&
-                Objects.equals(getMember(), comment.getMember());
+        return Objects.equals(getId(), comment.getId()) && Objects.equals(getContents(), comment.getContents()) && Objects.equals(getPost(), comment.getPost());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getContents(), getPost(), getMember());
+        return Objects.hash(getId(), getContents(), getMember());
     }
 
     @Override
@@ -113,8 +138,8 @@ public class Comment extends BaseTimeEntity {
         return "Comment{" +
                 "id=" + id +
                 ", contents='" + contents + '\'' +
+                ", parent=" + parent +
                 ", post=" + post +
-                ", member=" + member +
                 '}';
     }
 }

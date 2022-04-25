@@ -106,4 +106,14 @@ public class Post extends BaseTimeEntity {
     public int hashCode() {
         return Objects.hash(id, title, contents, member);
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", contents='" + contents + '\'' +
+                ", member=" + member +
+                '}';
+    }
 }

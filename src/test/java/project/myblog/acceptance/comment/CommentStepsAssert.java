@@ -10,8 +10,7 @@ import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 
 public class CommentStepsAssert {
     public static void 댓글_작성됨(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
-        assertThat(response.header("Location")).isNotNull();
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
     public static void 댓글_조회됨(ExtractableResponse<Response> response) {
