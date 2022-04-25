@@ -52,4 +52,17 @@ public class CommentStepsRequest {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 대댓글_작성_요청(RequestSpecification given, String sessionId, String contents) {
+        Map<String, String> params = new HashMap<>();
+        params.put("contents", contents);
+
+        return given.log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .cookie(JSESSIONID, sessionId)
+                .body(params)
+                .when().post("/posts/{postId}/comments/{parentId}", 1L, 1L)
+                .then().log().all()
+                .extract();
+    }
 }

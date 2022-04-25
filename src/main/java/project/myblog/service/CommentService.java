@@ -28,14 +28,6 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public Long createNestedComment(String email, Long postId, Long parentId, CommentRequest requestDto) {
-        Member member = memberService.findMemberByEmail(email);
-        Post post = postService.findPostById(postId);
-        Comment parent = findCommentById(parentId);
-
-        return commentRepository.save(requestDto.toNestedCommentEntity(post, member, parent)).getId();
-    }
-
     public Long createComment(String email, Long postId, CommentRequest requestDto) {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
@@ -60,6 +52,14 @@ public class CommentService {
         Comment comment = findCommentById(commentId);
 
         comment.delete(member);
+    }
+
+    public Long createNestedComment(String email, Long postId, Long parentId, CommentRequest requestDto) {
+        Member member = memberService.findMemberByEmail(email);
+        Post post = postService.findPostById(postId);
+        Comment parent = findCommentById(parentId);
+
+        return commentRepository.save(requestDto.toNestedCommentEntity(post, member, parent)).getId();
     }
 
     private List<CommentResponse> createCommentsResponse(List<Comment> comments) {
