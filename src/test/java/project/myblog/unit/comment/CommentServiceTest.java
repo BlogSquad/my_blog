@@ -59,25 +59,30 @@ class CommentServiceTest {
         assertThat(comment).isEqualTo(expectedComments);
     }
 
+    @DisplayName("댓글과 대댓글 목록을 조회한다.")
     @Test
-    void 댓글_조회() {
+    void 댓글_목록_조회() {
         // given
         memberRepository.save(createMember(NAVER_EMAIL));
         PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
         Long postId = postService.createPost(NAVER_EMAIL, postRequest);
 
-        commentService.createComment(NAVER_EMAIL, postId, new CommentRequest("댓글1"));
-        commentService.createComment(NAVER_EMAIL, postId, new CommentRequest("댓글2"));
+        Long parentCommentId1 = commentService.createComment(NAVER_EMAIL, postId, new CommentRequest("댓글1"));
+        Long parentCommentId2 = commentService.createComment(NAVER_EMAIL, postId, new CommentRequest("댓글2"));
 
         // when
-        List<CommentResponse> commentResponses = commentService.findComments(postId);
+        commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId1, new CommentRequest("대댓글1"));
+        commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId1, new CommentRequest("대댓글2"));
+
+        commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId2, new CommentRequest("대댓글3"));
+        commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId2, new CommentRequest("대댓글4"));
 
         // then
-        List<CommentResponse> expectedCommentResponses = new ArrayList<>();
-        expectedCommentResponses.add(new CommentResponse("댓글1", NAVER_EMAIL));
-        expectedCommentResponses.add(new CommentResponse("댓글2", NAVER_EMAIL));
+        List<CommentResponse> commentResponses = commentService.findComments(postId);
 
-        assertThat(commentResponses).isEqualTo(expectedCommentResponses);
+        assertThat(commentResponses.size()).isEqualTo(2);
+        assertThatFirstComment(parentCommentId1, commentResponses);
+        assertThatSecondComment(parentCommentId2, commentResponses);
     }
 
     @Test
@@ -238,6 +243,34 @@ class CommentServiceTest {
 
         assertThat(children.get(0).getContents()).isEqualTo("대댓글1");
         assertThat(children.get(1).getContents()).isEqualTo("대댓글2");
+    }
+
+    private void assertThatFirstComment(Long parentCommentId, List<CommentResponse> commentResponses) {
+        assertThat(commentResponses.get(0).getParentId()).isNull();
+        assertThat(commentResponses.get(0).getContents()).isEqualTo("댓글1");
+        assertThat(commentResponses.get(0).getAuthor()).isEqualTo(NAVER_EMAIL);
+
+        assertThat(commentResponses.get(0).getChildren().get(0).getParentId()).isEqualTo(parentCommentId);
+        assertThat(commentResponses.get(0).getChildren().get(0).getContents()).isEqualTo("대댓글1");
+        assertThat(commentResponses.get(0).getChildren().get(0).getAuthor()).isEqualTo(NAVER_EMAIL);
+
+        assertThat(commentResponses.get(0).getChildren().get(1).getParentId()).isEqualTo(parentCommentId);
+        assertThat(commentResponses.get(0).getChildren().get(1).getContents()).isEqualTo("대댓글2");
+        assertThat(commentResponses.get(0).getChildren().get(1).getAuthor()).isEqualTo(NAVER_EMAIL);
+    }
+
+    private void assertThatSecondComment(Long parentCommentId, List<CommentResponse> commentResponses) {
+        assertThat(commentResponses.get(1).getParentId()).isNull();
+        assertThat(commentResponses.get(1).getContents()).isEqualTo("댓글2");
+        assertThat(commentResponses.get(1).getAuthor()).isEqualTo(NAVER_EMAIL);
+
+        assertThat(commentResponses.get(1).getChildren().get(0).getParentId()).isEqualTo(parentCommentId);
+        assertThat(commentResponses.get(1).getChildren().get(0).getContents()).isEqualTo("대댓글3");
+        assertThat(commentResponses.get(1).getChildren().get(0).getAuthor()).isEqualTo(NAVER_EMAIL);
+
+        assertThat(commentResponses.get(1).getChildren().get(1).getParentId()).isEqualTo(parentCommentId);
+        assertThat(commentResponses.get(1).getChildren().get(1).getContents()).isEqualTo("대댓글4");
+        assertThat(commentResponses.get(1).getChildren().get(1).getAuthor()).isEqualTo(NAVER_EMAIL);
     }
 
     private Member createMember(String email) {

@@ -52,11 +52,6 @@ public class CommentResponse {
         this.children = commentResponses;
     }
 
-    public CommentResponse(String contents, String author) {
-        this.contents = contents;
-        this.author = author;
-    }
-
     public Long getParentId() {
         return parentId;
     }
