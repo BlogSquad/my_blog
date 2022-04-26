@@ -64,3 +64,6 @@ operation::comment-update[snippets='http-request,path-parameters,request-body,re
 
 === 댓글 삭제
 operation::comment-delete[snippets='http-request,path-parameters,http-response']
+
+=== 대댓글 작성
+operation::nestedComment-create[snippets='http-request,path-parameters,request-body,request-fields,http-response']
