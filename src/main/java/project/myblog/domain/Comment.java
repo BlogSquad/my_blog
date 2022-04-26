@@ -13,6 +13,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,7 +72,7 @@ public class Comment extends BaseTimeEntity {
         this.isDeleted = true;
     }
 
-    public Comment makeNestedComment(Comment comment){
+    public Comment createNestedComment(Comment comment){
         if (this.parent == null) {
             comment.parent = this;
             children.add(comment);
@@ -105,7 +106,7 @@ public class Comment extends BaseTimeEntity {
     }
 
     public List<Comment> getChildren() {
-        return children;
+        return Collections.unmodifiableList(children);
     }
 
     public Post getPost() {

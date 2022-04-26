@@ -10,17 +10,18 @@ import org.junit.jupiter.params.provider.ValueSource;
 import project.myblog.acceptance.AcceptanceTest;
 
 import static io.restassured.RestAssured.given;
+import static project.myblog.acceptance.comment.CommentStepsAssert.대댓글_목록_조회됨;
+import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_목록_조회됨;
 import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_수정_or_삭제됨;
 import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_작성_안됨;
 import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_작성됨;
-import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_조회됨;
 import static project.myblog.acceptance.comment.CommentStepsAssert.존재하지_않는_댓글;
 import static project.myblog.acceptance.comment.CommentStepsAssert.타인_댓글_수정_or_삭제_안됨;
 import static project.myblog.acceptance.comment.CommentStepsRequest.대댓글_작성_요청;
+import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_목록_조회_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_삭제_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_수정_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_작성_요청;
-import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_조회_요청;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_작성_되어있음;
 import static project.myblog.auth.dto.SocialType.GITHUB;
@@ -49,8 +50,8 @@ class CommentAcceptance extends AcceptanceTest {
         댓글_작성됨(createResponse);
 
         댓글_작성_요청(given(), sessionId, "댓글2");
-        ExtractableResponse<Response> findResponse = 댓글_조회_요청(given());
-        댓글_조회됨(findResponse);
+        ExtractableResponse<Response> findResponse = 댓글_목록_조회_요청(given());
+        댓글_목록_조회됨(findResponse);
 
         ExtractableResponse<Response> updateResponse = 댓글_수정_요청(given(), sessionId, "댓글1 수정");
         댓글_수정_or_삭제됨(updateResponse);
@@ -170,5 +171,27 @@ class CommentAcceptance extends AcceptanceTest {
         ExtractableResponse<Response> response = 대댓글_작성_요청(given(), sessionId, "대댓글1");
 
         댓글_작성됨(response);
+    }
+
+    /**
+     * Given 로그인 되어 있음
+     * And 포스트가 작성되어 있음
+     * And 댓글 작성되어 있음
+     * And 대댓글1 작성되어 있음
+     * And 대댓글2 작성되어 있음
+     * When 댓글 조회 요청
+     * Then 댓글, 대댓글 조회됨.
+     */
+    @Test
+    void 대댓글_목록_조회() {
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
+        댓글_작성_요청(given(), sessionId, "댓글1");
+        대댓글_작성_요청(given(), sessionId, "대댓글1");
+        대댓글_작성_요청(given(), sessionId, "대댓글2");
+
+        ExtractableResponse<Response> findResponse = 댓글_목록_조회_요청(given());
+
+        대댓글_목록_조회됨(findResponse);
     }
 }

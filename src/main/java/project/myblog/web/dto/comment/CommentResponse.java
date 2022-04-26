@@ -1,14 +1,68 @@
 package project.myblog.web.dto.comment;
 
-import java.util.Objects;
+import project.myblog.domain.Comment;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class CommentResponse {
+    private Long parentId;
+    private Long commentId;
     private String contents;
     private String author;
+    private LocalDateTime createDate;
+    private LocalDateTime modifiedDate;
+    private List<CommentResponse> children = new ArrayList<>();
+
+    public CommentResponse(Long parentId, Long commentId, String contents, String author, LocalDateTime createDate, LocalDateTime modifiedDate, List<Comment> children) {
+        this.parentId = parentId;
+        this.commentId = commentId;
+        this.contents = contents;
+        this.author = author;
+        this.createDate = createDate;
+        this.modifiedDate = modifiedDate;
+
+        List<CommentResponse> commentResponses = new ArrayList<>();
+        for (Comment child : children) {
+            commentResponses.add(new CommentResponse(
+                    child.getParent().getId(), child.getId(), child.getContents(), child.getMember().getEmail(),
+                    child.getCreateDate(), child.getModifiedDate(), child.getChildren()
+            ));
+        }
+        this.children = commentResponses;
+    }
+
+    public CommentResponse(Long commentId, String contents, String author, LocalDateTime createDate, LocalDateTime modifiedDate, List<Comment> children) {
+        this.parentId = null;
+        this.commentId = commentId;
+        this.contents = contents;
+        this.author = author;
+        this.createDate = createDate;
+        this.modifiedDate = modifiedDate;
+
+        List<CommentResponse> commentResponses = new ArrayList<>();
+        for (Comment child : children) {
+            commentResponses.add(new CommentResponse(
+                    child.getParent().getId(), child.getId(), child.getContents(), child.getMember().getEmail(),
+                    child.getCreateDate(), child.getModifiedDate(), child.getChildren()
+            ));
+        }
+        this.children = commentResponses;
+    }
 
     public CommentResponse(String contents, String author) {
         this.contents = contents;
         this.author = author;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public Long getCommentId() {
+        return commentId;
     }
 
     public String getContents() {
@@ -19,24 +73,15 @@ public class CommentResponse {
         return author;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CommentResponse that = (CommentResponse) o;
-        return Objects.equals(getContents(), that.getContents()) && Objects.equals(getAuthor(), that.getAuthor());
+    public LocalDateTime getCreateDate() {
+        return createDate;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getContents(), getAuthor());
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
     }
 
-    @Override
-    public String toString() {
-        return "CommentResponse{" +
-                "contents='" + contents + '\'' +
-                ", author='" + author + '\'' +
-                '}';
+    public List<CommentResponse> getChildren() {
+        return Collections.unmodifiableList(children);
     }
 }

@@ -32,7 +32,7 @@ public class CommentService {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
 
-        return commentRepository.save(requestDto.toCommentEntity(post, member)).getId();
+        return commentRepository.save(requestDto.toEntity(post, member)).getId();
     }
 
     public List<CommentResponse> findComments(Long postId) {
@@ -58,16 +58,21 @@ public class CommentService {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
         Comment parent = findCommentById(parentId)
-                .makeNestedComment(requestDto.toCommentEntity(post, member));
+                .createNestedComment(requestDto.toEntity(post, member));
 
         return commentRepository.save(parent).getId();
     }
 
     private List<CommentResponse> createCommentsResponse(List<Comment> comments) {
         List<CommentResponse> commentResponses = new ArrayList<>();
+
         for (Comment comment : comments) {
-            commentResponses.add(new CommentResponse(comment.getContents(), comment.getMember().getEmail()));
+            commentResponses.add(new CommentResponse(
+                    comment.getId(), comment.getContents(), comment.getMember().getEmail(),
+                    comment.getCreateDate(), comment.getModifiedDate(), comment.getChildren()
+            ));
         }
+
         return commentResponses;
     }
 

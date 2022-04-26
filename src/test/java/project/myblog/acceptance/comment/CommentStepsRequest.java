@@ -24,7 +24,7 @@ public class CommentStepsRequest {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 댓글_조회_요청(RequestSpecification given) {
+    public static ExtractableResponse<Response> 댓글_목록_조회_요청(RequestSpecification given) {
         return given.log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/posts/{postId}/comments", 1L)
