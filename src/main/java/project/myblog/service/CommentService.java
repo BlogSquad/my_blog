@@ -9,8 +9,8 @@ import project.myblog.exception.BusinessException;
 import project.myblog.repository.CommentRepository;
 import project.myblog.web.dto.comment.CommentRequest;
 import project.myblog.web.dto.comment.CommentResponse;
+import project.myblog.web.dto.comment.CommentResponses;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static project.myblog.exception.ExceptionCode.COMMENT_INVALID;

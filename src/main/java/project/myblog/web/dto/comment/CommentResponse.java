@@ -3,7 +3,6 @@ package project.myblog.web.dto.comment;
 import project.myblog.domain.Comment;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class CommentResponse {
     private String author;
     private LocalDateTime createDate;
     private LocalDateTime modifiedDate;
-    private List<CommentResponse> children = new ArrayList<>();
+    private List<CommentResponse> children;
 
     public static List<CommentResponse> create(List<Comment> parentComments) {
         List<CommentResponse> commentResponses = new ArrayList<>();
