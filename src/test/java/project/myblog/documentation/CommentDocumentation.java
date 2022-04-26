@@ -2,7 +2,6 @@ package project.myblog.documentation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.FieldDescriptor;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.request.ParameterDescriptor;
 
 import static io.restassured.RestAssured.given;
@@ -111,13 +110,13 @@ class CommentDocumentation extends Documentation {
 
     private FieldDescriptor[] getFieldDescriptorsResponse() {
         return new FieldDescriptor[] {
-                fieldWithPath("[].parentId").description("상위 댓글 번호"),
-                fieldWithPath("[].commentId").description("댓글 번호"),
-                fieldWithPath("[].contents").description("댓글 내용"),
-                fieldWithPath("[].author").description("작성자"),
-                fieldWithPath("[].createDate").description("새성 일자"),
-                fieldWithPath("[].modifiedDate").description("수정 일자"),
-                fieldWithPath("[].children").description("대댓글")
+                fieldWithPath("comments[].commentId").description("댓글 번호"),
+                fieldWithPath("comments[].contents").description("댓글 내용"),
+                fieldWithPath("comments[].author").description("작성자"),
+                fieldWithPath("comments[].createDate").description("새성 일자"),
+                fieldWithPath("comments[].modifiedDate").description("수정 일자"),
+                fieldWithPath("comments[].children").description("대댓글"),
+                fieldWithPath("comments[].children[].parentId").description("상위 댓글 번호"),
         };
     }
 

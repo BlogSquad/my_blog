@@ -13,10 +13,9 @@ import project.myblog.auth.dto.Login;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.service.CommentService;
 import project.myblog.web.dto.comment.CommentRequest;
-import project.myblog.web.dto.comment.CommentResponse;
+import project.myblog.web.dto.comment.CommentResponses;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class CommentController {
@@ -34,8 +33,8 @@ public class CommentController {
     }
 
     @GetMapping(value = "/posts/{postId}/comments", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CommentResponse>> findComments(@PathVariable("postId") Long postId) {
-        List<CommentResponse> commentResponses = commentService.findComments(postId);
+    public ResponseEntity<CommentResponses> findComments(@PathVariable("postId") Long postId) {
+        CommentResponses commentResponses = commentService.findComments(postId);
         return ResponseEntity.ok(commentResponses);
     }
 

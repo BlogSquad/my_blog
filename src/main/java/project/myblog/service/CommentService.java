@@ -35,7 +35,7 @@ public class CommentService {
         return commentRepository.save(requestDto.toEntity(post, member)).getId();
     }
 
-    public List<CommentResponse> findComments(Long postId) {
+    public CommentResponses findComments(Long postId) {
         List<Comment> parentComments = commentRepository.findAllByPostIdAndIsDeletedFalse(postId);
         return CommentResponse.create(parentComments);
     }

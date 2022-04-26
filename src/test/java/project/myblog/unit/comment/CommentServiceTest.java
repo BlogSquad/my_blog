@@ -17,7 +17,6 @@ import project.myblog.web.dto.comment.CommentRequest;
 import project.myblog.web.dto.comment.CommentResponse;
 import project.myblog.web.dto.post.PostRequest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -78,7 +77,7 @@ class CommentServiceTest {
         commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId2, new CommentRequest("대댓글4"));
 
         // then
-        List<CommentResponse> commentResponses = commentService.findComments(postId);
+        List<CommentResponse> commentResponses = commentService.findComments(postId).getComments();
 
         assertThat(commentResponses.size()).isEqualTo(2);
         assertThatFirstComment(parentCommentId1, commentResponses);

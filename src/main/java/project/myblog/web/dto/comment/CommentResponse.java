@@ -1,11 +1,14 @@
 package project.myblog.web.dto.comment;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import project.myblog.domain.Comment;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class CommentResponse {
     private Long parentId;
     private Long commentId;
@@ -15,46 +18,24 @@ public class CommentResponse {
     private LocalDateTime modifiedDate;
     private List<CommentResponse> children;
 
-    public static List<CommentResponse> create(List<Comment> parentComments) {
-        List<CommentResponse> commentResponses = new ArrayList<>();
-
-        for (Comment comment : parentComments) {
-            commentResponses.add(new CommentResponse(
-                    comment.getId(), comment.getContents(), comment.getMember().getEmail(),
-                    comment.getCreateDate(), comment.getModifiedDate(), comment.getChildren()
-            ));
-        }
-        return commentResponses;
+    public static CommentResponses create(List<Comment> parentComments) {
+        return new CommentResponses(toList(parentComments));
     }
 
-    // 댓글 셋팅
-    private CommentResponse(Long commentId, String contents, String author, LocalDateTime createDate, LocalDateTime modifiedDate, List<Comment> children) {
-        this.parentId = null;
-        this.commentId = commentId;
-        this.contents = contents;
-        this.author = author;
-        this.createDate = createDate;
-        this.modifiedDate = modifiedDate;
-
-        // 대댓글 셋팅
-        List<CommentResponse> commentResponses = new ArrayList<>();
-        for (Comment child : children) {
-            commentResponses.add(new CommentResponse(
-                    child.getParent().getId(), child.getId(), child.getContents(), child.getMember().getEmail(),
-                    child.getCreateDate(), child.getModifiedDate()
-            ));
-        }
-        this.children = commentResponses;
+    private CommentResponse(Comment comment) {
+        this.parentId = comment.getParent() == null? null : comment.getParent().getId();
+        this.commentId = comment.getId();
+        this.contents = comment.getContents();
+        this.author = comment.getMember().getEmail();
+        this.createDate = comment.getCreateDate();
+        this.modifiedDate = comment.getModifiedDate();
+        this.children = toList(comment.getChildren());
     }
 
-    // 대댓글 셋팅
-    private CommentResponse(Long parentId, Long commentId, String contents, String author, LocalDateTime createDate, LocalDateTime modifiedDate) {
-        this.parentId = parentId;
-        this.commentId = commentId;
-        this.contents = contents;
-        this.author = author;
-        this.createDate = createDate;
-        this.modifiedDate = modifiedDate;
+    private static List<CommentResponse> toList(List<Comment> parentComments) {
+        return parentComments.stream()
+                .map(CommentResponse::new)
+                .collect(Collectors.toList());
     }
 
     public Long getParentId() {
