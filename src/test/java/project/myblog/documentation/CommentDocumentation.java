@@ -2,6 +2,7 @@ package project.myblog.documentation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.request.ParameterDescriptor;
 
 import static io.restassured.RestAssured.given;
@@ -34,12 +35,14 @@ class CommentDocumentation extends Documentation {
     }
 
     @Test
-    void 댓글_조회() {
+    void 댓글_목록_조회() {
         // given
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
         포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
         댓글_작성_요청(given(), sessionId, "댓글1");
-        댓글_작성_요청(given(), sessionId, "댓글2");
+
+        대댓글_작성_요청(given(), sessionId, "대댓글1");
+        대댓글_작성_요청(given(), sessionId, "대댓글2");
 
         // when
         댓글_목록_조회_요청(
@@ -108,8 +111,13 @@ class CommentDocumentation extends Documentation {
 
     private FieldDescriptor[] getFieldDescriptorsResponse() {
         return new FieldDescriptor[] {
+                fieldWithPath("[].parentId").description("상위 댓글 번호"),
+                fieldWithPath("[].commentId").description("댓글 번호"),
                 fieldWithPath("[].contents").description("댓글 내용"),
-                fieldWithPath("[].author").description("작성자")
+                fieldWithPath("[].author").description("작성자"),
+                fieldWithPath("[].createDate").description("새성 일자"),
+                fieldWithPath("[].modifiedDate").description("수정 일자"),
+                fieldWithPath("[].children").description("대댓글")
         };
     }
 
