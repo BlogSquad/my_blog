@@ -2,7 +2,6 @@ package project.myblog.acceptance.comment;
 
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,10 +12,10 @@ public class CommentStepsAssert {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
-    public static void 댓글_조회됨(ExtractableResponse<Response> response) {
+    public static void 댓글_목록_조회됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.jsonPath().getList("contents")).containsExactly("댓글1", "댓글2");
-        assertThat(response.jsonPath().getList("author")).containsExactly(NAVER_EMAIL, NAVER_EMAIL);
+        assertThat(response.jsonPath().getList("comments.contents")).containsExactly("댓글1", "댓글2");
+        assertThat(response.jsonPath().getList("comments.author")).containsExactly(NAVER_EMAIL, NAVER_EMAIL);
     }
 
     public static void 댓글_수정_or_삭제됨(ExtractableResponse<Response> response) {
@@ -33,5 +32,13 @@ public class CommentStepsAssert {
 
     public static void 타인_댓글_수정_or_삭제_안됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
+    }
+
+    public static void 대댓글_목록_조회됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.jsonPath().getList("comments.contents")).containsExactly("댓글1");
+        assertThat(response.jsonPath().getList("comments.author")).containsExactly(NAVER_EMAIL);
+        assertThat(response.jsonPath().getList("comments.children[0].contents")).containsExactly("대댓글1", "대댓글2");
+        assertThat(response.jsonPath().getList("comments.children[0].author")).containsExactly(NAVER_EMAIL, NAVER_EMAIL);
     }
 }

@@ -9,8 +9,8 @@ import project.myblog.exception.BusinessException;
 import project.myblog.repository.CommentRepository;
 import project.myblog.web.dto.comment.CommentRequest;
 import project.myblog.web.dto.comment.CommentResponse;
+import project.myblog.web.dto.comment.CommentResponses;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static project.myblog.exception.ExceptionCode.COMMENT_INVALID;
@@ -32,12 +32,12 @@ public class CommentService {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
 
-        return commentRepository.save(requestDto.toCommentEntity(post, member)).getId();
+        return commentRepository.save(requestDto.toEntity(post, member)).getId();
     }
 
-    public List<CommentResponse> findComments(Long postId) {
-        List<Comment> comments = commentRepository.findAllByPostIdAndIsDeletedFalse(postId);
-        return createCommentsResponse(comments);
+    public CommentResponses findComments(Long postId) {
+        List<Comment> parentComments = commentRepository.findAllByPostIdAndIsDeletedFalse(postId);
+        return CommentResponse.create(parentComments);
     }
 
     public void updateComment(String email, Long commentId, CommentRequest requestDto) {
@@ -58,17 +58,9 @@ public class CommentService {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
         Comment parent = findCommentById(parentId)
-                .makeNestedComment(requestDto.toCommentEntity(post, member));
+                .createNestedComment(requestDto.toEntity(post, member));
 
         return commentRepository.save(parent).getId();
-    }
-
-    private List<CommentResponse> createCommentsResponse(List<Comment> comments) {
-        List<CommentResponse> commentResponses = new ArrayList<>();
-        for (Comment comment : comments) {
-            commentResponses.add(new CommentResponse(comment.getContents(), comment.getMember().getEmail()));
-        }
-        return commentResponses;
     }
 
     private Comment findCommentById(Long commentId) {

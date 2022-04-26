@@ -1,14 +1,49 @@
 package project.myblog.web.dto.comment;
 
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import project.myblog.domain.Comment;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class CommentResponse {
+    private Long parentId;
+    private Long commentId;
     private String contents;
     private String author;
+    private LocalDateTime createDate;
+    private LocalDateTime modifiedDate;
+    private List<CommentResponse> children;
 
-    public CommentResponse(String contents, String author) {
-        this.contents = contents;
-        this.author = author;
+    public static CommentResponses create(List<Comment> parentComments) {
+        return new CommentResponses(toList(parentComments));
+    }
+
+    private CommentResponse(Comment comment) {
+        this.parentId = comment.getParent() == null? null : comment.getParent().getId();
+        this.commentId = comment.getId();
+        this.contents = comment.getContents();
+        this.author = comment.getMember().getEmail();
+        this.createDate = comment.getCreateDate();
+        this.modifiedDate = comment.getModifiedDate();
+        this.children = toList(comment.getChildren());
+    }
+
+    private static List<CommentResponse> toList(List<Comment> parentComments) {
+        return parentComments.stream()
+                .map(CommentResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public Long getCommentId() {
+        return commentId;
     }
 
     public String getContents() {
@@ -19,24 +54,15 @@ public class CommentResponse {
         return author;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CommentResponse that = (CommentResponse) o;
-        return Objects.equals(getContents(), that.getContents()) && Objects.equals(getAuthor(), that.getAuthor());
+    public LocalDateTime getCreateDate() {
+        return createDate;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getContents(), getAuthor());
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
     }
 
-    @Override
-    public String toString() {
-        return "CommentResponse{" +
-                "contents='" + contents + '\'' +
-                ", author='" + author + '\'' +
-                '}';
+    public List<CommentResponse> getChildren() {
+        return Collections.unmodifiableList(children);
     }
 }

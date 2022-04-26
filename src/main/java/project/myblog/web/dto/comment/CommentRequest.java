@@ -22,7 +22,7 @@ public class CommentRequest {
         this.contents = contents;
     }
 
-    public Comment toCommentEntity(Post post, Member member) {
+    public Comment toEntity(Post post, Member member) {
         return new Comment(contents, post, member);
     }
 
