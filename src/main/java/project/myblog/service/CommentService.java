@@ -36,8 +36,8 @@ public class CommentService {
     }
 
     public List<CommentResponse> findComments(Long postId) {
-        List<Comment> comments = commentRepository.findAllByPostIdAndIsDeletedFalse(postId);
-        return createCommentsResponse(comments);
+        List<Comment> parentComments = commentRepository.findAllByPostIdAndIsDeletedFalse(postId);
+        return CommentResponse.create(parentComments);
     }
 
     public void updateComment(String email, Long commentId, CommentRequest requestDto) {
@@ -61,19 +61,6 @@ public class CommentService {
                 .createNestedComment(requestDto.toEntity(post, member));
 
         return commentRepository.save(parent).getId();
-    }
-
-    private List<CommentResponse> createCommentsResponse(List<Comment> comments) {
-        List<CommentResponse> commentResponses = new ArrayList<>();
-
-        for (Comment comment : comments) {
-            commentResponses.add(new CommentResponse(
-                    comment.getId(), comment.getContents(), comment.getMember().getEmail(),
-                    comment.getCreateDate(), comment.getModifiedDate(), comment.getChildren()
-            ));
-        }
-
-        return commentResponses;
     }
 
     private Comment findCommentById(Long commentId) {

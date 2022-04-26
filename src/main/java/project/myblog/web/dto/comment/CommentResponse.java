@@ -16,25 +16,20 @@ public class CommentResponse {
     private LocalDateTime modifiedDate;
     private List<CommentResponse> children = new ArrayList<>();
 
-    public CommentResponse(Long parentId, Long commentId, String contents, String author, LocalDateTime createDate, LocalDateTime modifiedDate, List<Comment> children) {
-        this.parentId = parentId;
-        this.commentId = commentId;
-        this.contents = contents;
-        this.author = author;
-        this.createDate = createDate;
-        this.modifiedDate = modifiedDate;
-
+    public static List<CommentResponse> create(List<Comment> parentComments) {
         List<CommentResponse> commentResponses = new ArrayList<>();
-        for (Comment child : children) {
+
+        for (Comment comment : parentComments) {
             commentResponses.add(new CommentResponse(
-                    child.getParent().getId(), child.getId(), child.getContents(), child.getMember().getEmail(),
-                    child.getCreateDate(), child.getModifiedDate(), child.getChildren()
+                    comment.getId(), comment.getContents(), comment.getMember().getEmail(),
+                    comment.getCreateDate(), comment.getModifiedDate(), comment.getChildren()
             ));
         }
-        this.children = commentResponses;
+        return commentResponses;
     }
 
-    public CommentResponse(Long commentId, String contents, String author, LocalDateTime createDate, LocalDateTime modifiedDate, List<Comment> children) {
+    // 댓글 셋팅
+    private CommentResponse(Long commentId, String contents, String author, LocalDateTime createDate, LocalDateTime modifiedDate, List<Comment> children) {
         this.parentId = null;
         this.commentId = commentId;
         this.contents = contents;
@@ -42,14 +37,25 @@ public class CommentResponse {
         this.createDate = createDate;
         this.modifiedDate = modifiedDate;
 
+        // 대댓글 셋팅
         List<CommentResponse> commentResponses = new ArrayList<>();
         for (Comment child : children) {
             commentResponses.add(new CommentResponse(
                     child.getParent().getId(), child.getId(), child.getContents(), child.getMember().getEmail(),
-                    child.getCreateDate(), child.getModifiedDate(), child.getChildren()
+                    child.getCreateDate(), child.getModifiedDate()
             ));
         }
         this.children = commentResponses;
+    }
+
+    // 대댓글 셋팅
+    private CommentResponse(Long parentId, Long commentId, String contents, String author, LocalDateTime createDate, LocalDateTime modifiedDate) {
+        this.parentId = parentId;
+        this.commentId = commentId;
+        this.contents = contents;
+        this.author = author;
+        this.createDate = createDate;
+        this.modifiedDate = modifiedDate;
     }
 
     public Long getParentId() {
