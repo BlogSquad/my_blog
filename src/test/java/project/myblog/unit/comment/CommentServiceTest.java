@@ -228,7 +228,7 @@ class CommentServiceTest {
         Long nestedCommentId = commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId, childCommentRequest1);
 
         // when
-        CommentRequest childCommentRequest2 = new CommentRequest("대댓글2");
+        CommentRequest childCommentRequest2 = new CommentRequest("대대댓글1");
         commentService.createNestedComment(NAVER_EMAIL, postId, nestedCommentId, childCommentRequest2);
 
         // then
@@ -241,7 +241,7 @@ class CommentServiceTest {
         assertThat(children.get(1).getParent().getId()).isEqualTo(parentCommentId);
 
         assertThat(children.get(0).getContents()).isEqualTo("대댓글1");
-        assertThat(children.get(1).getContents()).isEqualTo("대댓글2");
+        assertThat(children.get(1).getContents()).isEqualTo("대대댓글1");
     }
 
     private void assertThatFirstComment(Long parentCommentId, List<CommentResponse> commentResponses) {

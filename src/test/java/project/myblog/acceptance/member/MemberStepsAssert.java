@@ -19,8 +19,8 @@ public class MemberStepsAssert {
 
     public static void 내_회원_정보_조회됨(ExtractableResponse<Response> response, String introduction, String subject) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.jsonPath().getString("introduction")).isEqualTo(introduction);
-        assertThat(response.jsonPath().getString("subject")).isEqualTo(subject);
+        assertThat(response.jsonPath().getString("data.introduction")).isEqualTo(introduction);
+        assertThat(response.jsonPath().getString("data.subject")).isEqualTo(subject);
     }
 
     public static void 내_회원_정보_조회_안됨(ExtractableResponse<Response> response) {

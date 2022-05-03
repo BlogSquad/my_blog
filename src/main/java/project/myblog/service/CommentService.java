@@ -60,7 +60,9 @@ public class CommentService {
         Comment parent = findCommentById(parentId)
                 .createNestedComment(requestDto.toEntity(post, member));
 
-        return commentRepository.save(parent).getId();
+        Comment save = commentRepository.save(parent);
+        int size = save.getChildren().size();
+        return save.getChildren().get(size - 1).getId();
     }
 
     private Comment findCommentById(Long commentId) {

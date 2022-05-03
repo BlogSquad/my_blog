@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import project.myblog.auth.dto.Login;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.service.MemberService;
+import project.myblog.web.dto.ApiResponse;
 import project.myblog.web.dto.member.MemberIntroductionRequest;
 import project.myblog.web.dto.member.MemberResponse;
 import project.myblog.web.dto.member.MemberSubjectRequest;
@@ -28,9 +29,9 @@ public class MemberController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MemberResponse> findMemberOfMine(@Login LoginMember loginMember) {
+    public ResponseEntity<ApiResponse<MemberResponse>> findMemberOfMine(@Login LoginMember loginMember) {
         MemberResponse member = memberService.findMemberOfMine(loginMember.getEmail());
-        return ResponseEntity.ok(member);
+        return ResponseEntity.ok(ApiResponse.succeed(member));
     }
 
     @PatchMapping(value = "/introduction", consumes = MediaType.APPLICATION_JSON_VALUE)

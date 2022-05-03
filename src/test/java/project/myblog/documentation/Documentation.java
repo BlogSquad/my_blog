@@ -110,4 +110,17 @@ public class Documentation {
                         )
                 );
     }
+
+    protected RequestSpecification givenRestDocsFieldDescriptorRequestFieldsAndPathParam(String identifier,
+                                                                                         FieldDescriptor[] requestFieldDescriptors,
+                                                                                         FieldDescriptor[] responseFieldDescriptors,
+                                                                                         ParameterDescriptor[] pathParameters) {
+        return RestAssured.given(this.spec)
+                .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+                        pathParameters(pathParameters),
+                        requestFields(requestFieldDescriptors),
+                        relaxedResponseFields(responseFieldDescriptors)
+                        )
+                );
+    }
 }

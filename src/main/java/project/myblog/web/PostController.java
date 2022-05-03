@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import project.myblog.auth.dto.Login;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.service.PostService;
+import project.myblog.web.dto.ApiResponse;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
 
@@ -35,9 +36,9 @@ public class PostController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PostResponse> findPost(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<PostResponse>> findPost(@PathVariable Long id) {
         PostResponse postResponse = postService.findPost(id);
-        return ResponseEntity.ok(postResponse);
+        return ResponseEntity.ok(ApiResponse.succeed(postResponse));
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

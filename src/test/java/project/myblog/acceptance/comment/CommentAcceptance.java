@@ -17,6 +17,7 @@ import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_작성
 import static project.myblog.acceptance.comment.CommentStepsAssert.댓글_작성됨;
 import static project.myblog.acceptance.comment.CommentStepsAssert.존재하지_않는_댓글;
 import static project.myblog.acceptance.comment.CommentStepsAssert.타인_댓글_수정_or_삭제_안됨;
+import static project.myblog.acceptance.comment.CommentStepsRequest.대대댓글_작성_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.대댓글_작성_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_목록_조회_요청;
 import static project.myblog.acceptance.comment.CommentStepsRequest.댓글_삭제_요청;
@@ -58,6 +59,33 @@ class CommentAcceptance extends AcceptanceTest {
 
         ExtractableResponse<Response> deleteResponse = 댓글_삭제_요청(given(), sessionId);
         댓글_수정_or_삭제됨(deleteResponse);
+    }
+
+    /**
+     * Given 로그인 되어 있음
+     * And 포스트가 작성되어 있음
+     * And 댓글 작성되어 있음
+     * When 대댓글1 작성 요청
+     * And 대댓글2 작성 요청
+     * When 대대댓글 작성 요청
+     * When 댓글 목록 조회 요청
+     * Then 댓글, 대댓글, 대대댓글 조회됨.
+     */
+    @DisplayName("대대댓글 작성 시 댓글에 대댓글로 작성된다.")
+    @Test
+    void 대댓글_관리() {
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
+        댓글_작성_요청(given(), sessionId, "댓글1");
+
+        대댓글_작성_요청(given(), sessionId, "대댓글1");
+        대댓글_작성_요청(given(), sessionId, "대댓글2");
+
+        ExtractableResponse<Response> response = 대대댓글_작성_요청(given(), sessionId, "대대댓글1");
+        댓글_작성됨(response);
+
+        ExtractableResponse<Response> findResponse = 댓글_목록_조회_요청(given());
+        대댓글_목록_조회됨(findResponse);
     }
 
     /**
@@ -153,45 +181,5 @@ class CommentAcceptance extends AcceptanceTest {
         ExtractableResponse<Response> response = 댓글_작성_요청(given(), sessionId, contents);
 
         댓글_작성_안됨(response);
-    }
-
-    /**
-     * Given 로그인 되어 있음
-     * And 포스트가 작성되어 있음
-     * And 댓글 작성되어 있음
-     * When 대댓글 작성 요청
-     * Then 대댓글 작성됨
-     */
-    @Test
-    void 대댓글_작성() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
-        댓글_작성_요청(given(), sessionId, "댓글1");
-
-        ExtractableResponse<Response> response = 대댓글_작성_요청(given(), sessionId, "대댓글1");
-
-        댓글_작성됨(response);
-    }
-
-    /**
-     * Given 로그인 되어 있음
-     * And 포스트가 작성되어 있음
-     * And 댓글 작성되어 있음
-     * And 대댓글1 작성되어 있음
-     * And 대댓글2 작성되어 있음
-     * When 댓글 조회 요청
-     * Then 댓글, 대댓글 조회됨.
-     */
-    @Test
-    void 대댓글_목록_조회() {
-        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
-        포스트_작성_되어있음(sessionId, "포스트1제목", "포스트1내용");
-        댓글_작성_요청(given(), sessionId, "댓글1");
-        대댓글_작성_요청(given(), sessionId, "대댓글1");
-        대댓글_작성_요청(given(), sessionId, "대댓글2");
-
-        ExtractableResponse<Response> findResponse = 댓글_목록_조회_요청(given());
-
-        대댓글_목록_조회됨(findResponse);
     }
 }
