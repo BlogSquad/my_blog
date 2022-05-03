@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Member;
 import project.myblog.domain.Post;
 import project.myblog.exception.BusinessException;
-import project.myblog.exception.ExceptionCode;
+import project.myblog.exception.ErrorCode;
 import project.myblog.repository.PostRepository;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
@@ -47,6 +47,6 @@ public class PostService {
 
     public Post findPostById(Long postId) {
         return postRepository.findByIdAndIsDeletedFalse(postId)
-                .orElseThrow(() -> new BusinessException(ExceptionCode.POST_INVALID));
+                .orElseThrow(() -> new BusinessException(ErrorCode.POST_INVALID));
     }
 }

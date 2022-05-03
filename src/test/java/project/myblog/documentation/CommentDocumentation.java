@@ -26,7 +26,8 @@ class CommentDocumentation extends Documentation {
         // when
         댓글_작성_요청(
                 givenRestDocsFieldDescriptorRequestFieldsAndPathParam("comment-create",
-                        getFieldDescriptorsRequest("contents", "댓글 내용"),
+                        getFieldDescriptors("contents", "댓글 내용"),
+                        getFieldDescriptors("data.commentId", "댓글 ID"),
                         getPathParameters("postId", "포스트 ID")
                 )
                 , sessionId, "댓글1"
@@ -46,7 +47,7 @@ class CommentDocumentation extends Documentation {
         // when
         댓글_목록_조회_요청(
                 givenRestDocsFieldDescriptorRelaxedResponseFieldsAndPathParam("comment-find",
-                        getFieldDescriptorsResponse(),
+                        getFieldDescriptors(),
                         getPathParameters("postId", "포스트 ID")
                 )
         );
@@ -62,7 +63,7 @@ class CommentDocumentation extends Documentation {
         // when
         댓글_수정_요청(
                 givenRestDocsFieldDescriptorRequestFieldsAndPathParam("comment-update",
-                        getFieldDescriptorsRequest("contents", "댓글 내용"),
+                        getFieldDescriptors("contents", "댓글 내용"),
                         getPathParameters("commentId", "댓글 ID")
                 )
                 , sessionId, "댓글1 수정"
@@ -95,28 +96,29 @@ class CommentDocumentation extends Documentation {
         // when
         대댓글_작성_요청(
                 givenRestDocsFieldDescriptorRequestFieldsAndPathParam("nestedComment-create",
-                        getFieldDescriptorsRequest("contents", "대댓글 내용"),
+                        getFieldDescriptors("contents", "대댓글 내용"),
+                        getFieldDescriptors("data.commentId", "댓글 ID"),
                         getPathParametersNestedComment()
                 )
                 , sessionId, "대댓글1"
         );
     }
 
-    private FieldDescriptor[] getFieldDescriptorsRequest(String name, String description) {
+    private FieldDescriptor[] getFieldDescriptors(String name, String description) {
         return new FieldDescriptor[] {
                 fieldWithPath(name).description(description)
         };
     }
 
-    private FieldDescriptor[] getFieldDescriptorsResponse() {
+    private FieldDescriptor[] getFieldDescriptors() {
         return new FieldDescriptor[] {
-                fieldWithPath("comments[].commentId").description("댓글 번호"),
-                fieldWithPath("comments[].contents").description("댓글 내용"),
-                fieldWithPath("comments[].author").description("작성자"),
-                fieldWithPath("comments[].createDate").description("새성 일자"),
-                fieldWithPath("comments[].modifiedDate").description("수정 일자"),
-                fieldWithPath("comments[].children").description("대댓글"),
-                fieldWithPath("comments[].children[].parentId").description("상위 댓글 번호"),
+                fieldWithPath("data.comments[].commentId").description("댓글 번호"),
+                fieldWithPath("data.comments[].contents").description("댓글 내용"),
+                fieldWithPath("data.comments[].author").description("작성자"),
+                fieldWithPath("data.comments[].createDate").description("새성 일자"),
+                fieldWithPath("data.comments[].modifiedDate").description("수정 일자"),
+                fieldWithPath("data.comments[].children").description("대댓글"),
+                fieldWithPath("data.comments[].children[].parentId").description("상위 댓글 번호"),
         };
     }
 

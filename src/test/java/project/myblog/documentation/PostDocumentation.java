@@ -78,10 +78,10 @@ class PostDocumentation extends Documentation {
 
     private FieldDescriptor[] getFieldDescriptors() {
         return new FieldDescriptor[] {
-                fieldWithPath("id").description("포스트 id"),
-                fieldWithPath("title").description("포스트 제목"),
-                fieldWithPath("contents").description("포스트 내용"),
-                fieldWithPath("author").description(NAVER_EMAIL)
+                fieldWithPath("data.id").description("포스트 id"),
+                fieldWithPath("data.title").description("포스트 제목"),
+                fieldWithPath("data.contents").description("포스트 내용"),
+                fieldWithPath("data.author").description(NAVER_EMAIL)
         };
     }
 

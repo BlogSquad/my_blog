@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionController {
     @GetMapping("/api/error")
     public void error(HttpServletRequest request) throws BusinessException {
-        ExceptionCode exceptionType = (ExceptionCode) request.getAttribute("exceptionType");
+        ErrorCode exceptionType = (ErrorCode) request.getAttribute("exceptionType");
         throw new BusinessException(exceptionType);
     }
 }

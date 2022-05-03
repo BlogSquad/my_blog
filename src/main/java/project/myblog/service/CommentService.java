@@ -13,7 +13,7 @@ import project.myblog.web.dto.comment.CommentResponses;
 
 import java.util.List;
 
-import static project.myblog.exception.ExceptionCode.COMMENT_INVALID;
+import static project.myblog.exception.ErrorCode.COMMENT_INVALID;
 
 @Transactional
 @Service
@@ -28,11 +28,12 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public Long createComment(String email, Long postId, CommentRequest requestDto) {
+    public CommentResponse createComment(String email, Long postId, CommentRequest requestDto) {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
 
-        return commentRepository.save(requestDto.toEntity(post, member)).getId();
+        Comment saved = commentRepository.save(requestDto.toEntity(post, member));
+        return CommentResponse.create(saved);
     }
 
     public CommentResponses findComments(Long postId) {
@@ -54,13 +55,16 @@ public class CommentService {
         comment.delete(member);
     }
 
-    public Long createNestedComment(String email, Long postId, Long parentId, CommentRequest requestDto) {
+    public CommentResponse createNestedComment(String email, Long postId, Long parentId, CommentRequest requestDto) {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
+        Comment children = requestDto.toEntity(post, member);
         Comment parent = findCommentById(parentId)
-                .createNestedComment(requestDto.toEntity(post, member));
+                .createNestedComment(children);
 
-        return commentRepository.save(parent).getId();
+        commentRepository.save(children);
+//        Comment save = commentRepository.save(parent);
+        return CommentResponse.create(children);
     }
 
     private Comment findCommentById(Long commentId) {

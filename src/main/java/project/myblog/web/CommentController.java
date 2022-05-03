@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import project.myblog.auth.dto.Login;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.service.CommentService;
+import project.myblog.web.dto.ApiResponse;
 import project.myblog.web.dto.comment.CommentRequest;
+import project.myblog.web.dto.comment.CommentResponse;
 import project.myblog.web.dto.comment.CommentResponses;
 
 import javax.validation.Valid;
@@ -26,16 +28,16 @@ public class CommentController {
     }
 
     @PostMapping(value = "/posts/{postId}/comments", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createComment(@Login LoginMember loginMember, @PathVariable("postId") Long postId,
+    public ResponseEntity<ApiResponse<CommentResponse>> createComment(@Login LoginMember loginMember, @PathVariable("postId") Long postId,
                                               @Valid @RequestBody CommentRequest commentRequest) {
-        commentService.createComment(loginMember.getEmail(), postId, commentRequest);
-        return ResponseEntity.noContent().build();
+        CommentResponse commentResponse = commentService.createComment(loginMember.getEmail(), postId, commentRequest);
+        return ResponseEntity.ok(ApiResponse.success(commentResponse));
     }
 
     @GetMapping(value = "/posts/{postId}/comments", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommentResponses> findComments(@PathVariable("postId") Long postId) {
+    public ResponseEntity<ApiResponse<CommentResponses>> findComments(@PathVariable("postId") Long postId) {
         CommentResponses commentResponses = commentService.findComments(postId);
-        return ResponseEntity.ok(commentResponses);
+        return ResponseEntity.ok(ApiResponse.success(commentResponses));
     }
 
     @PutMapping(value = "/comments/{commentId}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -54,11 +56,11 @@ public class CommentController {
     }
 
     @PostMapping(value = "/posts/{postId}/comments/{parentId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createNestedComment(@Login LoginMember loginMember,
+    public ResponseEntity<ApiResponse<CommentResponse>> createNestedComment(@Login LoginMember loginMember,
                                                     @PathVariable("postId") Long postId,
                                                     @PathVariable("parentId") Long parentId,
                                                     @Valid @RequestBody CommentRequest commentRequest) {
-        commentService.createNestedComment(loginMember.getEmail(), postId, parentId, commentRequest);
-        return ResponseEntity.noContent().build();
+        CommentResponse commentResponse = commentService.createNestedComment(loginMember.getEmail(), postId, parentId, commentRequest);
+        return ResponseEntity.ok(ApiResponse.success(commentResponse));
     }
 }

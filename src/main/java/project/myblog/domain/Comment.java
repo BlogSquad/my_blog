@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static javax.persistence.FetchType.LAZY;
-import static project.myblog.exception.ExceptionCode.COMMENT_AUTHORIZATION;
+import static project.myblog.exception.ErrorCode.COMMENT_AUTHORIZATION;
 
 @Entity
 public class Comment extends BaseTimeEntity {
@@ -34,7 +34,7 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     private Comment parent;
 
-    @OneToMany(mappedBy = "parent", cascade = {CascadeType.MERGE})
+    @OneToMany(mappedBy = "parent", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Comment> children = new ArrayList<>();
 
     @JoinColumn(name = "POST_ID", nullable = false)

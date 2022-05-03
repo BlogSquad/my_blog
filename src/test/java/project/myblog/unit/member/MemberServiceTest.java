@@ -17,7 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
-import static project.myblog.exception.ExceptionCode.MEMBER_INVALID;
+import static project.myblog.exception.ErrorCode.MEMBER_INVALID;
 
 @Transactional
 @SpringBootTest

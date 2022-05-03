@@ -18,8 +18,18 @@ public class CommentResponse {
     private LocalDateTime modifiedDate;
     private List<CommentResponse> children;
 
+    public static CommentResponse create(Comment comment) {
+        return new CommentResponse(comment);
+    }
+
     public static CommentResponses create(List<Comment> parentComments) {
         return new CommentResponses(toList(parentComments));
+    }
+
+    private static List<CommentResponse> toList(List<Comment> parentComments) {
+        return parentComments.stream()
+                .map(CommentResponse::new)
+                .collect(Collectors.toList());
     }
 
     private CommentResponse(Comment comment) {
@@ -30,12 +40,6 @@ public class CommentResponse {
         this.createDate = comment.getCreateDate();
         this.modifiedDate = comment.getModifiedDate();
         this.children = toList(comment.getChildren());
-    }
-
-    private static List<CommentResponse> toList(List<Comment> parentComments) {
-        return parentComments.stream()
-                .map(CommentResponse::new)
-                .collect(Collectors.toList());
     }
 
     public Long getParentId() {

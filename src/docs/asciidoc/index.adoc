@@ -54,7 +54,7 @@ operation::post-delete[snippets='http-request,path-parameters,http-response']
 == Comment
 
 === 댓글 작성
-operation::comment-create[snippets='http-request,path-parameters,request-body,request-fields,http-response']
+operation::comment-create[snippets='http-request,path-parameters,request-body,request-fields,http-response,response-fields']
 
 === 댓글 조회
 operation::comment-find[snippets='http-request,path-parameters,http-response,response-fields']
@@ -66,4 +66,4 @@ operation::comment-update[snippets='http-request,path-parameters,request-body,re
 operation::comment-delete[snippets='http-request,path-parameters,http-response']
 
 === 대댓글 작성
-operation::nestedComment-create[snippets='http-request,path-parameters,request-body,request-fields,http-response']
+operation::nestedComment-create[snippets='http-request,path-parameters,request-body,request-fields,http-response,response-fields']

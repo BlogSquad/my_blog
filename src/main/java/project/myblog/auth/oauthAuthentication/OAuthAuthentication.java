@@ -3,7 +3,7 @@ package project.myblog.auth.oauthAuthentication;
 import org.springframework.web.client.RestTemplate;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.auth.dto.OAuthApiResponse;
-import project.myblog.exception.ExceptionCode;
+import project.myblog.exception.ErrorCode;
 import project.myblog.service.MemberService;
 
 import javax.servlet.ServletException;
@@ -35,7 +35,7 @@ public abstract class OAuthAuthentication {
     private boolean isAccessToken(HttpServletRequest request, HttpServletResponse response, String accessToken) {
         if (accessToken == null) {
             try {
-                request.setAttribute("exceptionType", ExceptionCode.MEMBER_AUTHENTICATION);
+                request.setAttribute("exceptionType", ErrorCode.MEMBER_AUTHENTICATION);
                 request.getRequestDispatcher("/api/error").forward(request, response);
             } catch (ServletException | IOException e) {
                 e.printStackTrace();

@@ -60,9 +60,9 @@ class MemberDocumentation extends Documentation {
 
     private FieldDescriptor[] getFieldDescriptors() {
         return new FieldDescriptor[] {
-                fieldWithPath("email").description("이메일"),
-                fieldWithPath("introduction").description("한줄 소개"),
-                fieldWithPath("subject").description("블로그 제목")
+                fieldWithPath("data.email").description("이메일"),
+                fieldWithPath("data.introduction").description("한줄 소개"),
+                fieldWithPath("data.subject").description("블로그 제목")
         };
     }
 
