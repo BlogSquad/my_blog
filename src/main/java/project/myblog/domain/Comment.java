@@ -79,8 +79,12 @@ public class Comment extends BaseTimeEntity {
             return this;
         }
         comment.parent = this.parent;
-        this.parent.children.add(comment);
+        this.parent.addChildren(comment);
         return this.parent;
+    }
+
+    protected void addChildren(Comment comment) {
+        this.children.add(comment);
     }
 
     private void validateOwner(Member member) {

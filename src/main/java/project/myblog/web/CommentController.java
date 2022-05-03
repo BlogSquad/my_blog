@@ -57,7 +57,7 @@ public class CommentController {
     public ResponseEntity<Void> createNestedComment(@Login LoginMember loginMember,
                                                     @PathVariable("postId") Long postId,
                                                     @PathVariable("parentId") Long parentId,
-                                              @Valid @RequestBody CommentRequest commentRequest) {
+                                                    @Valid @RequestBody CommentRequest commentRequest) {
         commentService.createNestedComment(loginMember.getEmail(), postId, parentId, commentRequest);
         return ResponseEntity.noContent().build();
     }
