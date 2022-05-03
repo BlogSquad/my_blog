@@ -27,7 +27,7 @@ class CommentDocumentation extends Documentation {
         댓글_작성_요청(
                 givenRestDocsFieldDescriptorRequestFieldsAndPathParam("comment-create",
                         getFieldDescriptors("contents", "댓글 내용"),
-                        getFieldDescriptors("data.id", "댓글 ID"),
+                        getFieldDescriptors("data.commentId", "댓글 ID"),
                         getPathParameters("postId", "포스트 ID")
                 )
                 , sessionId, "댓글1"
@@ -97,7 +97,7 @@ class CommentDocumentation extends Documentation {
         대댓글_작성_요청(
                 givenRestDocsFieldDescriptorRequestFieldsAndPathParam("nestedComment-create",
                         getFieldDescriptors("contents", "대댓글 내용"),
-                        getFieldDescriptors("data.id", "댓글 ID"),
+                        getFieldDescriptors("data.commentId", "댓글 ID"),
                         getPathParametersNestedComment()
                 )
                 , sessionId, "대댓글1"

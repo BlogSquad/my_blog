@@ -38,7 +38,7 @@ public class PostController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<PostResponse>> findPost(@PathVariable Long id) {
         PostResponse postResponse = postService.findPost(id);
-        return ResponseEntity.ok(ApiResponse.succeed(postResponse));
+        return ResponseEntity.ok(ApiResponse.success(postResponse));
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

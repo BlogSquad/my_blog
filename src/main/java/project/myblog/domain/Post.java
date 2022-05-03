@@ -12,7 +12,7 @@ import java.util.Objects;
 import project.myblog.exception.BusinessException;
 
 import static javax.persistence.FetchType.LAZY;
-import static project.myblog.exception.ExceptionCode.POST_AUTHORIZATION;
+import static project.myblog.exception.ErrorCode.POST_AUTHORIZATION;
 
 @Entity
 public class Post extends BaseTimeEntity {

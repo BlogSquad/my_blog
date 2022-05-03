@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.domain.Member;
 import project.myblog.exception.BusinessException;
-import project.myblog.exception.ExceptionCode;
+import project.myblog.exception.ErrorCode;
 import project.myblog.repository.MemberRepository;
 import project.myblog.web.dto.member.MemberResponse;
 
@@ -53,6 +53,6 @@ public class MemberService {
 
     public Member findMemberByEmail(String email) {
         return memberRepository.findByEmailAndIsDeletedFalse(email)
-                .orElseThrow(() -> new BusinessException(ExceptionCode.MEMBER_INVALID));
+                .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_INVALID));
     }
 }

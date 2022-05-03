@@ -21,17 +21,17 @@ public class ExceptionAdviceController {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ApiResponse<ExceptionResponse>> handlerBizException(BusinessException e) {
-        ExceptionResponse exceptionResponse = ExceptionResponse.createBusiness(e.getErrorCode());
+    public ResponseEntity<ApiResponse> handlerBizException(BusinessException e) {
+        ErrorResponse exceptionResponse = ErrorResponse.createBusiness(e.getErrorCode());
         return ResponseEntity.status(exceptionResponse.getStatus()).body(ApiResponse.fail(exceptionResponse));
     }
 
     @ExceptionHandler({BindException.class})
-    public ResponseEntity<ApiResponse<ExceptionResponse>> handlerMethodArgumentNotValidException(BindException e) {
+    public ResponseEntity<ApiResponse> handlerMethodArgumentNotValidException(BindException e) {
         ValidationResult validationResult = new ValidationResult(e, messageSource, Locale.KOREA);
         FieldErrorDetail fieldErrorDetail = validationResult.getErrors().get(0);
 
-        ExceptionResponse exceptionResponse = ExceptionResponse.createBind(
+        ErrorResponse exceptionResponse = ErrorResponse.createBind(
                 HttpStatus.BAD_REQUEST, fieldErrorDetail.getCode(), fieldErrorDetail.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.fail(exceptionResponse));
     }

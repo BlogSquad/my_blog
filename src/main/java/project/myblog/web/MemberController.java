@@ -31,7 +31,7 @@ public class MemberController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<MemberResponse>> findMemberOfMine(@Login LoginMember loginMember) {
         MemberResponse member = memberService.findMemberOfMine(loginMember.getEmail());
-        return ResponseEntity.ok(ApiResponse.succeed(member));
+        return ResponseEntity.ok(ApiResponse.success(member));
     }
 
     @PatchMapping(value = "/introduction", consumes = MediaType.APPLICATION_JSON_VALUE)

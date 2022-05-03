@@ -1,44 +1,35 @@
 package project.myblog.web.dto;
 
-import project.myblog.exception.ExceptionResponse;
-
-import java.util.HashMap;
-import java.util.Map;
+import project.myblog.exception.ErrorResponse;
 
 public class ApiResponse<T> {
     private final boolean success;
     private final T data;
-    private final ExceptionResponse exception;
+    private final ErrorResponse error;
 
-    public ApiResponse(boolean success, T data, ExceptionResponse exception) {
+    public ApiResponse(boolean success, T data, ErrorResponse error) {
         this.success = success;
         this.data = data;
-        this.exception = exception;
+        this.error = error;
     }
 
-    public static <T> ApiResponse<T> succeed(T data) {
+    public static <T> ApiResponse<T> success(T data) {
         return new ApiResponse<>(true, data, null);
     }
 
-    public static <T> ApiResponse<T> fail(ExceptionResponse exception) {
-        return new ApiResponse<>(false, null, exception);
-    }
-
-    public static ApiResponse succeedId(Long id) {
-        Map<String, Long> map = new HashMap<>();
-        map.put("id", id);
-        return new ApiResponse<>(true, map, null);
+    public static ApiResponse<Void> fail(ErrorResponse error) {
+        return new ApiResponse<>(false, null, error);
     }
 
     public boolean isSuccess() {
         return success;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public ExceptionResponse getException() {
-        return exception;
+    public ErrorResponse getError() {
+        return error;
     }
 }

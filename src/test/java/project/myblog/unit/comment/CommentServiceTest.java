@@ -47,7 +47,7 @@ class CommentServiceTest {
 
         // when
         CommentRequest commentRequest = new CommentRequest("댓글1");
-        Long commentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest);
+        Long commentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest).getCommentId();
 
         // then
         Comment comment = commentRepository.findById(commentId).get();
@@ -66,8 +66,8 @@ class CommentServiceTest {
         PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
         Long postId = postService.createPost(NAVER_EMAIL, postRequest);
 
-        Long parentCommentId1 = commentService.createComment(NAVER_EMAIL, postId, new CommentRequest("댓글1"));
-        Long parentCommentId2 = commentService.createComment(NAVER_EMAIL, postId, new CommentRequest("댓글2"));
+        Long parentCommentId1 = commentService.createComment(NAVER_EMAIL, postId, new CommentRequest("댓글1")).getCommentId();
+        Long parentCommentId2 = commentService.createComment(NAVER_EMAIL, postId, new CommentRequest("댓글2")).getCommentId();
 
         // when
         commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId1, new CommentRequest("대댓글1"));
@@ -92,7 +92,7 @@ class CommentServiceTest {
         Long postId = postService.createPost(NAVER_EMAIL, postRequest);
 
         CommentRequest commentCreateRequest = new CommentRequest("댓글1");
-        Long commentId = commentService.createComment(NAVER_EMAIL, postId, commentCreateRequest);
+        Long commentId = commentService.createComment(NAVER_EMAIL, postId, commentCreateRequest).getCommentId();
 
         // when
         CommentRequest commentUpdateRequest = new CommentRequest("댓글1 수정");
@@ -111,7 +111,7 @@ class CommentServiceTest {
         Long postId = postService.createPost(NAVER_EMAIL, postRequest);
 
         CommentRequest commentCreateRequest = new CommentRequest("댓글1");
-        Long commentId = commentService.createComment(NAVER_EMAIL, postId, commentCreateRequest);
+        Long commentId = commentService.createComment(NAVER_EMAIL, postId, commentCreateRequest).getCommentId();
 
         // when
         commentService.deleteComment(NAVER_EMAIL, commentId);
@@ -130,7 +130,7 @@ class CommentServiceTest {
         Long postId = postService.createPost(NAVER_EMAIL, postRequest);
 
         CommentRequest commentCreateRequest = new CommentRequest("댓글1");
-        Long commentId = commentService.createComment("member2@gmail.com", postId, commentCreateRequest);
+        Long commentId = commentService.createComment("member2@gmail.com", postId, commentCreateRequest).getCommentId();
 
         CommentRequest commentUpdateRequest = new CommentRequest("댓글1 수정");
 
@@ -164,7 +164,7 @@ class CommentServiceTest {
         Long postId = postService.createPost(NAVER_EMAIL, postRequest);
 
         CommentRequest commentCreateRequest = new CommentRequest("댓글1");
-        Long commentId = commentService.createComment("member2@gmail.com", postId, commentCreateRequest);
+        Long commentId = commentService.createComment("member2@gmail.com", postId, commentCreateRequest).getCommentId();
 
         // when, then
         assertThatThrownBy(() -> commentService.deleteComment(NAVER_EMAIL, commentId))
@@ -192,7 +192,7 @@ class CommentServiceTest {
         Long postId = postService.createPost(NAVER_EMAIL, postRequest);
 
         CommentRequest commentRequest = new CommentRequest("댓글1");
-        Long parentCommentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest);
+        Long parentCommentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest).getCommentId();
 
         // when
         CommentRequest childCommentRequest1 = new CommentRequest("대댓글1");
@@ -222,10 +222,10 @@ class CommentServiceTest {
         Long postId = postService.createPost(NAVER_EMAIL, postRequest);
 
         CommentRequest commentRequest = new CommentRequest("댓글1");
-        Long parentCommentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest);
+        Long parentCommentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest).getCommentId();
 
         CommentRequest childCommentRequest1 = new CommentRequest("대댓글1");
-        Long nestedCommentId = commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId, childCommentRequest1);
+        Long nestedCommentId = commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId, childCommentRequest1).getCommentId();
 
         // when
         CommentRequest childCommentRequest2 = new CommentRequest("대대댓글1");
