@@ -28,6 +28,7 @@ public class PostService {
 
     public PostResponse findPost(Long postId) {
         Post post = findPostById(postId);
+        post.increaseHits();
         return new PostResponse(post);
     }
 

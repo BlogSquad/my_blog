@@ -92,6 +92,21 @@ class PostServiceTest {
     }
 
     @Test
+    void 포스트_조회수() {
+        // given
+        memberRepository.save(createMember(NAVER_EMAIL));
+        PostRequest postSaveRequest = new PostRequest("포스트1제목", "포스트1내용");
+        Long postId = postService.createPost(NAVER_EMAIL, postSaveRequest);
+
+        // when
+        postService.findPost(postId);
+        PostResponse findPost = postService.findPost(postId);
+
+        // then
+        assertThat(findPost.getHits()).isEqualTo(2);
+    }
+
+    @Test
     void 예외_타인_포스트_수정_실패() {
         // given
         memberRepository.save(createMember(NAVER_EMAIL));

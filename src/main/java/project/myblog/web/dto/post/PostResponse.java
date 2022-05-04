@@ -9,6 +9,7 @@ public class PostResponse {
     private String title;
     private String contents;
     private String author;
+    private int hits;
 
     public PostResponse(Long id, String title, String contents, String author) {
         this.id = id;
@@ -19,6 +20,7 @@ public class PostResponse {
 
     public PostResponse(Post post) {
         this(post.getId(), post.getTitle(), post.getContents(), post.getMember().getEmail());
+        this.hits = post.getHits();
     }
 
     public Long getId() {
@@ -35,6 +37,10 @@ public class PostResponse {
 
     public String getAuthor() {
         return author;
+    }
+
+    public int getHits() {
+        return hits;
     }
 
     @Override
