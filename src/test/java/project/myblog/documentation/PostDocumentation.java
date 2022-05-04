@@ -81,7 +81,8 @@ class PostDocumentation extends Documentation {
                 fieldWithPath("data.id").description("포스트 id"),
                 fieldWithPath("data.title").description("포스트 제목"),
                 fieldWithPath("data.contents").description("포스트 내용"),
-                fieldWithPath("data.author").description(NAVER_EMAIL)
+                fieldWithPath("data.author").description("작성자 이메일"),
+                fieldWithPath("data.hits").description("조회수")
         };
     }
 
