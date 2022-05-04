@@ -59,11 +59,9 @@ public class CommentService {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
         Comment children = requestDto.toEntity(post, member);
-        Comment parent = findCommentById(parentId)
-                .createNestedComment(children);
+        findCommentById(parentId).createNestedComment(children);
 
         commentRepository.save(children);
-//        Comment save = commentRepository.save(parent);
         return CommentResponse.create(children);
     }
 
