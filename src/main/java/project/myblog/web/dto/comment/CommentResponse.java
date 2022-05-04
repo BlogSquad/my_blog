@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import project.myblog.domain.Comment;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +17,7 @@ public class CommentResponse {
     private String author;
     private LocalDateTime createDate;
     private LocalDateTime modifiedDate;
-    private List<CommentResponse> children;
+    private List<CommentResponse> children = new ArrayList<>();
 
     public static CommentResponse create(Comment comment) {
         return new CommentResponse(comment);
@@ -33,13 +34,18 @@ public class CommentResponse {
     }
 
     private CommentResponse(Comment comment) {
-        this.parentId = comment.getParent() == null? null : comment.getParent().getId();
+        if (comment.getParent() == null) {
+            this.parentId = null;
+            this.children = toList(comment.getChildren());
+        } else {
+            this.parentId = comment.getParent().getId();
+        }
+
         this.commentId = comment.getId();
         this.contents = comment.getContents();
         this.author = comment.getMember().getEmail();
         this.createDate = comment.getCreateDate();
         this.modifiedDate = comment.getModifiedDate();
-        this.children = toList(comment.getChildren());
     }
 
     public Long getParentId() {

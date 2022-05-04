@@ -37,7 +37,7 @@ public class CommentService {
     }
 
     public CommentResponses findComments(Long postId) {
-        List<Comment> parentComments = commentRepository.findAllByPostIdAndIsDeletedFalse(postId);
+        List<Comment> parentComments = commentRepository.findAllByPostId(postId);
         return CommentResponse.create(parentComments);
     }
 
