@@ -38,6 +38,19 @@ class PostTest {
     }
 
     @Test
+    void 조회수_증가() {
+        // given
+        Member member = new Member(NAVER_EMAIL);
+        Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
+
+        // when
+        post.increaseHits();
+
+        // then
+        assertThat(post.getHits()).isEqualTo(1);
+    }
+
+    @Test
     void 예외_타인_포스트_수정_실패() {
         // given
         Member member = new Member(NAVER_EMAIL);

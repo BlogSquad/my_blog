@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### custom
-src/main/resources/application-oauth.properties
+/src/main/resources/application-oauth.yml
