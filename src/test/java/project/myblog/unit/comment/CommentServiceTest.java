@@ -15,6 +15,7 @@ import project.myblog.service.CommentService;
 import project.myblog.service.PostService;
 import project.myblog.web.dto.comment.CommentRequest;
 import project.myblog.web.dto.comment.CommentResponse;
+import project.myblog.web.dto.comment.CommentResponses;
 import project.myblog.web.dto.post.PostRequest;
 
 import java.util.List;
@@ -242,6 +243,92 @@ class CommentServiceTest {
 
         assertThat(children.get(0).getContents()).isEqualTo("대댓글1");
         assertThat(children.get(1).getContents()).isEqualTo("대대댓글1");
+    }
+
+    @DisplayName("삭제된 대댓글은 조회되지 않는다.")
+    @Test
+    void 댓글_목록_조회_삭제된_대댓글() {
+        // given
+        memberRepository.save(createMember(NAVER_EMAIL));
+        PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
+        Long postId = postService.createPost(NAVER_EMAIL, postRequest);
+
+        CommentRequest commentRequest = new CommentRequest("댓글1");
+        Long parentCommentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest).getCommentId();
+
+        CommentRequest childCommentRequest1 = new CommentRequest("대댓글1");
+        commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId, childCommentRequest1);
+        CommentRequest childCommentRequest2 = new CommentRequest("대댓글2");
+        Long deleteId = commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId, childCommentRequest2).getCommentId();
+
+        commentService.deleteComment(NAVER_EMAIL, deleteId);
+
+        // when
+        List<CommentResponse> commentResponses = commentService.findComments(postId).getComments();
+
+        // then
+        assertThat(commentResponses.size()).isEqualTo(1);
+        assertThat(commentResponses.get(0).getChildren().size()).isEqualTo(1);
+        assertThat(commentResponses.get(0).getChildren().get(0).getContents()).isEqualTo("대댓글1");
+    }
+
+    @DisplayName("댓글과 하위 대댓글이 모두 삭제되었으면 댓글과 대댓글 모두 조회되지 않는다.")
+    @Test
+    void 댓글_목록_조회_삭제된_댓글_대댓글() {
+        // given
+        memberRepository.save(createMember(NAVER_EMAIL));
+        PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
+        Long postId = postService.createPost(NAVER_EMAIL, postRequest);
+
+        CommentRequest commentRequest1 = new CommentRequest("댓글1");
+        Long parentCommentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest1).getCommentId();
+        CommentRequest commentRequest2 = new CommentRequest("댓글2");
+        Long deleteParentCommentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest2).getCommentId();
+
+        CommentRequest childCommentRequest1 = new CommentRequest("대댓글1");
+        commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId, childCommentRequest1);
+        CommentRequest childCommentRequest2 = new CommentRequest("대댓글2");
+        Long deleteNestedCommentId = commentService.createNestedComment(NAVER_EMAIL, postId, deleteParentCommentId, childCommentRequest2).getCommentId();
+
+        commentService.deleteComment(NAVER_EMAIL, deleteParentCommentId);
+        commentService.deleteComment(NAVER_EMAIL, deleteNestedCommentId);
+
+        // when
+        List<CommentResponse> commentResponses = commentService.findComments(postId).getComments();
+
+        // then
+        assertThat(commentResponses.size()).isEqualTo(1);
+        assertThat(commentResponses.get(0).getContents()).isEqualTo("댓글1");
+
+        assertThat(commentResponses.get(0).getChildren().size()).isEqualTo(1);
+        assertThat(commentResponses.get(0).getChildren().get(0).getContents()).isEqualTo("대댓글1");
+    }
+
+    @DisplayName("삭제된 댓글이 있고, 삭제되지 않은 대댓글이 있을 경우 댓글은 '삭제된 댓글입니다'를 조회되고, 대댓글은 그대로 조회된다.")
+    @Test
+    void 댓글_목록_조회_삭제된_댓글과_삭제되지_않은_대댓글() {
+        // given
+        memberRepository.save(createMember(NAVER_EMAIL));
+        PostRequest postRequest = new PostRequest("포스트1제목", "포스트1내용");
+        Long postId = postService.createPost(NAVER_EMAIL, postRequest);
+
+        CommentRequest commentRequest1 = new CommentRequest("댓글1");
+        Long parentCommentId = commentService.createComment(NAVER_EMAIL, postId, commentRequest1).getCommentId();
+
+        CommentRequest childCommentRequest1 = new CommentRequest("대댓글1");
+        commentService.createNestedComment(NAVER_EMAIL, postId, parentCommentId, childCommentRequest1);
+
+        commentService.deleteComment(NAVER_EMAIL, parentCommentId);
+
+        // when
+        List<CommentResponse> commentResponses = commentService.findComments(postId).getComments();
+
+        // then
+        assertThat(commentResponses.size()).isEqualTo(1);
+        assertThat(commentResponses.get(0).getContents()).isEqualTo("삭제된 댓글입니다.");
+
+        assertThat(commentResponses.get(0).getChildren().size()).isEqualTo(1);
+        assertThat(commentResponses.get(0).getChildren().get(0).getContents()).isEqualTo("대댓글1");
     }
 
     private void assertThatFirstComment(Long parentCommentId, List<CommentResponse> commentResponses) {
