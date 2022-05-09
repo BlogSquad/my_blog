@@ -14,34 +14,16 @@ public class RedisTest {
 
     @BeforeEach
     void setUp() {
-        hitsRedisTemplate.getConnectionFactory().getConnection().flushAll();
+        hitsRedisTemplate.flushAll();
     }
 
     @Test
-    void 조회수_저장() {
-        // given
-        Long postId1 = 1L;
-        Long postId2 = 2L;
-        String hashKey = "hits";
-
-        // when
-        hitsRedisTemplate.putHits(postId1);
-        hitsRedisTemplate.putHits(postId2);
-
-        // then
-        assertThat(hitsRedisTemplate.getHits(postId1)).isEqualTo(1);
-        assertThat(hitsRedisTemplate.getHits(postId2)).isEqualTo(1);
-    }
-
-    @Test
-    void 존재하는_포스트_조회수_증가() {
+    void 조회수_증가() {
         // given
         Long postId = 1L;
-        String hashKey = "hits";
-
-        hitsRedisTemplate.putHits(postId);
 
         // when
+        hitsRedisTemplate.putHits(postId);
         hitsRedisTemplate.putHits(postId);
 
         // then

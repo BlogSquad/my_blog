@@ -1,6 +1,5 @@
 package project.myblog.utils;
 
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -42,7 +41,7 @@ public class HitsRedisTemplate {
         hashOperations.delete(key, hashKey);
     }
 
-    public RedisConnectionFactory getConnectionFactory() {
-        return redisTemplate.getConnectionFactory();
+    public void flushAll() {
+        redisTemplate.getConnectionFactory().getConnection().flushAll();
     }
 }
