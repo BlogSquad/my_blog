@@ -18,7 +18,7 @@ public class PostStepsAssert {
         assertThat(response.jsonPath().getString("data.title")).isEqualTo("포스트1제목");
         assertThat(response.jsonPath().getString("data.contents")).isEqualTo("포스트1내용");
         assertThat(response.jsonPath().getString("data.author")).isEqualTo(NAVER_EMAIL);
-        assertThat(response.jsonPath().getInt("data.hits")).isEqualTo(1);
+        assertThat(response.jsonPath().getInt("data.hits")).isEqualTo(0);
     }
 
     public static void 포스트_수정_or_삭제됨(ExtractableResponse<Response> response) {

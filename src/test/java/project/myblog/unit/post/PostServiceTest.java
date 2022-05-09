@@ -1,6 +1,11 @@
 package project.myblog.unit.post;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +15,7 @@ import project.myblog.exception.BusinessException;
 import project.myblog.repository.MemberRepository;
 import project.myblog.repository.PostRepository;
 import project.myblog.service.PostService;
+import project.myblog.utils.HitsRedisTemplate;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
 
@@ -56,7 +62,7 @@ class PostServiceTest {
         PostResponse findPost = postService.findPost(postId);
 
         // then
-        PostResponse postResponse = new PostResponse(postId, "포스트1제목", "포스트1내용", NAVER_EMAIL, 1);
+        PostResponse postResponse = new PostResponse(postId, "포스트1제목", "포스트1내용", NAVER_EMAIL, 0);
         assertThat(findPost).isEqualTo(postResponse);
     }
 
@@ -73,7 +79,7 @@ class PostServiceTest {
 
         // then
         PostResponse findPost = postService.findPost(postId);
-        PostResponse postResponse = new PostResponse(postId, "포스트1제목 변경", "포스트1내용 변경", NAVER_EMAIL, 1);
+        PostResponse postResponse = new PostResponse(postId, "포스트1제목 변경", "포스트1내용 변경", NAVER_EMAIL, 0);
         assertThat(findPost).isEqualTo(postResponse);
     }
 
@@ -89,21 +95,6 @@ class PostServiceTest {
 
         // then
         assertThat(postRepository.findById(postId).get().isDeleted()).isTrue();
-    }
-
-    @Test
-    void 포스트_조회수() {
-        // given
-        memberRepository.save(createMember(NAVER_EMAIL));
-        PostRequest postSaveRequest = new PostRequest("포스트1제목", "포스트1내용");
-        Long postId = postService.createPost(NAVER_EMAIL, postSaveRequest);
-
-        // when
-        postService.findPost(postId);
-        PostResponse findPost = postService.findPost(postId);
-
-        // then
-        assertThat(findPost.getHits()).isEqualTo(2);
     }
 
     @Test
