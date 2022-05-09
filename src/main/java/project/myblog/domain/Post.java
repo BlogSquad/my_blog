@@ -1,5 +1,7 @@
 package project.myblog.domain;
 
+import project.myblog.exception.BusinessException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import java.util.Objects;
-import project.myblog.exception.BusinessException;
 
 import static javax.persistence.FetchType.LAZY;
 import static project.myblog.exception.ErrorCode.POST_AUTHORIZATION;
