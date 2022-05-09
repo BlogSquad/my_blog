@@ -7,7 +7,7 @@ import project.myblog.domain.Post;
 import project.myblog.exception.BusinessException;
 import project.myblog.exception.ErrorCode;
 import project.myblog.repository.PostRepository;
-import project.myblog.utils.HitsRedisTemplate;
+import project.myblog.repository.HitsRedisRepository;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
 
@@ -16,12 +16,12 @@ import project.myblog.web.dto.post.PostResponse;
 public class PostService {
     private final PostRepository postRepository;
     private final MemberService memberService;
-    private final HitsRedisTemplate hitsRedisTemplate;
+    private final HitsRedisRepository hitsRedisRepository;
 
-    public PostService(PostRepository postRepository, MemberService memberService, HitsRedisTemplate hitsRedisTemplate) {
+    public PostService(PostRepository postRepository, MemberService memberService, HitsRedisRepository hitsRedisRepository) {
         this.postRepository = postRepository;
         this.memberService = memberService;
-        this.hitsRedisTemplate = hitsRedisTemplate;
+        this.hitsRedisRepository = hitsRedisRepository;
     }
 
     public Long createPost(String email, PostRequest requestDto) {
@@ -31,7 +31,7 @@ public class PostService {
 
     public PostResponse findPost(Long postId) {
         Post post = findPostById(postId);
-        hitsRedisTemplate.putHits(post.getId());
+        hitsRedisRepository.increaseHits(post.getId());
 
         return new PostResponse(post);
     }

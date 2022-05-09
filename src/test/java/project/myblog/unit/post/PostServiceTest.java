@@ -1,11 +1,6 @@
 package project.myblog.unit.post;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +10,6 @@ import project.myblog.exception.BusinessException;
 import project.myblog.repository.MemberRepository;
 import project.myblog.repository.PostRepository;
 import project.myblog.service.PostService;
-import project.myblog.utils.HitsRedisTemplate;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
 
