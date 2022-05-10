@@ -7,12 +7,14 @@ import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Post;
-import project.myblog.domain.redis.RedisHits;
 
 @Component
 public class HitsRedisRepository implements HitsRepository {
     private final RedisTemplate<String, Integer> redisTemplate;
     private final PostRepository postRepository;
+
+    private static final int SCAN_MATCH_LIMIT_COUNT = 10;
+    private static final String SCAN_MATCH_PATTERN = "*";
 
     public HitsRedisRepository(RedisTemplate<String, Integer> redisTemplate, PostRepository postRepository) {
         this.redisTemplate = redisTemplate;
@@ -21,26 +23,25 @@ public class HitsRedisRepository implements HitsRepository {
 
     @Override
     public void increaseHits(Long postId) {
-        HashOperations<String, String, Integer> hashOperations = redisTemplate.opsForHash();
+        HashOperations<String, String, String> hashOperations = redisTemplate.opsForHash();
         String key = "posts:" + postId;
         String hashKey = "hits";
 
-        RedisHits hits = getHits(postId);
-        hashOperations.put(key, hashKey, hits.increase());
+        hashOperations.increment(key, hashKey, 1);
     }
 
     @Override
-    public RedisHits getHits(Long postId) {
-        HashOperations<String, String, Integer> hashOperations = redisTemplate.opsForHash();
+    public Integer getHits(Long postId) {
+        HashOperations<String, String, String> hashOperations = redisTemplate.opsForHash();
         String key = "posts:" + postId;
         String hashKey = "hits";
 
-        return new RedisHits(postId, hashOperations.get(key, hashKey));
+        return hashOperations.get(key, hashKey) == null ? null : Integer.parseInt(hashOperations.get(key, hashKey));
     }
 
     @Override
     public void deleteHits(Long postId) {
-        HashOperations<String, String, Integer> hashOperations = redisTemplate.opsForHash();
+        HashOperations<String, String, String> hashOperations = redisTemplate.opsForHash();
         String key = "posts:" + postId;
         String hashKey = "hits";
 
@@ -50,13 +51,14 @@ public class HitsRedisRepository implements HitsRepository {
     @Transactional
     @Override
     public void updateRDB() {
-        ScanOptions scanOptions = ScanOptions.scanOptions().match("*").count(10).build();
+        ScanOptions scanOptions = ScanOptions.scanOptions().match(SCAN_MATCH_PATTERN).count(SCAN_MATCH_LIMIT_COUNT).build();
         Cursor<byte[]> keys = redisTemplate.getConnectionFactory().getConnection().scan(scanOptions);
 
         while (keys.hasNext()) {
             Long postId = extractPostId(keys);
             Post post = postRepository.findById(postId).get();
-            post.increaseHits(getHits(postId).getCount());
+            post.increaseHits(getHits(postId));
+
         }
         flushAll();
     }

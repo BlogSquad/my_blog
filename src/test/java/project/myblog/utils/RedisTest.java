@@ -40,7 +40,7 @@ public class RedisTest {
         hitsRedisRepository.increaseHits(postId);
 
         // then
-        assertThat(hitsRedisRepository.getHits(postId).getCount()).isEqualTo(2);
+        assertThat(hitsRedisRepository.getHits(postId)).isEqualTo(2);
     }
 
     @Transactional
@@ -50,9 +50,8 @@ public class RedisTest {
         Member member = new Member(NAVER_EMAIL);
         memberRepository.save(member);
 
-        Long postId = 1L;
         Post post = new Post("포스트1제목", "포스트1내용", member);
-        postRepository.save(post);
+        Long postId = postRepository.save(post).getId();
 
         hitsRedisRepository.increaseHits(postId);
         hitsRedisRepository.increaseHits(postId);
@@ -61,9 +60,25 @@ public class RedisTest {
         hitsRedisRepository.updateRDB();
 
         // then
-        assertThat(hitsRedisRepository.getHits(postId).getCount()).isNull();
+        assertThat(hitsRedisRepository.getHits(postId)).isNull();
 
-        Post findPost = postRepository.findById(1L).get();
+        Post findPost = postRepository.findById(postId).get();
         assertThat(findPost.getHits()).isEqualTo(2);
+    }
+
+    @Test
+    void 조회수_증가_동시성_테스트() {
+        for (int i = 1; i <= 10_000; i++) {
+            Runnable run = () -> hitsRedisRepository.increaseHits(1L);
+            new Thread(run).start();
+        }
+
+        Integer hits = hitsRedisRepository.getHits(1L);
+        assertThat(hits).isEqualTo(10_000);
+    }
+
+    @Test
+    void 조회수_RDB반영_동시성_테스트() {
+        // TODO : RDB 반영 시 삭제할 경우 동시성 테스트 필요
     }
 }
