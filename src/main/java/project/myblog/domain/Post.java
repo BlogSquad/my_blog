@@ -64,8 +64,8 @@ public class Post extends BaseTimeEntity {
         this.isDeleted = true;
     }
 
-    public void increaseHits() {
-        hits++;
+    public void increaseHits(int hits) {
+        this.hits += hits;
     }
 
     private void validateOwner(Member member) {

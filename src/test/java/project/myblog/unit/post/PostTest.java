@@ -44,10 +44,10 @@ class PostTest {
         Post post = new Post(1L, "포스트1제목", "포스트1내용", member);
 
         // when
-        post.increaseHits();
+        post.increaseHits(10);
 
         // then
-        assertThat(post.getHits()).isEqualTo(1);
+        assertThat(post.getHits()).isEqualTo(10);
     }
 
     @Test
