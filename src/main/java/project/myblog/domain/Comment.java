@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static javax.persistence.FetchType.LAZY;
 import static project.myblog.exception.ErrorCode.COMMENT_AUTHORIZATION;
@@ -91,6 +92,43 @@ public class Comment extends BaseTimeEntity {
         if (!isOwner(member)) {
             throw new BusinessException(COMMENT_AUTHORIZATION);
         }
+    }
+
+    /**
+     * 댓글과 대댓글이 모두 삭제되었는지 판단.
+     *
+     * @return 댓글과 대댓글이 모두 삭제된 경우 true
+     *         댓글과 대댓글이 하나라도 삭제되지 않으면 false
+     */
+    public boolean isAllDeleted() {
+        return isDeleted && children.stream().allMatch(Comment::isDeleted);
+    }
+
+
+    public void updateIfDeletedCommentAndChildNotDeleted() {
+        if (isAllChildDeleted()) {
+            update("삭제된 댓글입니다.", member);
+        }
+    }
+
+    public boolean isPresentParent() {
+        return parent != null;
+    }
+
+    public Long getParentId() {
+        return parent == null ? null : parent.getId();
+    }
+
+    /**
+     * 댓글이 삭제되고, 대댓글이 삭제되지 않을 경우 판단
+     *
+     * @return 댓글이 삭제되고, 대댓글이 하나라도 삭제되지 않은 경우 true
+     *         댓글이 삭제되고, 대댓글이 모두 삭제된 경우 false
+     *         댓글이 삭제되지 않고, 대댓글이 하나라도 삭제되지 않은 경우 false
+     *         댓글이 삭제되지 않고, 대댓글이 모두 삭제된 경우 false
+     */
+    private boolean isAllChildDeleted() {
+        return isDeleted && !children.stream().allMatch(Comment::isDeleted);
     }
 
     private boolean isOwner(Member member) {

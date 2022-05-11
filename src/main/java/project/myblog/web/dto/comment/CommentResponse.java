@@ -29,34 +29,18 @@ public class CommentResponse {
 
     private static List<CommentResponse> commentToList(List<Comment> parentComments) {
         return parentComments.stream()
-                .filter(comment -> !isDelete(comment))
-                .map(CommentResponse::new)
+                .filter(comment -> !comment.isAllDeleted())
+                .map(comment ->  {
+                    comment.updateIfDeletedCommentAndChildNotDeleted();
+                    return new CommentResponse(comment);
+                })
                 .collect(Collectors.toList());
     }
 
-    private static boolean isDelete(Comment comment) {
-        // 댓글과 대댓글이 모두 삭제된 경우
-        if (comment.isDeleted() && comment.getChildren().stream().allMatch(Comment::isDeleted)) {
-            return true;
-        // 댓글이 삭제되고, 대댓글은 삭제되지 않은 경우
-        } else if (comment.isDeleted() && !comment.getChildren().stream().allMatch(Comment::isDeleted)) {
-            comment.update("삭제된 댓글입니다.", comment.getMember());
-            return false;
-        }
-        // 댓글이 삭제되지 않고, 대댓글이 모두 삭제된 경우
-        return false;
-    }
-
     private CommentResponse(Comment comment) {
-        if (comment.getParent() == null) {
-            this.parentId = null;
-            // 삭제되지 않은 대댓글 필터링
-            this.children = comment.getChildren().stream()
-                    .filter(nestedComment -> !nestedComment.isDeleted())
-                    .map(CommentResponse::new)
-                    .collect(Collectors.toList());
-        } else {
-            this.parentId = comment.getParent().getId();
+        this.parentId = comment.getParentId();
+        if (!comment.isPresentParent()) {
+            this.children = childCommentToList(comment);
         }
 
         this.commentId = comment.getId();
@@ -66,6 +50,12 @@ public class CommentResponse {
         this.modifiedDate = comment.getModifiedDate();
     }
 
+    private List<CommentResponse> childCommentToList(Comment comment) {
+        return comment.getChildren().stream()
+                .filter(childComment -> !childComment.isDeleted())
+                .map(CommentResponse::new)
+                .collect(Collectors.toList());
+    }
 
     public Long getParentId() {
         return parentId;
