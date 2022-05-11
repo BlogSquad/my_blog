@@ -84,22 +84,6 @@ public class Comment extends BaseTimeEntity {
         return this.parent;
     }
 
-    protected void addChildren(Comment comment) {
-        this.children.add(comment);
-    }
-
-    private void validateOwner(Member member) {
-        if (!isOwner(member)) {
-            throw new BusinessException(COMMENT_AUTHORIZATION);
-        }
-    }
-
-    /**
-     * 댓글과 대댓글이 모두 삭제되었는지 판단.
-     *
-     * @return 댓글과 대댓글이 모두 삭제된 경우 true
-     *         댓글과 대댓글이 하나라도 삭제되지 않으면 false
-     */
     public boolean isAllDeleted() {
         return isDeleted && children.stream().allMatch(Comment::isDeleted);
     }
@@ -117,6 +101,16 @@ public class Comment extends BaseTimeEntity {
 
     public Long getParentId() {
         return parent == null ? null : parent.getId();
+    }
+
+    protected void addChildren(Comment comment) {
+        this.children.add(comment);
+    }
+
+    private void validateOwner(Member member) {
+        if (!isOwner(member)) {
+            throw new BusinessException(COMMENT_AUTHORIZATION);
+        }
     }
 
     /**
