@@ -58,7 +58,6 @@ public class HitsRedisRepository implements HitsRepository {
             Long postId = extractPostId(keys);
             Post post = postRepository.findById(postId).get();
             post.increaseHits(getHits(postId));
-
         }
         flushAll();
     }
