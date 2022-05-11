@@ -73,7 +73,7 @@ public class Comment extends BaseTimeEntity {
         this.isDeleted = true;
     }
 
-    public Comment createNestedComment(Comment comment){
+    public Comment createChildComment(Comment comment){
         if (this.parent == null) {
             comment.parent = this;
             children.add(comment);

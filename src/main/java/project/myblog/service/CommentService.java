@@ -55,11 +55,11 @@ public class CommentService {
         comment.delete(member);
     }
 
-    public CommentResponse createNestedComment(String email, Long postId, Long parentId, CommentRequest requestDto) {
+    public CommentResponse createChildComment(String email, Long postId, Long parentId, CommentRequest requestDto) {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
         Comment children = requestDto.toEntity(post, member);
-        findCommentById(parentId).createNestedComment(children);
+        findCommentById(parentId).createChildComment(children);
 
         commentRepository.save(children);
         return CommentResponse.create(children);
