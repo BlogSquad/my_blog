@@ -23,7 +23,7 @@ public class HitsRedisRepository implements HitsRepository {
 
     @Override
     public void increaseHits(Long postId) {
-        HashOperations<String, String, String> hashOperations = redisTemplate.opsForHash();
+        HashOperations<String, String, Integer> hashOperations = redisTemplate.opsForHash();
         String key = "posts:" + postId;
         String hashKey = "hits";
 
@@ -32,16 +32,16 @@ public class HitsRedisRepository implements HitsRepository {
 
     @Override
     public Integer getHits(Long postId) {
-        HashOperations<String, String, String> hashOperations = redisTemplate.opsForHash();
+        HashOperations<String, String, Integer> hashOperations = redisTemplate.opsForHash();
         String key = "posts:" + postId;
         String hashKey = "hits";
 
-        return hashOperations.get(key, hashKey) == null ? null : Integer.parseInt(hashOperations.get(key, hashKey));
+        return hashOperations.get(key, hashKey);
     }
 
     @Override
     public void deleteHits(Long postId) {
-        HashOperations<String, String, String> hashOperations = redisTemplate.opsForHash();
+        HashOperations<String, String, Integer> hashOperations = redisTemplate.opsForHash();
         String key = "posts:" + postId;
         String hashKey = "hits";
 
