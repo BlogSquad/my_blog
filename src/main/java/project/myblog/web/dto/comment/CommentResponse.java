@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class CommentResponse {
+    private static final String DELETED_COMMENT_MESSAGE = "삭제된 댓글입니다.";
+
     private Long parentId;
     private Long commentId;
     private String contents;
@@ -30,10 +32,7 @@ public class CommentResponse {
     private static List<CommentResponse> commentToList(List<Comment> parentComments) {
         return parentComments.stream()
                 .filter(comment -> !comment.isAllDeleted())
-                .map(comment ->  {
-                    comment.updateIfDeletedCommentAndChildNotDeleted();
-                    return new CommentResponse(comment);
-                })
+                .map(CommentResponse::create)
                 .collect(Collectors.toList());
     }
 
@@ -44,7 +43,7 @@ public class CommentResponse {
         }
 
         this.commentId = comment.getId();
-        this.contents = comment.getContents();
+        this.contents = comment.isChildRemained() ? DELETED_COMMENT_MESSAGE : comment.getContents();
         this.author = comment.getMember().getEmail();
         this.createDate = comment.getCreateDate();
         this.modifiedDate = comment.getModifiedDate();

@@ -122,25 +122,6 @@ class CommentTest {
     }
 
     @Test
-    void 댓글은_삭제되고_대댓글은_남아있는_경우_포스트_내용_변경() {
-        // given
-        Member member = new Member(NAVER_EMAIL);
-        Post post = new Post("포스트1제목", "포스트1내용", member);
-        Comment comment = new Comment("댓글", post, member);
-
-        Comment childComment = new Comment("대댓글1", post, member);
-        comment.createChildComment(childComment);
-
-        comment.delete(member);
-
-        // when
-        comment.updateIfDeletedCommentAndChildNotDeleted();
-
-        // then
-        assertThat(comment.getContents()).isEqualTo("삭제된 댓글입니다.");
-    }
-
-    @Test
     void 예외_타인_댓글_수정_실패() {
         // given
         Member member = new Member(NAVER_EMAIL);
