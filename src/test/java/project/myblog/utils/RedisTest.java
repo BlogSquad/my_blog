@@ -78,7 +78,26 @@ public class RedisTest {
     }
 
     @Test
+    void 조회수_RDB_반영() {
+        // given
+        Member member = new Member(NAVER_EMAIL);
+        memberRepository.save(member);
+
+        Post post = new Post("포스트1제목", "포스트1내용", member);
+        Long postId = postRepository.save(post).getId();
+
+        hitsRedisRepository.increaseHits(postId);
+
+        // when
+        hitsRedisRepository.updateRDB();
+
+        // then
+        assertThat(hitsRedisRepository.getHits(postId)).isNull();
+        assertThat(postRepository.findById(postId).get().getHits()).isEqualTo(1);
+    }
+
+    @Test
     void 조회수_RDB반영_동시성_테스트() {
-        // TODO : RDB 반영 시 삭제할 경우 동시성 테스트 필요
+
     }
 }
