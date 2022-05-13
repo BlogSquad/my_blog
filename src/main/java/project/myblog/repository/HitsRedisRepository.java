@@ -4,6 +4,7 @@ import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Post;
@@ -21,31 +22,27 @@ public class HitsRedisRepository implements HitsRepository {
         this.postRepository = postRepository;
     }
 
-    @Override
-    public void increaseHits(Long postId) {
-        HashOperations<String, String, Integer> hashOperations = redisTemplate.opsForHash();
-        String key = "posts:" + postId;
-        String hashKey = "hits";
+    public void incrementHits(Long postId) {
+        ValueOperations<String, Integer> operations = redisTemplate.opsForValue();
+        String key = "posts:" + postId + "hits";
 
-        hashOperations.increment(key, hashKey, 1);
+        operations.increment(key);
     }
 
     @Override
     public Integer getHits(Long postId) {
-        HashOperations<String, String, Integer> hashOperations = redisTemplate.opsForHash();
-        String key = "posts:" + postId;
-        String hashKey = "hits";
+        ValueOperations<String, Integer> operations = redisTemplate.opsForValue();
+        String key = "posts:" + postId + "hits";
 
-        return hashOperations.get(key, hashKey);
+        return operations.get(key.toString());
     }
 
     @Override
-    public void deleteHits(Long postId) {
-        HashOperations<String, String, Integer> hashOperations = redisTemplate.opsForHash();
-        String key = "posts:" + postId;
-        String hashKey = "hits";
+    public Integer getAndDel(Long postId) {
+        ValueOperations<String, Integer> operations = redisTemplate.opsForValue();
+        String key = "posts:" + postId + "hits";
 
-        hashOperations.delete(key, hashKey);
+        return operations.getAndDelete(key.toString());
     }
 
     @Transactional
@@ -56,10 +53,9 @@ public class HitsRedisRepository implements HitsRepository {
 
         while (keys.hasNext()) {
             Long postId = extractPostId(keys);
-            Post post = postRepository.findById(postId).get();
-            post.increaseHits(getHits(postId));
+            postRepository.findById(postId)
+                    .ifPresent(post -> post.increaseHits(getAndDel(postId)));
         }
-        flushAll();
     }
 
     @Override
@@ -70,7 +66,8 @@ public class HitsRedisRepository implements HitsRepository {
     private Long extractPostId(Cursor<byte[]> keys) {
         String key = new String(keys.next());
         int index = key.indexOf(":");
+        int index1 = key.indexOf("hits");
 
-        return Long.valueOf(key.substring(index + 1));
+        return Long.valueOf(key.substring(index + 1, index1));
     }
 }
