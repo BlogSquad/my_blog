@@ -31,7 +31,7 @@ public class PostService {
 
     public PostResponse findPost(Long postId) {
         Post post = findPostById(postId);
-        hitsRedisRepository.increaseHits(post.getId());
+        hitsRedisRepository.incrementHits(post.getId());
 
         return new PostResponse(post);
     }

@@ -1,9 +1,9 @@
 package project.myblog.repository;
 
 public interface HitsRepository {
-    void increaseHits(Long postId);
+    void incrementHits(Long postId);
     Integer getHits(Long postId);
-    void deleteHits(Long postId);
+    Integer getAndDel(Long postId);
     void updateRDB();
     void flushAll();
 }
