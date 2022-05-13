@@ -1,13 +1,11 @@
 package project.myblog.repository;
 
 import org.springframework.data.redis.core.Cursor;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import project.myblog.domain.Post;
 
 @Component
 public class HitsRedisRepository implements HitsRepository {
