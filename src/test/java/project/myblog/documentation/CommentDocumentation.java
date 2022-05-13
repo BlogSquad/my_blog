@@ -95,10 +95,10 @@ class CommentDocumentation extends Documentation {
 
         // when
         대댓글_작성_요청(
-                givenRestDocsFieldDescriptorRequestFieldsAndPathParam("nestedComment-create",
+                givenRestDocsFieldDescriptorRequestFieldsAndPathParam("childComment-create",
                         getFieldDescriptors("contents", "대댓글 내용"),
                         getFieldDescriptors("data.commentId", "댓글 ID"),
-                        getPathParametersNestedComment()
+                        getPathParametersChildComment()
                 )
                 , sessionId, "대댓글1"
         );
@@ -128,7 +128,7 @@ class CommentDocumentation extends Documentation {
         };
     }
 
-    private ParameterDescriptor[] getPathParametersNestedComment() {
+    private ParameterDescriptor[] getPathParametersChildComment() {
         return new ParameterDescriptor[] {
                 parameterWithName("postId").description("포스트 ID"),
                 parameterWithName("parentId").description("상위 댓글 ID")

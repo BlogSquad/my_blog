@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    active: local
+    include: oauth
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  messages:
+    basename: errors
+  h2:
+    console:
+      enabled: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:tcp://localhost/~/my_blog
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+  redis:
+    port: 6379
+    host: localhost
+
+logging:
+  level:
+    org.hibernate.SQL: debug # 로거로 찍기 때문에 사용하자.
+    org.hibernate.type: debug # query parameter 보여줌.
+    project: debug

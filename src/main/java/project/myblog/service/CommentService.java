@@ -37,7 +37,7 @@ public class CommentService {
     }
 
     public CommentResponses findComments(Long postId) {
-        List<Comment> parentComments = commentRepository.findAllByPostIdAndIsDeletedFalse(postId);
+        List<Comment> parentComments = commentRepository.findAllByPostIdAndParentIdlNull(postId);
         return CommentResponse.create(parentComments);
     }
 
@@ -55,15 +55,13 @@ public class CommentService {
         comment.delete(member);
     }
 
-    public CommentResponse createNestedComment(String email, Long postId, Long parentId, CommentRequest requestDto) {
+    public CommentResponse createChildComment(String email, Long postId, Long parentId, CommentRequest requestDto) {
         Member member = memberService.findMemberByEmail(email);
         Post post = postService.findPostById(postId);
         Comment children = requestDto.toEntity(post, member);
-        Comment parent = findCommentById(parentId)
-                .createNestedComment(children);
+        findCommentById(parentId).createChildComment(children);
 
         commentRepository.save(children);
-//        Comment save = commentRepository.save(parent);
         return CommentResponse.create(children);
     }
 

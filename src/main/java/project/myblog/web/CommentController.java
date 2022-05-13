@@ -56,11 +56,11 @@ public class CommentController {
     }
 
     @PostMapping(value = "/posts/{postId}/comments/{parentId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<CommentResponse>> createNestedComment(@Login LoginMember loginMember,
+    public ResponseEntity<ApiResponse<CommentResponse>> createChildComment(@Login LoginMember loginMember,
                                                     @PathVariable("postId") Long postId,
                                                     @PathVariable("parentId") Long parentId,
                                                     @Valid @RequestBody CommentRequest commentRequest) {
-        CommentResponse commentResponse = commentService.createNestedComment(loginMember.getEmail(), postId, parentId, commentRequest);
+        CommentResponse commentResponse = commentService.createChildComment(loginMember.getEmail(), postId, parentId, commentRequest);
         return ResponseEntity.ok(ApiResponse.success(commentResponse));
     }
 }
