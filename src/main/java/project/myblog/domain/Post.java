@@ -35,6 +35,9 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private boolean isDeleted = false;
 
+    @Column(nullable = false)
+    private int hits;
+
     protected Post() {
     }
 
@@ -60,6 +63,10 @@ public class Post extends BaseTimeEntity {
     public void delete(Member member) {
         validateOwner(member);
         this.isDeleted = true;
+    }
+
+    public void increaseHits(int hits) {
+        this.hits += hits;
     }
 
     private void validateOwner(Member member) {
@@ -92,6 +99,10 @@ public class Post extends BaseTimeEntity {
         return isDeleted;
     }
 
+    public int getHits() {
+        return hits;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,12 +111,13 @@ public class Post extends BaseTimeEntity {
         return Objects.equals(id, post.id) &&
                 Objects.equals(title, post.title) &&
                 Objects.equals(contents, post.contents) &&
-                Objects.equals(member, post.member);
+                Objects.equals(member, post.member) &&
+                Objects.equals(hits, post.hits);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, contents, member);
+        return Objects.hash(id, title, contents, member, hits);
     }
 
     @Override
@@ -115,6 +127,7 @@ public class Post extends BaseTimeEntity {
                 ", title='" + title + '\'' +
                 ", contents='" + contents + '\'' +
                 ", member=" + member +
+                ", hits=" + hits +
                 '}';
     }
 }

@@ -9,16 +9,18 @@ public class PostResponse {
     private String title;
     private String contents;
     private String author;
+    private int hits;
 
-    public PostResponse(Long id, String title, String contents, String author) {
+    public PostResponse(Long id, String title, String contents, String author, int hits) {
         this.id = id;
         this.title = title;
         this.contents = contents;
         this.author = author;
+        this.hits = hits;
     }
 
     public PostResponse(Post post) {
-        this(post.getId(), post.getTitle(), post.getContents(), post.getMember().getEmail());
+        this(post.getId(), post.getTitle(), post.getContents(), post.getMember().getEmail(), post.getHits());
     }
 
     public Long getId() {
@@ -37,17 +39,25 @@ public class PostResponse {
         return author;
     }
 
+    public int getHits() {
+        return hits;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PostResponse that = (PostResponse) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle()) && Objects.equals(getContents(), that.getContents()) && Objects.equals(getAuthor(), that.getAuthor());
+        return getHits() == that.getHits() &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getTitle(), that.getTitle()) &&
+                Objects.equals(getContents(), that.getContents()) &&
+                Objects.equals(getAuthor(), that.getAuthor());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getContents(), getAuthor());
+        return Objects.hash(getId(), getTitle(), getContents(), getAuthor(), getHits());
     }
 
     @Override
@@ -57,6 +67,7 @@ public class PostResponse {
                 ", title='" + title + '\'' +
                 ", contents='" + contents + '\'' +
                 ", author='" + author + '\'' +
+                ", hits=" + hits +
                 '}';
     }
 }

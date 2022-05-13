@@ -56,7 +56,7 @@ class PostServiceTest {
         PostResponse findPost = postService.findPost(postId);
 
         // then
-        PostResponse postResponse = new PostResponse(postId, "포스트1제목", "포스트1내용", NAVER_EMAIL);
+        PostResponse postResponse = new PostResponse(postId, "포스트1제목", "포스트1내용", NAVER_EMAIL, 0);
         assertThat(findPost).isEqualTo(postResponse);
     }
 
@@ -73,7 +73,7 @@ class PostServiceTest {
 
         // then
         PostResponse findPost = postService.findPost(postId);
-        PostResponse postResponse = new PostResponse(postId, "포스트1제목 변경", "포스트1내용 변경", NAVER_EMAIL);
+        PostResponse postResponse = new PostResponse(postId, "포스트1제목 변경", "포스트1내용 변경", NAVER_EMAIL, 0);
         assertThat(findPost).isEqualTo(postResponse);
     }
 

@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    active: local
+    include: oauth
   main:
     allow-circular-references: true
     allow-bean-definition-overriding: true
@@ -12,18 +15,18 @@ spring:
     url: jdbc:h2:tcp://localhost/~/my_blog
     username: sa
     password:
-
   jpa:
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
         format_sql: true
-  profiles:
-    active: local
-    include: oauth
+  redis:
+    port: 6379
+    host: localhost
 
 logging:
   level:
     org.hibernate.SQL: debug # 로거로 찍기 때문에 사용하자.
     org.hibernate.type: trace # query parameter 보여줌.
+    project: debug
