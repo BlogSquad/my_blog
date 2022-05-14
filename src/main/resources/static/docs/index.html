@@ -465,6 +465,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_포스트_조회">포스트 조회</a></li>
 <li><a href="#_포스트_수정">포스트 수정</a></li>
 <li><a href="#_포스트_삭제">포스트 삭제</a></li>
+<li><a href="#_포스트_목록_조회">포스트 목록 조회</a></li>
 </ul>
 </li>
 <li><a href="#resources-comment">Comment</a>
@@ -490,7 +491,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /login/oauth2/code/naver?code=authorizationCode HTTP/1.1
-Host: localhost:52827</code></pre>
+Host: localhost:54436</code></pre>
 </div>
 </div>
 </div>
@@ -523,8 +524,8 @@ Host: localhost:52827</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: JSESSIONID=2C29CE340A31868F4D95C515682356DD; Path=/; HttpOnly
-Date: Wed, 04 May 2022 11:52:54 GMT
+Set-Cookie: JSESSIONID=E3A45E2E8068BBE5866ED2773EA0B4D5; Path=/; HttpOnly
+Date: Sat, 14 May 2022 10:18:48 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
@@ -538,7 +539,7 @@ Connection: keep-alive</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /login/oauth2/code/github?code=authorizationCode HTTP/1.1
-Host: localhost:52827</code></pre>
+Host: localhost:54436</code></pre>
 </div>
 </div>
 </div>
@@ -571,8 +572,8 @@ Host: localhost:52827</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: JSESSIONID=26DFF9202EFAC309312C7F371E0C4F1E; Path=/; HttpOnly
-Date: Wed, 04 May 2022 11:52:54 GMT
+Set-Cookie: JSESSIONID=ED10EFAA5C69610C9C6CE3072282E42F; Path=/; HttpOnly
+Date: Sat, 14 May 2022 10:18:48 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
@@ -592,8 +593,8 @@ Connection: keep-alive</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /members/me HTTP/1.1
 Accept: application/json
-Host: localhost:52827
-Cookie: JSESSIONID=F2C81CE11FE79F014260E92B7CF49E34</code></pre>
+Host: localhost:54436
+Cookie: JSESSIONID=75A6D39A69F646E72B9C6A524875611C</code></pre>
 </div>
 </div>
 </div>
@@ -604,7 +605,7 @@ Cookie: JSESSIONID=F2C81CE11FE79F014260E92B7CF49E34</code></pre>
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 May 2022 11:52:55 GMT
+Date: Sat, 14 May 2022 10:18:49 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 196
@@ -664,9 +665,9 @@ Content-Length: 196
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /members/me/introduction HTTP/1.1
 Content-Type: application/json; charset=UTF-8
-Host: localhost:52827
+Host: localhost:54436
 Content-Length: 45
-Cookie: JSESSIONID=4B606D8D8A7B363613E58D65FBAA9226
+Cookie: JSESSIONID=354893F7BB4CBF453FB47A8686F07BBD
 
 {
   "introduction" : "한줄 소개 변경"
@@ -713,7 +714,7 @@ Cookie: JSESSIONID=4B606D8D8A7B363613E58D65FBAA9226
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content
-Date: Wed, 04 May 2022 11:52:55 GMT
+Date: Sat, 14 May 2022 10:18:49 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
@@ -728,9 +729,9 @@ Connection: keep-alive</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /members/me/subject HTTP/1.1
 Content-Type: application/json; charset=UTF-8
-Host: localhost:52827
+Host: localhost:54436
 Content-Length: 33
-Cookie: JSESSIONID=CE920C15F6BC520109B9A4589A3C70EE
+Cookie: JSESSIONID=4FAFEADE06E6CF8694A1971B67EE2EA9
 
 {
   "subject" : "제목 변경"
@@ -777,7 +778,7 @@ Cookie: JSESSIONID=CE920C15F6BC520109B9A4589A3C70EE
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content
-Date: Wed, 04 May 2022 11:52:55 GMT
+Date: Sat, 14 May 2022 10:18:49 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
@@ -791,8 +792,8 @@ Connection: keep-alive</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /members/me HTTP/1.1
-Host: localhost:52827
-Cookie: JSESSIONID=3C9AA8CD004FF334694DBBDD1ED2BB1F</code></pre>
+Host: localhost:54436
+Cookie: JSESSIONID=23052C7B316F1FF760B769D4BE6B0D42</code></pre>
 </div>
 </div>
 </div>
@@ -801,7 +802,7 @@ Cookie: JSESSIONID=3C9AA8CD004FF334694DBBDD1ED2BB1F</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content
-Date: Wed, 04 May 2022 11:52:55 GMT
+Date: Sat, 14 May 2022 10:18:49 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
@@ -821,9 +822,9 @@ Connection: keep-alive</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /posts HTTP/1.1
 Content-Type: application/json; charset=UTF-8
-Host: localhost:52827
+Host: localhost:54436
 Content-Length: 69
-Cookie: JSESSIONID=E00EF541BD95050EE8E275E3C196053B
+Cookie: JSESSIONID=46B6DE1A0E44BC1C3C2815236FF58126
 
 {
   "contents" : "포스트1내용",
@@ -878,7 +879,7 @@ Cookie: JSESSIONID=E00EF541BD95050EE8E275E3C196053B
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Location: /posts/1
-Date: Wed, 04 May 2022 11:52:55 GMT
+Date: Sat, 14 May 2022 10:18:49 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
@@ -893,7 +894,7 @@ Connection: keep-alive</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /posts/1 HTTP/1.1
 Accept: application/json
-Host: localhost:52827</code></pre>
+Host: localhost:54436</code></pre>
 </div>
 </div>
 </div>
@@ -926,10 +927,10 @@ Host: localhost:52827</code></pre>
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 May 2022 11:52:55 GMT
+Date: Sat, 14 May 2022 10:18:49 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 197
+Content-Length: 297
 
 {
   "success" : true,
@@ -938,7 +939,9 @@ Content-Length: 197
     "title" : "포스트1제목",
     "contents" : "포스트1내용",
     "author" : "monkeyDugi@gmail.com",
-    "hits" : 1
+    "hits" : 0,
+    "createDate" : "2022-05-14T19:18:50.460191",
+    "modifiedDate" : "2022-05-14T19:18:50.460191"
   },
   "error" : null
 }</code></pre>
@@ -986,6 +989,16 @@ Content-Length: 197
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">조회수</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.createDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성일시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.modifiedDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정일시</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -998,9 +1011,9 @@ Content-Length: 197
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /posts/1 HTTP/1.1
 Content-Type: application/json; charset=UTF-8
-Host: localhost:52827
+Host: localhost:54436
 Content-Length: 83
-Cookie: JSESSIONID=8D03E464F77E815997B30017D9557378
+Cookie: JSESSIONID=57C24ACB6B8A32B577F0C4C2BD53D061
 
 {
   "contents" : "포스트1내용 변경",
@@ -1076,7 +1089,7 @@ Cookie: JSESSIONID=8D03E464F77E815997B30017D9557378
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content
-Date: Wed, 04 May 2022 11:52:55 GMT
+Date: Sat, 14 May 2022 10:18:49 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
@@ -1090,8 +1103,8 @@ Connection: keep-alive</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /posts/1 HTTP/1.1
-Host: localhost:52827
-Cookie: JSESSIONID=D03306EA061A8C1E2D876827CF015412</code></pre>
+Host: localhost:54436
+Cookie: JSESSIONID=1AAEA396263246D2AD0B5C812C650CB3</code></pre>
 </div>
 </div>
 </div>
@@ -1122,11 +1135,161 @@ Cookie: JSESSIONID=D03306EA061A8C1E2D876827CF015412</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content
-Date: Wed, 04 May 2022 11:52:55 GMT
+Date: Sat, 14 May 2022 10:18:49 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_포스트_목록_조회"><a class="link" href="#_포스트_목록_조회">포스트 목록 조회</a></h3>
+<div class="sect3">
+<h4 id="_포스트_목록_조회_http_request"><a class="link" href="#_포스트_목록_조회_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /posts?page=0 HTTP/1.1
+Accept: application/json
+Host: localhost:54436</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_포스트_목록_조회_request_parameters"><a class="link" href="#_포스트_목록_조회_request_parameters">Request parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청 페이지</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_포스트_목록_조회_http_response"><a class="link" href="#_포스트_목록_조회_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 14 May 2022 10:18:49 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 686
+
+{
+  "success" : true,
+  "data" : {
+    "posts" : [ {
+      "id" : 2,
+      "title" : "포스트2제목",
+      "contents" : "포스트2내용",
+      "author" : "monkeyDugi@gmail.com",
+      "hits" : 0,
+      "createDate" : "2022-05-14T19:18:50.546408",
+      "modifiedDate" : "2022-05-14T19:18:50.546408"
+    }, {
+      "id" : 1,
+      "title" : "포스트1제목",
+      "contents" : "포스트1내용",
+      "author" : "monkeyDugi@gmail.com",
+      "hits" : 0,
+      "createDate" : "2022-05-14T19:18:50.531817",
+      "modifiedDate" : "2022-05-14T19:18:50.531817"
+    } ],
+    "totalCount" : 2,
+    "pageSize" : 10,
+    "currentPage" : 0,
+    "totalPage" : 1
+  },
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_포스트_목록_조회_response_fields"><a class="link" href="#_포스트_목록_조회_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.posts[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포스트 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.posts[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포스트 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.posts[].contents</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포스트 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.posts[].author</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.posts[].hits</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조회수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.posts[].createDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성일시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.posts[].modifiedDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정일시</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.totalCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 포스트 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 사이즈</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.currentPage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.totalPage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 페이지</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1142,9 +1305,9 @@ Connection: keep-alive</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /posts/1/comments HTTP/1.1
 Content-Type: application/json; charset=UTF-8
-Host: localhost:52827
+Host: localhost:54436
 Content-Length: 28
-Cookie: JSESSIONID=C4B3CB23FFE8B94863C4448DCC3D5651
+Cookie: JSESSIONID=6C1E1B4C9A7FD721E0EE530C5F21C4F8
 
 {
   "contents" : "댓글1"
@@ -1215,7 +1378,7 @@ Cookie: JSESSIONID=C4B3CB23FFE8B94863C4448DCC3D5651
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 May 2022 11:52:55 GMT
+Date: Sat, 14 May 2022 10:18:49 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 245
@@ -1226,8 +1389,8 @@ Content-Length: 245
     "commentId" : 1,
     "contents" : "댓글1",
     "author" : "monkeyDugi@gmail.com",
-    "createDate" : "2022-05-04T20:52:55.621821",
-    "modifiedDate" : "2022-05-04T20:52:55.621821"
+    "createDate" : "2022-05-14T19:18:49.961285",
+    "modifiedDate" : "2022-05-14T19:18:49.961285"
   },
   "error" : null
 }</code></pre>
@@ -1267,7 +1430,7 @@ Content-Length: 245
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /posts/1/comments HTTP/1.1
 Accept: application/json
-Host: localhost:52827</code></pre>
+Host: localhost:54436</code></pre>
 </div>
 </div>
 </div>
@@ -1300,10 +1463,10 @@ Host: localhost:52827</code></pre>
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 May 2022 11:52:54 GMT
+Date: Sat, 14 May 2022 10:18:48 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 795
+Content-Length: 797
 
 {
   "success" : true,
@@ -1312,22 +1475,22 @@ Content-Length: 795
       "commentId" : 1,
       "contents" : "댓글1",
       "author" : "monkeyDugi@gmail.com",
-      "createDate" : "2022-05-04T20:52:55.23361",
-      "modifiedDate" : "2022-05-04T20:52:55.23361",
+      "createDate" : "2022-05-14T19:18:49.587709",
+      "modifiedDate" : "2022-05-14T19:18:49.587709",
       "children" : [ {
         "parentId" : 1,
         "commentId" : 2,
         "contents" : "대댓글1",
         "author" : "monkeyDugi@gmail.com",
-        "createDate" : "2022-05-04T20:52:55.261487",
-        "modifiedDate" : "2022-05-04T20:52:55.261487"
+        "createDate" : "2022-05-14T19:18:49.619675",
+        "modifiedDate" : "2022-05-14T19:18:49.619675"
       }, {
         "parentId" : 1,
         "commentId" : 3,
         "contents" : "대댓글2",
         "author" : "monkeyDugi@gmail.com",
-        "createDate" : "2022-05-04T20:52:55.285685",
-        "modifiedDate" : "2022-05-04T20:52:55.285685"
+        "createDate" : "2022-05-14T19:18:49.643204",
+        "modifiedDate" : "2022-05-14T19:18:49.643204"
       } ]
     } ]
   },
@@ -1370,7 +1533,7 @@ Content-Length: 795
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.comments[].createDate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">새성 일자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 일자</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.comments[].modifiedDate</code></p></td>
@@ -1399,9 +1562,9 @@ Content-Length: 795
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /comments/1 HTTP/1.1
 Content-Type: application/json; charset=UTF-8
-Host: localhost:52827
+Host: localhost:54436
 Content-Length: 35
-Cookie: JSESSIONID=667DEA69B253BF57803AAFB28267A020
+Cookie: JSESSIONID=80BA98273C7024BEF648E13497D8BC3B
 
 {
   "contents" : "댓글1 수정"
@@ -1470,7 +1633,7 @@ Cookie: JSESSIONID=667DEA69B253BF57803AAFB28267A020
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content
-Date: Wed, 04 May 2022 11:52:55 GMT
+Date: Sat, 14 May 2022 10:18:48 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
@@ -1484,8 +1647,8 @@ Connection: keep-alive</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /comments/1 HTTP/1.1
-Host: localhost:52827
-Cookie: JSESSIONID=9895463ECDD9459C9916E46F534CDB88</code></pre>
+Host: localhost:54436
+Cookie: JSESSIONID=FE9CBFD264B9D6E317C2E2567D1EBB96</code></pre>
 </div>
 </div>
 </div>
@@ -1516,7 +1679,7 @@ Cookie: JSESSIONID=9895463ECDD9459C9916E46F534CDB88</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content
-Date: Wed, 04 May 2022 11:52:55 GMT
+Date: Sat, 14 May 2022 10:18:48 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
@@ -1531,9 +1694,9 @@ Connection: keep-alive</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /posts/1/comments/1 HTTP/1.1
 Content-Type: application/json; charset=UTF-8
-Host: localhost:52827
+Host: localhost:54436
 Content-Length: 31
-Cookie: JSESSIONID=1DC266DA7C4D7CF79A1FB577DAD79004
+Cookie: JSESSIONID=764EB71F8DAF220ACC0BE3E51CF4FBBF
 
 {
   "contents" : "대댓글1"
@@ -1608,7 +1771,7 @@ Cookie: JSESSIONID=1DC266DA7C4D7CF79A1FB577DAD79004
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Wed, 04 May 2022 11:52:54 GMT
+Date: Sat, 14 May 2022 10:18:48 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 268
@@ -1620,8 +1783,8 @@ Content-Length: 268
     "commentId" : 2,
     "contents" : "대댓글1",
     "author" : "monkeyDugi@gmail.com",
-    "createDate" : "2022-05-04T20:52:55.074849",
-    "modifiedDate" : "2022-05-04T20:52:55.074849"
+    "createDate" : "2022-05-14T19:18:49.452244",
+    "modifiedDate" : "2022-05-14T19:18:49.452244"
   },
   "error" : null
 }</code></pre>
@@ -1659,7 +1822,7 @@ Content-Length: 268
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-05-04 00:00:25 +0900
+Last updated 2022-05-14 17:35:13 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
