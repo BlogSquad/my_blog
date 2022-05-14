@@ -1,7 +1,9 @@
 package project.myblog.web.dto.post;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import project.myblog.domain.Post;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class PostResponse {
@@ -10,6 +12,8 @@ public class PostResponse {
     private String contents;
     private String author;
     private int hits;
+    private LocalDateTime createDate;
+    private LocalDateTime modifiedDate;
 
     public PostResponse(Long id, String title, String contents, String author, int hits) {
         this.id = id;
@@ -21,6 +25,8 @@ public class PostResponse {
 
     public PostResponse(Post post) {
         this(post.getId(), post.getTitle(), post.getContents(), post.getMember().getEmail(), post.getHits());
+        this.createDate = post.getCreateDate();
+        this.modifiedDate = post.getModifiedDate();
     }
 
     public Long getId() {
@@ -41,6 +47,14 @@ public class PostResponse {
 
     public int getHits() {
         return hits;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
     }
 
     @Override
