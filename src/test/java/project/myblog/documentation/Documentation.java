@@ -123,4 +123,15 @@ public class Documentation {
                         )
                 );
     }
+
+    protected RequestSpecification givenRestDocsRequestParametersRelaxedResponseFields(String identifier,
+                                                                                       ParameterDescriptor[] parameterDescriptors,
+                                                                                       FieldDescriptor[] fieldDescriptors) {
+        return RestAssured.given(this.spec).log().all()
+                .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+                        requestParameters(parameterDescriptors),
+                        relaxedResponseFields(fieldDescriptors)
+                        )
+                );
+    }
 }
