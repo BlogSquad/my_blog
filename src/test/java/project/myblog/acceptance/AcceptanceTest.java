@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import project.myblog.config.TestWebConfig;
+import project.myblog.repository.HitsRepository;
 import project.myblog.utils.DatabaseCleanup;
 
 @Import(TestWebConfig.class)
@@ -18,9 +19,13 @@ public class AcceptanceTest {
     @Autowired
     private DatabaseCleanup databaseCleanup;
 
+    @Autowired
+    private HitsRepository hitsRepository;
+
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
         databaseCleanup.execute();
+        hitsRepository.flushAll();
     }
 }
