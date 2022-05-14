@@ -1,16 +1,15 @@
 package project.myblog.utils;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Member;
 import project.myblog.domain.Post;
 import project.myblog.repository.HitsRedisRepository;
 import project.myblog.repository.MemberRepository;
 import project.myblog.repository.PostRepository;
+import project.myblog.unit.UnitTest;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -19,10 +18,8 @@ import java.util.concurrent.Executors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 
-;
 
-@SpringBootTest
-public class RedisTest {
+public class RedisTest extends UnitTest {
     @Autowired
     private HitsRedisRepository hitsRedisRepository;
 
@@ -31,11 +28,6 @@ public class RedisTest {
 
     @Autowired
     private MemberRepository memberRepository;
-
-    @BeforeEach
-    void setUp() {
-        hitsRedisRepository.flushAll();
-    }
 
     @Test
     void 조회수_증가() {
