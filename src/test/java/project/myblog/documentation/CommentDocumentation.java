@@ -115,7 +115,7 @@ class CommentDocumentation extends Documentation {
                 fieldWithPath("data.comments[].commentId").description("댓글 번호"),
                 fieldWithPath("data.comments[].contents").description("댓글 내용"),
                 fieldWithPath("data.comments[].author").description("작성자"),
-                fieldWithPath("data.comments[].createDate").description("새성 일자"),
+                fieldWithPath("data.comments[].createDate").description("생성 일자"),
                 fieldWithPath("data.comments[].modifiedDate").description("수정 일자"),
                 fieldWithPath("data.comments[].children").description("대댓글"),
                 fieldWithPath("data.comments[].children[].parentId").description("상위 댓글 번호"),
