@@ -1,6 +1,5 @@
 spring:
   profiles:
-    active: local
     include: oauth
   main:
     allow-circular-references: true
