@@ -1,0 +1,18 @@
+NotBlank:
+  introduction: 한 줄 소개는 공백일 수 없습니다.
+  subject: 제목은 공백일 수 없습니다.
+  title: 포스트 제목은 공백일 수 없습니다.
+  contents: 포스트 내용은 공백일 수 없습니다.
+    commentsRequest: 댓글은 공백일 수 없습니다.
+NotNull:
+  introduction: 한 줄 소개는 NULL일 수 없습니다.
+  subject: 제목은 NULL일 수 없습니다.
+  title: 포스트 제목은 NULL일 수 없습니다.
+  contents: 포스트 내용은 NULL일 수 없습니다.
+    commentsRequest: 댓글은 NULL일 수 없습니다.
+Size:
+  introduction: 한 줄 소개는 {2}자 이상 {1}자 이하여야 합니다.
+  subject: 제목은 {2}자 이상 {1}자 이하여야 합니다.
+  title: 포스트 제목은 {2}자 이상 {1}자 이하여야 합니다.
+  contents: 포스트 내용은 1자 이상이여야 합니다.
+    commentsRequest: 댓글은 {2}자 이상 {1}자 이하여야 합니다.

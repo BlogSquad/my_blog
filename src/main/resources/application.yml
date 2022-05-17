@@ -1,25 +1,31 @@
 spring:
+  profiles:
+    include: oauth
   main:
     allow-circular-references: true
+    allow-bean-definition-overriding: true
+  messages:
+    basename: errors
   h2:
     console:
       enabled: true
   datasource:
-    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:tcp://localhost/~/my_blog
     username: sa
     password:
-    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
-        #System.out을 사용하고, 포맷팅도 되지 않기 때문에 사용하지 않는다. 단, 추가 설정없이 사용 가능
-        # show_sql: true
-        # sql 로깅, org.hibernate.SQL 설정 필요
         format_sql: true
+  redis:
+    port: 6379
+    host: localhost
 
 logging:
   level:
     org.hibernate.SQL: debug # 로거로 찍기 때문에 사용하자.
     org.hibernate.type: trace # query parameter 보여줌.
+    project: debug
