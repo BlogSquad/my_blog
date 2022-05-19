@@ -37,7 +37,7 @@ public class GithubOAuthSessionAuthentication extends OAuthSessionAuthentication
     protected String requestAccessToken(HttpServletRequest request) {
         String authorizationCode = request.getParameter("code");
         URI uri = UriComponentsBuilder.fromHttpUrl(GITHUB.getAccessTokenUri())
-                .queryParam("redirect_uri", GITHUB.getRedirectUri())
+                .queryParam("redirect_uri", authProperties.getGithubRedirectUri())
                 .queryParam("client_id", authProperties.getGithubClientId())
                 .queryParam("client_secret", authProperties.getGithubClientSecret())
                 .queryParam("code", authorizationCode)
