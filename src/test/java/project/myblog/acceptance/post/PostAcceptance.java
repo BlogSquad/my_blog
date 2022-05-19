@@ -59,6 +59,7 @@ class PostAcceptance extends AcceptanceTest {
      * When 포스트 목록 조회
      * then 요청한 페이지의 포스트 목록이 조회된다.
      */
+    @DisplayName("페이징 기반으로 조회힌다.")
     @Test
     void 포스트_목록_조회() {
         String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());

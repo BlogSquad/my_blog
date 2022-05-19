@@ -1,11 +1,10 @@
 package project.myblog.unit.post;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Member;
 import project.myblog.domain.Post;
 import project.myblog.exception.BusinessException;
@@ -97,6 +96,7 @@ class PostServiceTest extends UnitTest {
         assertThat(postRepository.findById(postId).get().isDeleted()).isTrue();
     }
 
+    @DisplayName("페이징 기반으로 조회힌다.")
     @Test
     void 포스트_목록_조회() {
         // given
