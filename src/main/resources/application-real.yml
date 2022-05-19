@@ -7,11 +7,9 @@ spring:
   messages:
     basename: errors
   jpa:
-    database-platform: org.hibernate.dialect.MariaDB106Dialect
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.MariaDB106Dialect
   redis:
     port: 6379
     host: localhost
