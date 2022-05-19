@@ -17,5 +17,5 @@ spring:
 logging:
   level:
     org.hibernate.SQL: info # 로거로 찍기 때문에 사용하자.
-    org.hibernate.type: trace # query parameter 보여줌.
+    org.hibernate.type: info # query parameter 보여줌.
     project: info
