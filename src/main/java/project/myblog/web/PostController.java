@@ -60,7 +60,7 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<PostPagingResponses>> findAllPostPaging(
-            @PageableDefault(sort = {"hits", "createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(sort = {"hits", "createDate"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         PostPagingResponses postPagingResponses = postService.findAllPostPaging(pageable);
         return ResponseEntity.ok(ApiResponse.success(postPagingResponses));
     }
