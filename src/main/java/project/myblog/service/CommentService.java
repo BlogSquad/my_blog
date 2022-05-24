@@ -33,12 +33,12 @@ public class CommentService {
         Post post = postService.findPostById(postId);
 
         Comment saved = commentRepository.save(requestDto.toEntity(post, member));
-        return CommentResponse.create(saved);
+        return new CommentResponse(saved);
     }
 
     public CommentResponses findComments(Long postId) {
         List<Comment> parentComments = commentRepository.findAllByPostIdAndParentIdlNull(postId);
-        return CommentResponse.create(parentComments);
+        return CommentResponses.create(parentComments);
     }
 
     public void updateComment(String email, Long commentId, CommentRequest requestDto) {
@@ -62,7 +62,7 @@ public class CommentService {
         findCommentById(parentId).createChildComment(children);
 
         commentRepository.save(children);
-        return CommentResponse.create(children);
+        return new CommentResponse(children);
     }
 
     private Comment findCommentById(Long commentId) {

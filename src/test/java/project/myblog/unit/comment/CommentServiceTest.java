@@ -13,6 +13,7 @@ import project.myblog.repository.CommentRepository;
 import project.myblog.repository.MemberRepository;
 import project.myblog.service.CommentService;
 import project.myblog.service.PostService;
+import project.myblog.unit.UnitTest;
 import project.myblog.web.dto.comment.CommentRequest;
 import project.myblog.web.dto.comment.CommentResponse;
 import project.myblog.web.dto.post.PostRequest;
@@ -23,9 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 
-@Transactional
-@SpringBootTest
-class CommentServiceTest {
+class CommentServiceTest extends UnitTest {
     @Autowired
     private PostService postService;
 

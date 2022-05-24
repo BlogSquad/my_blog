@@ -10,6 +10,7 @@ import project.myblog.domain.Member;
 import project.myblog.exception.BusinessException;
 import project.myblog.repository.MemberRepository;
 import project.myblog.service.MemberService;
+import project.myblog.unit.UnitTest;
 import project.myblog.web.dto.member.MemberResponse;
 
 import java.util.List;
@@ -19,9 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 import static project.myblog.exception.ErrorCode.MEMBER_INVALID;
 
-@Transactional
-@SpringBootTest
-class MemberServiceTest {
+class MemberServiceTest extends UnitTest {
     @Autowired
     private MemberRepository memberRepository;
 

@@ -21,22 +21,7 @@ public class CommentResponse {
     private LocalDateTime modifiedDate;
     private List<CommentResponse> children = new ArrayList<>();
 
-    public static CommentResponse create(Comment comment) {
-        return new CommentResponse(comment);
-    }
-
-    public static CommentResponses create(List<Comment> parentComments) {
-        return new CommentResponses(commentToList(parentComments));
-    }
-
-    private static List<CommentResponse> commentToList(List<Comment> parentComments) {
-        return parentComments.stream()
-                .filter(comment -> !comment.isAllDeleted())
-                .map(CommentResponse::create)
-                .collect(Collectors.toList());
-    }
-
-    private CommentResponse(Comment comment) {
+    public CommentResponse(Comment comment) {
         this.parentId = comment.getParentId();
         if (!comment.isPresentParent()) {
             this.children = childCommentToList(comment);

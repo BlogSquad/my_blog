@@ -10,9 +10,11 @@ import static io.restassured.RestAssured.given;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
 import static project.myblog.acceptance.post.PostStepsAssert.존재하지_않는_포스트;
 import static project.myblog.acceptance.post.PostStepsAssert.타인_포스트_수정_or_삭제_안됨;
+import static project.myblog.acceptance.post.PostStepsAssert.포스트_목록_조회됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_수정_or_삭제됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_작성됨;
 import static project.myblog.acceptance.post.PostStepsAssert.포스트_조회됨;
+import static project.myblog.acceptance.post.PostStepsRequest.포스트_목록_조회_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_삭제_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_수정_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_작성_되어있음;
@@ -48,6 +50,26 @@ class PostAcceptance extends AcceptanceTest {
 
         ExtractableResponse<Response> deleteResponse = 포스트_삭제_요청(given(), sessionId);
         포스트_수정_or_삭제됨(deleteResponse);
+    }
+
+    /**
+     * Given 로그인 되어 있음
+     * And 포스트 작성 요청
+     * And 포스트 작성 요청
+     * When 포스트 목록 조회
+     * then 요청한 페이지의 포스트 목록이 조회된다.
+     */
+    @DisplayName("페이징 기반으로 조회힌다.")
+    @Test
+    void 포스트_목록_조회() {
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        포스트_작성_요청(given(), sessionId, "포스트1제목", "포스트1내용");
+        포스트_작성_요청(given(), sessionId, "포스트2제목", "포스트2내용");
+
+        int page = 0;
+        ExtractableResponse<Response> response = 포스트_목록_조회_요청(given(), page);
+
+        포스트_목록_조회됨(response);
     }
 
     /**
