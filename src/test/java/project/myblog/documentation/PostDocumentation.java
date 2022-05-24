@@ -8,7 +8,7 @@ import static io.restassured.RestAssured.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static project.myblog.acceptance.member.MemberStepsAssert.로그인_요청_로그인_됨;
-import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
+import static project.myblog.acceptance.post.PostStepsRequest.포스트_목록_조회_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_삭제_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_수정_요청;
 import static project.myblog.acceptance.post.PostStepsRequest.포스트_작성_요청;
@@ -41,6 +41,42 @@ class PostDocumentation extends Documentation {
                         getPathParameters()
                 )
         );
+    }
+
+    @Test
+    void 포스트_목록_조회() {
+        // given
+        String sessionId = 로그인_요청_로그인_됨(NAVER.getServiceName());
+        포스트_작성_요청(given(), sessionId, "포스트1제목", "포스트1내용");
+        포스트_작성_요청(given(), sessionId, "포스트2제목", "포스트2내용");
+
+        FieldDescriptor[] fieldDescriptors = {
+                fieldWithPath("data.posts[].id").description("포스트 id"),
+                fieldWithPath("data.posts[].title").description("포스트 제목"),
+                fieldWithPath("data.posts[].contents").description("포스트 내용"),
+                fieldWithPath("data.posts[].author").description("작성자 이메일"),
+                fieldWithPath("data.posts[].hits").description("조회수"),
+                fieldWithPath("data.posts[].createDate").description("생성일시"),
+                fieldWithPath("data.posts[].modifiedDate").description("수정일시"),
+                fieldWithPath("data.totalCount").description("총 포스트 개수"),
+                fieldWithPath("data.pageSize").description("페이지 사이즈"),
+                fieldWithPath("data.currentPage").description("현재 페이지"),
+                fieldWithPath("data.totalPage").description("총 페이지"),
+        };
+
+        // when
+        int page = 0;
+        포스트_목록_조회_요청(
+                givenRestDocsRequestParametersRelaxedResponseFields("post-findAllPaging",
+                        getParameterDescriptors(),
+                        fieldDescriptors
+                ), page
+        );
+    }
+    private ParameterDescriptor[] getParameterDescriptors() {
+        return new ParameterDescriptor[] {
+                parameterWithName("page").description("요청 페이지")
+        };
     }
 
     @Test
@@ -82,7 +118,9 @@ class PostDocumentation extends Documentation {
                 fieldWithPath("data.title").description("포스트 제목"),
                 fieldWithPath("data.contents").description("포스트 내용"),
                 fieldWithPath("data.author").description("작성자 이메일"),
-                fieldWithPath("data.hits").description("조회수")
+                fieldWithPath("data.hits").description("조회수"),
+                fieldWithPath("data.createDate").description("생성일시"),
+                fieldWithPath("data.modifiedDate").description("수정일시")
         };
     }
 

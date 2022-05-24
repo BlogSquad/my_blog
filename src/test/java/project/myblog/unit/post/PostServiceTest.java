@@ -1,15 +1,19 @@
 package project.myblog.unit.post;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import project.myblog.domain.Member;
 import project.myblog.domain.Post;
 import project.myblog.exception.BusinessException;
+import project.myblog.repository.HitsRepository;
 import project.myblog.repository.MemberRepository;
 import project.myblog.repository.PostRepository;
 import project.myblog.service.PostService;
+import project.myblog.unit.UnitTest;
+import project.myblog.web.dto.post.PostPagingResponses;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
 
@@ -17,9 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static project.myblog.acceptance.member.MemberStepsRequest.NAVER_EMAIL;
 
-@Transactional
-@SpringBootTest
-class PostServiceTest {
+class PostServiceTest extends UnitTest {
     @Autowired
     private PostService postService;
 
@@ -28,6 +30,9 @@ class PostServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private HitsRepository hitsRepository;
 
     @Test
     void 포스트_작성() {
@@ -91,6 +96,34 @@ class PostServiceTest {
         assertThat(postRepository.findById(postId).get().isDeleted()).isTrue();
     }
 
+    @DisplayName("페이징 기반으로 조회힌다.")
+    @Test
+    void 포스트_목록_조회() {
+        // given
+        memberRepository.save(createMember(NAVER_EMAIL));
+        // 포스트 11개 생성
+        for (int i = 1; i <= 11; i++) {
+            PostRequest postRequest = new PostRequest("포스트제목" + i, "포스트1내용" + i);
+            postService.createPost(NAVER_EMAIL, postRequest);
+        }
+
+        incrementHits();
+
+        // when
+        String[] sort = {"hits", "createDate"};
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, sort);
+        PostPagingResponses findPosts = postService.findAllPostPaging(pageRequest);
+
+        // then
+        assertThat(findPosts.getPosts().get(0).getId()).isEqualTo(5L);
+        assertThat(findPosts.getPosts().get(1).getId()).isEqualTo(1L);
+        assertThat(findPosts.getPosts().get(2).getId()).isEqualTo(3L);
+        assertThat(findPosts.getTotalCount()).isEqualTo(11);
+        assertThat(findPosts.getPageSize()).isEqualTo(10);
+        assertThat(findPosts.getCurrentPage()).isEqualTo(0);
+        assertThat(findPosts.getTotalPage()).isEqualTo(2);
+    }
+
     @Test
     void 예외_타인_포스트_수정_실패() {
         // given
@@ -151,5 +184,15 @@ class PostServiceTest {
 
     private Member createMember(String email) {
         return new Member(email);
+    }
+
+    private void incrementHits() {
+        hitsRepository.incrementHits(1L);
+        hitsRepository.incrementHits(1L);
+        hitsRepository.incrementHits(3L);
+        hitsRepository.incrementHits(5L);
+        hitsRepository.incrementHits(5L);
+        hitsRepository.incrementHits(5L);
+        hitsRepository.updateRDB();
     }
 }

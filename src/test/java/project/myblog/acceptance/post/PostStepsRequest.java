@@ -36,6 +36,15 @@ public class PostStepsRequest {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 포스트_목록_조회_요청(RequestSpecification given, int page) {
+        return given.log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .queryParam("page", page)
+                .when().get("/posts")
+                .then().log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 포스트_수정_요청(RequestSpecification given, String sessionId, String title, String contents) {
         Map<String, String> params = new HashMap<>();
         params.put("title", title);

@@ -14,6 +14,7 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.request.ParameterDescriptor;
 import project.myblog.config.TestWebConfig;
+import project.myblog.repository.HitsRepository;
 import project.myblog.utils.DatabaseCleanup;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
@@ -36,12 +37,16 @@ public class Documentation {
     @Autowired
     private DatabaseCleanup databaseCleanup;
 
+    @Autowired
+    private HitsRepository hitsRepository;
+
     private RequestSpecification spec;
 
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
         databaseCleanup.execute();
+        hitsRepository.flushAll();
 
         this.spec = new RequestSpecBuilder()
                 .addFilter(documentationConfiguration(restDocumentation))
@@ -120,6 +125,17 @@ public class Documentation {
                         pathParameters(pathParameters),
                         requestFields(requestFieldDescriptors),
                         relaxedResponseFields(responseFieldDescriptors)
+                        )
+                );
+    }
+
+    protected RequestSpecification givenRestDocsRequestParametersRelaxedResponseFields(String identifier,
+                                                                                       ParameterDescriptor[] parameterDescriptors,
+                                                                                       FieldDescriptor[] fieldDescriptors) {
+        return RestAssured.given(this.spec).log().all()
+                .filter(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+                        requestParameters(parameterDescriptors),
+                        relaxedResponseFields(fieldDescriptors)
                         )
                 );
     }

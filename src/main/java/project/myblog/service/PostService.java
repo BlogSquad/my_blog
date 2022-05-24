@@ -1,13 +1,16 @@
 package project.myblog.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Member;
 import project.myblog.domain.Post;
 import project.myblog.exception.BusinessException;
 import project.myblog.exception.ErrorCode;
-import project.myblog.repository.PostRepository;
 import project.myblog.repository.HitsRedisRepository;
+import project.myblog.repository.PostRepository;
+import project.myblog.web.dto.post.PostPagingResponses;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
 
@@ -53,5 +56,10 @@ public class PostService {
     public Post findPostById(Long postId) {
         return postRepository.findByIdAndIsDeletedFalse(postId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.POST_INVALID));
+    }
+
+    public PostPagingResponses findAllPostPaging(Pageable pageable) {
+        Page<Post> postsPaging = postRepository.findAll(pageable);
+        return PostPagingResponses.create(postsPaging);
     }
 }
