@@ -14,7 +14,7 @@
 - [ATDD란?](https://island-airmail-e76.notion.site/ATDD-e1053c822c834ba8992e949164f5001d)
 
 ### 기능
-- [API 문서 링크 참고](http://ec2-3-37-214-88.ap-northeast-2.compute.amazonaws.com:8080/docs/index.html)
+- [API 문서 링크 참고](http://monkeydugiblog.shop/docs/index.html)
 
 ## 기술 스택
 ### 인프라
@@ -59,7 +59,7 @@ $ docker exec -it some-redis redis-cli
 그렇기 때문에 로그인이 필요합니다. 프론트가 없기 때문에 직접 여러 정보를 넣어서 요청해야 합니다.
 ```shell
 1. 깃허브 승인 코드 발급 요청
-=> https://github.com/login/oauth/authorize?client_id=2806fff623a09f90353e&scope=user&redirect_uri=http://ec2-3-37-214-88.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/code/github
+=> https://github.com/login/oauth/authorize?client_id=2806fff623a09f90353e&scope=user
 
 2. 로그인 요청
 => 승인 코드 발급 요청 url(redirect url)로 바로 로그인 요청이 된다.
