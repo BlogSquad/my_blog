@@ -15,6 +15,9 @@ public class AuthProperties {
     @Value("${oauth.github.client_secret_id}")
     private String githubClientSecret;
 
+    @Value("${oauth.github.redirectUri}")
+    private String githubRedirectUri;
+
     public String getNaverClientId() {
         return naverClientId;
     }
@@ -29,6 +32,10 @@ public class AuthProperties {
 
     public String getGithubClientSecret() {
         return githubClientSecret;
+    }
+
+    public String getGithubRedirectUri() {
+        return githubRedirectUri;
     }
 }
 
