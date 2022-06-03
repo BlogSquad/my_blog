@@ -4,17 +4,45 @@
 |<img src="https://avatars.githubusercontent.com/u/53487385?v=4" alt="더기 이미지 없음" width="100" height="100">|<img src="https://avatars.githubusercontent.com/u/54942017?v=4" alt="수 이미지 없음" width="100" height="100">|
 |[monkeyDugi](https://github.com/monkeyDugi)|[soosue](https://github.com/soosue)|
 
-## ATDD 기반의 웹 서비스 개발 프로젝트
-### 프로젝트 방향
-- 아주 간단한 블로그를 ATDD 기반으로 개발합니다.
-- ATDD란 Acceptance Test Dirven Development입니다.
-- 어떤 것을 만들지에 대한 프로젝트가 아닌, 프로젝트를 어떻게 효율적으로 개발할지 경험하는 프로젝트입니다.
-  그 도구가 ATDD입니다.
-- 사용자 스토리 기반의 개발 방법론으로 생산성을 높일 수 있습니다.
-- [ATDD란?](https://island-airmail-e76.notion.site/ATDD-e1053c822c834ba8992e949164f5001d)
+## ATDD 블로그 프로젝트
 
-### 기능
-- [API 문서 링크 참고](http://monkeydugiblog.shop/docs/index.html)
+**프로젝트 깃허브**: [https://github.com/BlogSquad/my_blog/tree/dev](https://github.com/BlogSquad/my_blog/tree/dev)
+
+**API 문서**: [http://monkeydugiblog.shop/docs/index.html](http://monkeydugiblog.shop/docs/index.html)
+
+**기술 블로그**: https://www.notion.so/Tech-Blog-8f62fea193ec4b929a3e0961bfcfa83b
+
+**팀 컨벤션**: https://www.notion.so/48b4a6fbbf8a4e8c981dea38baa7628d
+
+**로그인 프로세스**: https://island-airmail-e76.notion.site/fbe1491a9bea4a919257160314b95eb6
+
+### 프로젝트 소개
+
+2022.03.21 ~ 2022.05.21
+
+- 블로그 서비스: [API 문서](http://monkeydugiblog.shop/docs/index.html) 참고
+  - 게시글 CRUD
+  - 게시글 목록 조회: 페이징 처리
+  - 회원가입, 로그인: 스프링 인터셉터를 활용한 세션 기반 회원 관리
+    → Jwt 도입 예정
+  - 댓글,  대댓글 CRUD: 계층형으로 구현
+  - 조회수 관리: Redis 도입
+- ATDD 도입
+  - 사용자의 요구사항을 명확히 하고, 사용자 경험 기반으로 테스를 작성하여, 개발자와 사용자 간
+    잘못된 커뮤니케이션인한 잘못된 개발을 방지하기 위해 인수 테스트 방법론 도입
+- TDD 도입
+  - 복잡한 웹 서비스 로직에서 유연한 코드와 테스트를 작성하기 위해 도입
+- 협업 및 프로젝트 관리 방식
+  - 리뷰를 통한 코드 품질 향상 및 코드 이해도 증진
+  - 리뷰를 원활하게 하기 위한 Slack 알림 도입
+  - 개발 히스토리를 관리하기 위하여 개발 건은 이슈 단위로 분리
+  - 상세 내용은 [팀 컨벤션](https://www.notion.so/48b4a6fbbf8a4e8c981dea38baa7628d) 참고
+- 배포
+  - AWS EC2 도입
+  - 배포 자동화 예정(S3, Code Deploy, Traivs CI)
+  
+### ERD
+<img width="945" alt="스크린샷 2022-06-03 오후 6 18 23" src="https://user-images.githubusercontent.com/53487385/171826459-20292112-cac7-495a-bdb6-e9682d3bb5b1.png">
 
 ## 기술 스택
 ### 인프라
@@ -67,9 +95,4 @@ $ docker exec -it some-redis redis-cli
 3. 로그인이 필요한 API 요청
 => redirect url에 있는 JSESSIONID를 사용하여 요청한다.
 ```
-[=> 로그인 프로세스 링크](https://island-airmail-e76.notion.site/fbe1491a9bea4a919257160314b95eb6)
-
-## 팀 블로그
-- [팀 컨벤션 링크 참고](https://island-airmail-e76.notion.site/48b4a6fbbf8a4e8c981dea38baa7628d)
-- [기술 블로그 링크 참고](https://island-airmail-e76.notion.site/Tech-Blog-8f62fea193ec4b929a3e0961bfcfa83b)
 
