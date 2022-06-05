@@ -62,6 +62,8 @@ public class EmbeddedRedisConfig {
     private Process executeGrepProcessCommand(int port) throws IOException {
         String command = String.format("netstat -nat | grep LISTEN|grep %d", port);
         String[] shell = {"/bin/sh", "-c", command};
+//        String command = String.format("netstat -nao | find \"LISTEN\" | find \"%d\"", port);
+//        String[] shell = {"cmd.exe", "/y", "/c", command};
         return Runtime.getRuntime().exec(shell);
     }
 

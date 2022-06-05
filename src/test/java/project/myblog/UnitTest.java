@@ -1,4 +1,4 @@
-package project.myblog.unit;
+package project.myblog;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
