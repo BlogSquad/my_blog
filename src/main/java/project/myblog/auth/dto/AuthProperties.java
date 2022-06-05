@@ -5,14 +5,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AuthProperties {
-    @Value("${oauth.naver.client_id:test_client_id}")
+    @Value("${oauth.naver.client_id}")
     private String naverClientId;
-    @Value("${oauth.naver.client_secret_id:test_client_secret_id}")
+    @Value("${oauth.naver.client_secret_id}")
     private String naverClientSecret;
 
-    @Value("${oauth.github.client_id:test_client_id}")
+    @Value("${oauth.github.client_id}")
     private String githubClientId;
-    @Value("${oauth.github.client_secret_id:test_client_secret_id}")
+    @Value("${oauth.github.client_secret_id}")
     private String githubClientSecret;
 
     public String getNaverClientId() {
@@ -31,3 +31,4 @@ public class AuthProperties {
         return githubClientSecret;
     }
 }
+
