@@ -2,6 +2,7 @@ package project.myblog.unit.post;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -12,7 +13,7 @@ import project.myblog.repository.HitsRepository;
 import project.myblog.repository.MemberRepository;
 import project.myblog.repository.PostRepository;
 import project.myblog.service.PostService;
-import project.myblog.unit.UnitTest;
+import project.myblog.UnitTest;
 import project.myblog.web.dto.post.PostPagingResponses;
 import project.myblog.web.dto.post.PostRequest;
 import project.myblog.web.dto.post.PostResponse;
@@ -96,6 +97,9 @@ class PostServiceTest extends UnitTest {
         assertThat(postRepository.findById(postId).get().isDeleted()).isTrue();
     }
 
+    @EnabledIfEnvironmentVariable(
+            named="SPRING_PROFILES_ACTIVE",
+            matches="real")
     @DisplayName("페이징 기반으로 조회힌다.")
     @Test
     void 포스트_목록_조회() {

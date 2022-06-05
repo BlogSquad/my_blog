@@ -3,14 +3,12 @@ package project.myblog.unit.member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import project.myblog.auth.dto.LoginMember;
 import project.myblog.domain.Member;
 import project.myblog.exception.BusinessException;
 import project.myblog.repository.MemberRepository;
 import project.myblog.service.MemberService;
-import project.myblog.unit.UnitTest;
+import project.myblog.UnitTest;
 import project.myblog.web.dto.member.MemberResponse;
 
 import java.util.List;
