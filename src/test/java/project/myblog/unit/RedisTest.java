@@ -1,7 +1,8 @@
-package project.myblog.utils;
+package project.myblog.unit;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import project.myblog.domain.Member;
@@ -9,7 +10,7 @@ import project.myblog.domain.Post;
 import project.myblog.repository.HitsRedisRepository;
 import project.myblog.repository.MemberRepository;
 import project.myblog.repository.PostRepository;
-import project.myblog.unit.UnitTest;
+import project.myblog.UnitTest;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -59,6 +60,9 @@ public class RedisTest extends UnitTest {
         assertThat(hits).isEqualTo(10);
     }
 
+    @EnabledIfEnvironmentVariable(
+            named="SPRING_PROFILES_ACTIVE",
+            matches="real")
     @DisplayName("RDB 반영 중 조회수 증가할 경우 동시성 테스트")
     @Transactional
     @Test
@@ -86,6 +90,9 @@ public class RedisTest extends UnitTest {
         assertThat(hits).isEqualTo(hitsCount);
     }
 
+    @EnabledIfEnvironmentVariable(
+            named="SPRING_PROFILES_ACTIVE",
+            matches="real")
     @Transactional
     @Test
     void 조회수_RDB_반영() {
