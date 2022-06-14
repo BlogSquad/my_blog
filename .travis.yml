@@ -41,7 +41,8 @@ deploy:
     deployment_group: blog-project-group
     region: ap-northeast-2
     wait-until-deployed: true
-
+    on:
+      branch: main
 notifications:
   email:
     recipients:
