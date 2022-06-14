@@ -34,15 +34,11 @@ deploy:
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
-
     bucket: blog-project-build
     key: myblog.zip
-
     bundle_type: zip
     application: blog-project
-
     deployment_group: blog-project-group
-
     region: ap-northeast-2
     wait-until-deployed: true
 
